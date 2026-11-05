@@ -24,7 +24,7 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 
 ## Phase 0 – Foundations (1 week)
 - Rename app ID/display name (done: `ca.ynexus.nexus`, "Nexus"); icons and
-  splash remain. Dart package name is still `flutter_application_2`.
+  splash remain. Dart package renamed to `nexus`.
 - Environment config + flavors (dev/prod); no secrets in git.
 - Lint hardening, CI (analyze + test on PR), branch workflow.
 - Error handling/logging convention; crash reporting (Sentry, chosen).

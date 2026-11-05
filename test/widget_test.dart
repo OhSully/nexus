@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_2/main.dart';
-import 'package:flutter_application_2/models/activity_item.dart';
-import 'package:flutter_application_2/models/audience.dart';
-import 'package:flutter_application_2/providers/providers.dart';
-import 'package:flutter_application_2/screens/plans_screen.dart';
-import 'package:flutter_application_2/screens/profile_screen.dart';
+import 'package:nexus/main.dart';
+import 'package:nexus/models/activity_item.dart';
+import 'package:nexus/models/audience.dart';
+import 'package:nexus/providers/providers.dart';
+import 'package:nexus/screens/plans_screen.dart';
+import 'package:nexus/screens/profile_screen.dart';
 
 void main() {
   testWidgets('Nexus app shows the discover screen', (

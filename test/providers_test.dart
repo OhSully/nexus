@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_2/models/activity_item.dart';
-import 'package:flutter_application_2/models/audience.dart';
-import 'package:flutter_application_2/providers/providers.dart';
+import 'package:nexus/models/activity_item.dart';
+import 'package:nexus/models/audience.dart';
+import 'package:nexus/providers/providers.dart';
 
 void main() {
   test('audience visibility checks the viewer against the audience', () {
