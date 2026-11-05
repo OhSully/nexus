@@ -98,16 +98,22 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
   Follow PIPEDA (consent, purpose limitation, breach reporting) and CASL for
   any email/push marketing. Host data in a Canadian region (Supabase
   `ca-central-1`) where possible. Times default to America/Toronto; currency
-  CAD. Review Quebec Law 25 / French-language requirements before expanding
-  there. Not legal advice; have the privacy policy and terms reviewed.
+  CAD. French-language requirements (incl. Quebec Law 25 and Bill 96) apply to
+    a bilingual product; confirm with legal review. Not legal advice; have the privacy policy and terms reviewed.
 - **Offline/performance**: cached reads, graceful failure, optimistic UI where
   safe; list screens paginate.
 - **Reliability**: crash reporting, structured error handling (no silent
   failures), analytics limited to product metrics with consent.
 - **Quality**: `flutter analyze` clean; unit + widget tests for providers and
   key flows; integration tests for sign-in, create, RSVP, chat; CI on every PR.
-- **Accessibility & i18n**: screen-reader labels, dynamic text sizes, contrast;
-  strings externalized for localization (English first).
+- **Accessibility**: screen-reader labels, dynamic text sizes, contrast.
+- **Localization (bilingual by design)**: English (en-CA) and French (fr-CA)
+  are both first-class. No hardcoded user-facing strings; use Flutter ARB
+  localization from the start. Follow device language with an in-app override.
+  Layouts must tolerate longer French text. Dates, times, and currency use
+  locale formatting. Legal documents, store listings, notifications, and
+  server-generated messages (errors, emails) are also bilingual. Users' own
+  content is not translated. Design for adding more locales later.
 - **Moderation/safety**: report flows, content policy, an admin way to act on
   reports (required by app stores for UGC).
 - **Release**: real app ID/name/icons/splash (currently `com.example.*`),
@@ -142,7 +148,7 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 3. Definition of "friend": mutual connections? Are follows needed?
 4. Where do business events appear in Discover vs. friends' content?
 5. App name/branding ("Nexus" availability on stores), app ID, domain.
-6. Is French-language support needed for launch?
+6. Who translates/reviews French copy (Canadian French, not machine-only)?
 
 ## 10. Decision log
 
@@ -153,5 +159,6 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 | 2026-11-05 | Backend: Supabase (approved). |
 | 2026-11-05 | Phone sign-in dropped from beta scope. |
 | 2026-11-05 | Minimum age 16+; initial market Canada (Toronto). |
+| 2026-11-05 | English and French supported by design from the start. |
 | 2026-11-05 | Monetization: cost recovery via businesses + cosmetic extras. |
 | 2026-11-05 | Home screen deliberately deferred. |

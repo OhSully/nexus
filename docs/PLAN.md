@@ -28,6 +28,10 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - Lint hardening, CI (analyze + test on PR), branch workflow.
 - Error handling/logging convention; crash reporting (Crashlytics or Sentry).
 - Introduce routing (e.g. go_router) with auth guard; keep Home swappable.
+- Localization (en/fr) via Flutter gen-l10n + ARB files; extract all existing
+  hardcoded strings now so every later feature ships bilingual; language
+  override setting; locale-aware date/number formatting; lint to catch new
+  hardcoded strings.
 - **Exit**: CI green, app builds for both platforms under the final ID.
 
 ## Phase 1 – Domain & backend design (1 week)
@@ -61,7 +65,7 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 ## Phase 5 – Quality & safety (1–2 weeks)
 - Tests: provider/unit, widget, integration (sign-in, create, RSVP, chat);
   backend policy tests.
-- Accessibility and text-scaling pass; localization scaffolding.
+- Accessibility and text-scaling pass; verify French layouts and translations.
 - Moderation: report queue + admin action path, content policy, ToS/privacy
   policy, age gate; data export/delete verified.
 - Performance: pagination, image sizing/caching, offline cache of reads.
@@ -90,6 +94,8 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
   evaluation and thorough policy tests.
 - Store review for UGC and account deletion: build report/delete early.
 - Phone auth: deferred past beta (SMS cost and abuse).
+- French translation quality and string growth: extract strings early; use
+  professional/native review.
 - PIPEDA/CASL compliance and privacy policy review before beta.
 - Scope creep from business features: keep post-beta.
 - Solo-developer bandwidth: keep phases small and shippable.
