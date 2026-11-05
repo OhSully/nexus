@@ -160,5 +160,7 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 | 2026-11-05 | Phone sign-in dropped from beta scope. |
 | 2026-11-05 | Minimum age 16+; initial market Canada (Toronto). |
 | 2026-11-05 | English and French supported by design from the start. |
+| 2026-11-05 | Crash reporting: Sentry. |
+| 2026-11-05 | App ID (Android + iOS): `ca.ynexus.nexus`; display name "Nexus". Permanent once published; confirm domain ownership. |
 | 2026-11-05 | Monetization: cost recovery via businesses + cosmetic extras. |
 | 2026-11-05 | Home screen deliberately deferred. |

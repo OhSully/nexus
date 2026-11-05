@@ -23,10 +23,11 @@ Alternative: Firebase (strong push/analytics, but Firestore struggles with
 rule-based audience queries and costs scale per read). Push uses FCM either way.
 
 ## Phase 0 – Foundations (1 week)
-- Rename package/app ID/display name; remove `com.example`; icons and splash.
+- Rename app ID/display name (done: `ca.ynexus.nexus`, "Nexus"); icons and
+  splash remain. Dart package name is still `flutter_application_2`.
 - Environment config + flavors (dev/prod); no secrets in git.
 - Lint hardening, CI (analyze + test on PR), branch workflow.
-- Error handling/logging convention; crash reporting (Crashlytics or Sentry).
+- Error handling/logging convention; crash reporting (Sentry, chosen).
 - Introduce routing (e.g. go_router) with auth guard; keep Home swappable.
 - Localization (en/fr) via Flutter gen-l10n + ARB files; extract all existing
   hardcoded strings now so every later feature ships bilingual; language
