@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+
+import '../models/activity_item.dart';
+
+class ActivityCard extends StatelessWidget {
+  const ActivityCard({
+    super.key,
+    required this.item,
+    required this.onTap,
+    this.showAttendanceStatus = false,
+  });
+
+  final ActivityItem item;
+  final VoidCallback onTap;
+  final bool showAttendanceStatus;
+
+  @override
+  Widget build(BuildContext context) {
+    final isAttending = showAttendanceStatus && item.isGoing;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Card(
+      key: ValueKey('activity-card-${item.id}'),
+      margin: const EdgeInsets.only(bottom: 16),
+      color: isAttending
+          ? colorScheme.primaryContainer.withValues(alpha: 0.45)
+          : null,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: isAttending ? colorScheme.primary : Colors.transparent,
+          width: isAttending ? 2 : 0,
+        ),
+      ),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: item.color.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(item.icon, color: item.color),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.title,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(item.subtitle),
+                    const SizedBox(height: 12),
+                    Text(
+                      item.guests,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (isAttending) ...[
+                Tooltip(
+                  message: "You're attending this activity",
+                  child: Icon(
+                    Icons.check_circle,
+                    color: colorScheme.primary,
+                    semanticLabel: "You're attending this activity",
+                  ),
+                ),
+                const SizedBox(width: 4),
+              ],
+              const Icon(Icons.chevron_right),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
