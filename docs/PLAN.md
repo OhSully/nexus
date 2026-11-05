@@ -26,7 +26,8 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - Rename app ID/display name (done: `ca.ynexus.nexus`, "Nexus"); icons and
   splash remain. Dart package renamed to `nexus`.
 - Environment config + flavors (dev/prod); no secrets in git.
-- Lint hardening, CI (analyze + test on PR), branch workflow.
+- Lint hardening and CI (done: strict analyzer + extra lints, GitHub Actions
+  runs format check, analyze, test on PRs/main); branch workflow remains.
 - Error handling/logging convention; crash reporting (Sentry, chosen).
 - Introduce routing (e.g. go_router) with auth guard; keep Home swappable.
 - Localization (en/fr) via Flutter gen-l10n + ARB files; extract all existing

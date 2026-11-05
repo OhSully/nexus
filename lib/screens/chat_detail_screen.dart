@@ -79,7 +79,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 controller: _scrollController,
                 padding: const EdgeInsets.all(16),
                 itemCount: _messages.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final (sender, text, isIncoming) = _messages[index];
                   final alignment = isIncoming

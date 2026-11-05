@@ -59,8 +59,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   // A chat is only added or moved to the top once a message is actually sent.
   void _openChatWith(List<String> people) {
     final existing = ref.read(chatsProvider.notifier).hasChatWith(people);
-    Navigator.of(context).push(
-      MaterialPageRoute(
+    Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
         builder: (context) => ChatDetailScreen(
           contactName: people.join(', '),
           startEmpty: !existing,
@@ -142,8 +142,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ref.read(activitiesProvider.notifier).update(updatedItem);
 
   void _openActivityDetail(ActivityItem item) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
+    Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
         builder: (context) => ActivityDetailScreen(
           item: item,
           onRSVP: _handleRSVP,

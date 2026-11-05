@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -96,7 +98,7 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
                                     ).maybePop();
                                     await _editGroup(groupName: entry.key);
                                     if (mounted) {
-                                      _manageGroups();
+                                      unawaited(_manageGroups());
                                     }
                                   },
                                 ),
@@ -127,7 +129,7 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
                     await Navigator.of(dialogContext).maybePop();
                     await _editGroup();
                     if (mounted) {
-                      _manageGroups();
+                      unawaited(_manageGroups());
                     }
                   },
                   icon: const Icon(Icons.add),
