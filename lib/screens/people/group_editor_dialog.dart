@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class GroupDraft {
   const GroupDraft({required this.name, required this.members});
 
@@ -39,7 +41,9 @@ class _GroupEditorDialogState extends State<GroupEditorDialog> {
   void _save() {
     final name = _nameController.text.trim();
     if (name.isEmpty) {
-      setState(() => _nameError = 'Enter a group name');
+      setState(
+        () => _nameError = AppLocalizations.of(context).groupEditorNameError,
+      );
       return;
     }
     Navigator.of(
@@ -49,8 +53,13 @@ class _GroupEditorDialogState extends State<GroupEditorDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: Text(widget.initialName.isEmpty ? 'Create group' : 'Edit group'),
+      title: Text(
+        widget.initialName.isEmpty
+            ? l10n.peopleCreateGroup
+            : l10n.groupEditorEditTitle,
+      ),
       content: SizedBox(
         width: 360,
         child: Column(
@@ -64,7 +73,7 @@ class _GroupEditorDialogState extends State<GroupEditorDialog> {
                 }
               },
               decoration: InputDecoration(
-                labelText: 'Group name',
+                labelText: l10n.groupEditorNameLabel,
                 errorText: _nameError,
               ),
             ),
@@ -96,9 +105,9 @@ class _GroupEditorDialogState extends State<GroupEditorDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(l10n.commonCancel),
         ),
-        FilledButton(onPressed: _save, child: const Text('Save')),
+        FilledButton(onPressed: _save, child: Text(l10n.commonSave)),
       ],
     );
   }

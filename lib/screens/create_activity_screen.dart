@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
 import '../models/audience.dart';
 import '../theme/app_theme.dart';
@@ -56,13 +57,12 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
   }
 
   void _save() {
+    final l10n = AppLocalizations.of(context);
     final title = _titleController.text.trim();
     final startsAt = WhenPicker.combine(_date, _start);
     final endsAt = WhenPicker.combine(_date, _end);
-    final titleError = title.isEmpty ? 'Enter an activity title' : null;
-    final timeError = endsAt.isAfter(startsAt)
-        ? null
-        : 'End time must be after the start time';
+    final titleError = title.isEmpty ? l10n.createActivityTitleError : null;
+    final timeError = endsAt.isAfter(startsAt) ? null : l10n.createEndTimeError;
 
     if (titleError != null || timeError != null) {
       setState(() {
@@ -78,10 +78,11 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
         id: 'activity-${DateTime.now().microsecondsSinceEpoch}',
         title: title,
         subtitle: activitySubtitle(
+          l10n,
           startsAt,
-          location.isEmpty ? 'Location TBD' : location,
+          location.isEmpty ? l10n.commonLocationTbd : location,
         ),
-        guests: guestsLabel(1, going: true),
+        guests: guestsLabel(l10n, 1, going: true),
         attendeeCount: 1,
         icon: Icons.directions_run,
         color: AppColors.friends,
@@ -103,15 +104,16 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('New activity')),
+      appBar: AppBar(title: Text(l10n.createActivityTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'A casual plan, like the gym, a mall trip or a park hang out.',
+              l10n.createActivityIntro,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 16),
@@ -124,8 +126,8 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
                 }
               },
               decoration: InputDecoration(
-                labelText: 'Activity title',
-                hintText: 'Gym session',
+                labelText: l10n.createActivityTitleLabel,
+                hintText: l10n.createActivityTitleHint,
                 border: const OutlineInputBorder(),
                 errorText: _titleError,
               ),
@@ -133,10 +135,10 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
             const SizedBox(height: 12),
             TextField(
               controller: _locationController,
-              decoration: const InputDecoration(
-                labelText: 'Location',
-                hintText: 'Riverside Gym',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.commonLocation,
+                hintText: l10n.createActivityLocationHint,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
@@ -163,9 +165,9 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
               controller: _notesController,
               maxLines: 2,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'Notes (optional)',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.createActivityNotesLabel,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 8),
@@ -173,11 +175,11 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
               contentPadding: EdgeInsets.zero,
               value: _happensRegardless,
               onChanged: (value) => setState(() => _happensRegardless = value),
-              title: const Text('Happening regardless'),
+              title: Text(l10n.activityDetailHappeningRegardless),
               subtitle: Text(
                 _happensRegardless
-                    ? "I'm going whether or not anyone joins."
-                    : 'Only going ahead if enough people are interested.',
+                    ? l10n.createActivityRegardlessOn
+                    : l10n.createActivityRegardlessOff,
               ),
             ),
             AudiencePicker(
@@ -191,17 +193,16 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
                 key: const Key('linked-event-field'),
                 initialValue: _linkedEventId,
                 isExpanded: true,
-                decoration: const InputDecoration(
-                  labelText: 'Link to an event (optional)',
-                  helperText:
-                      'Gauge interest first, then enroll everyone interested in the event.',
+                decoration: InputDecoration(
+                  labelText: l10n.createActivityLinkLabel,
+                  helperText: l10n.createActivityLinkHelper,
                   helperMaxLines: 2,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 items: [
-                  const DropdownMenuItem<String?>(
+                  DropdownMenuItem<String?>(
                     value: null,
-                    child: Text('No linked event'),
+                    child: Text(l10n.createActivityNoLinkedEvent),
                   ),
                   for (final event in widget.events)
                     DropdownMenuItem<String?>(
@@ -215,7 +216,7 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
             const SizedBox(height: 24),
             FilledButton(
               onPressed: _save,
-              child: const Text('Create activity'),
+              child: Text(l10n.createActivityButton),
             ),
           ],
         ),

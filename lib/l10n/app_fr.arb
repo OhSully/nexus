@@ -1,0 +1,325 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Nexus",
+  "navHome": "Accueil",
+  "navPlans": "Plans",
+  "navPeople": "Contacts",
+  "navChats": "Discussions",
+  "navProfile": "Profil",
+
+  "commonYou": "Vous",
+  "commonAll": "Tous",
+  "commonDone": "Terminé",
+  "commonCancel": "Annuler",
+  "commonSave": "Enregistrer",
+  "commonEdit": "Modifier",
+  "commonLocation": "Lieu",
+  "commonLocationTbd": "Lieu à confirmer",
+
+  "dayToday": "Aujourd’hui",
+  "dayTomorrow": "Demain",
+  "activitySubtitle": "{day} · {time} · {location}",
+  "@activitySubtitle": {
+    "placeholders": {
+      "day": {"type": "String"},
+      "time": {"type": "String"},
+      "location": {"type": "String"}
+    }
+  },
+  "guestsSpotsTaken": "{count} places sur {capacity} réservées",
+  "@guestsSpotsTaken": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "capacity": {"type": "int"}
+    }
+  },
+  "guestsGoing": "{count, plural, one{{count} personne y va} other{{count} personnes y vont}}",
+  "@guestsGoing": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "guestsInterested": "{count, plural, one{{count} personne intéressée} other{{count} personnes intéressées}}",
+  "@guestsInterested": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+
+  "activityCardAttending": "Tu y participes",
+  "activityDetailTitleEvent": "Détails de l’événement",
+  "activityDetailTitleActivity": "Détails de l’activité",
+  "activityDetailChooseEvent": "Choisir un événement",
+  "activityDetailCancelLinkedTitle": "Annuler les réponses liées?",
+  "activityDetailCancelLinkedBody": "{count, plural, one{Ta réponse} other{Tes {count} réponses}} pour {eventTitle} seront annulées.",
+  "@activityDetailCancelLinkedBody": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "eventTitle": {"type": "String"}
+    }
+  },
+  "activityDetailLinkedEventFallback": "l’événement lié",
+  "activityDetailKeepLink": "Garder le lien",
+  "activityDetailCancelRsvps": "Annuler les réponses",
+  "activityDetailNoRsvp": "Aucune réponse requise",
+  "activityDetailEventFull": "Événement complet",
+  "activityDetailYouAreGoing": "Tu y vas",
+  "activityDetailGoing": "J’y vais",
+  "activityDetailLinkedEvent": "Événement lié : {title}",
+  "@activityDetailLinkedEvent": {
+    "placeholders": {"title": {"type": "String"}}
+  },
+  "activityDetailEnrolledNote": "Toutes les personnes intéressées sont inscrites à cet événement.",
+  "activityDetailEnrollPrompt": "Inscrire les personnes qui y vont à l’événement lié.",
+  "activityDetailEnrollAll": "Inscrire tout le monde à l’événement",
+  "activityDetailChangeEvent": "Changer d’événement",
+  "activityDetailUnlink": "Dissocier",
+  "activityDetailHostedBy": "Organisé par {hosts}",
+  "@activityDetailHostedBy": {
+    "placeholders": {"hosts": {"type": "String"}}
+  },
+  "activityDetailVisibleTo": "Visible par : {summary}",
+  "@activityDetailVisibleTo": {
+    "placeholders": {"summary": {"type": "String"}}
+  },
+  "activityDetailHappeningRegardless": "A lieu quoi qu’il arrive",
+  "activityDetailLinkToEvent": "Lier à un événement",
+
+  "homeNewMessageTitle": "Nouveau message",
+  "homeStartChat": "Démarrer une discussion",
+  "homeEnrolledPartial": "{enrolled, plural, one{{enrolled} personne inscrite} other{{enrolled} personnes inscrites}} à {title}; {skipped, plural, one{{skipped} ignorée} other{{skipped} ignorées}}",
+  "@homeEnrolledPartial": {
+    "placeholders": {
+      "enrolled": {"type": "int"},
+      "title": {"type": "String"},
+      "skipped": {"type": "int"}
+    }
+  },
+  "homeEnrolledAll": "Tout le monde est inscrit à {title}",
+  "@homeEnrolledAll": {
+    "placeholders": {"title": {"type": "String"}}
+  },
+  "homeCancelledRsvps": "{count, plural, one{{count} réponse annulée} other{{count} réponses annulées}} pour {title}",
+  "@homeCancelledRsvps": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "title": {"type": "String"}
+    }
+  },
+  "homeCreateTooltip": "Créer",
+
+  "chatsTitle": "Discussions",
+  "chatsSubtitle": "Tes conversations",
+  "chatsTimeNow": "À l’instant",
+  "chatDetailTitle": "Discussion avec {name}",
+  "@chatDetailTitle": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "chatDetailHint": "Écris un message",
+  "chatDetailSend": "Envoyer le message",
+
+  "createActivityTitleError": "Saisis un titre d’activité",
+  "createEndTimeError": "L’heure de fin doit être après l’heure de début",
+  "createActivityTitle": "Nouvelle activité",
+  "createActivityIntro": "Propose quelque chose de simple à faire.",
+  "createActivityTitleLabel": "Qu’as-tu envie de faire?",
+  "createActivityTitleHint": "Un café et une marche",
+  "createActivityLocationHint": "Où?",
+  "createActivityNotesLabel": "Notes",
+  "createActivityRegardlessOn": "L’activité aura lieu que quelqu’un se joigne ou non.",
+  "createActivityRegardlessOff": "L’activité pourrait être annulée si personne ne se joint.",
+  "createActivityLinkLabel": "Lier à un événement",
+  "createActivityLinkHelper": "Les personnes qui y vont seront inscrites à l’événement.",
+  "createActivityNoLinkedEvent": "Aucun événement lié",
+  "createActivityButton": "Créer l’activité",
+
+  "createEventAddCoHosts": "Ajouter des coorganisateurs",
+  "createEventTitleError": "Saisis un titre d’événement",
+  "createEventCapacityError": "Saisis une limite d’au moins 1",
+  "createEventTitle": "Nouvel événement",
+  "createEventTitleLabel": "Titre de l’événement",
+  "createEventTitleHint": "Brunch du dimanche",
+  "createEventDescriptionLabel": "Description",
+  "createEventLocationHint": "C’est où?",
+  "createEventHosts": "Organisateurs",
+  "createEventAllowRsvps": "Autoriser les réponses",
+  "createEventRsvpOn": "Les gens peuvent répondre",
+  "createEventRsvpOff": "Les réponses sont désactivées",
+  "createEventLimitAttendance": "Limiter la participation",
+  "createEventMaxAttendees": "Nombre maximal de participants",
+  "createEventButton": "Créer l’événement",
+
+  "createMenuNewMessage": "Nouveau message",
+  "createMenuNewMessageSubtitle": "Démarrer une conversation",
+  "createMenuNewActivity": "Nouvelle activité",
+  "createMenuNewActivitySubtitle": "Quelque chose de simple à faire",
+  "createMenuNewEvent": "Nouvel événement",
+  "createMenuNewEventSubtitle": "Planifier quelque chose avec les détails",
+
+  "discoverTitle": "Activités à venir",
+  "plansChooseWeek": "Choisir la semaine",
+  "plansEmptyDay": "Aucun plan en cours ou à venir pour cette journée.",
+  "plansFilterAll": "Tous",
+  "plansFilterFriendsOnly": "Amis seulement",
+  "plansFilterPublicEvents": "Événements publics",
+  "plansFilterSpecificGroup": "Groupe précis",
+  "plansFilterSharedInterest": "Intérêt commun",
+  "plansWeekOf": "Semaine du {weekStart} au {weekEnd}",
+  "@plansWeekOf": {
+    "placeholders": {
+      "weekStart": {"type": "DateTime", "format": "Md"},
+      "weekEnd": {"type": "DateTime", "format": "Md"}
+    }
+  },
+  "whenPickerStarts": "Début : {time}",
+  "@whenPickerStarts": {
+    "placeholders": {"time": {"type": "String"}}
+  },
+  "whenPickerEnds": "Fin : {time}",
+  "@whenPickerEnds": {
+    "placeholders": {"time": {"type": "String"}}
+  },
+
+  "peopleManageGroups": "Gérer les groupes",
+  "peopleManageGroupsEmpty": "Crée un groupe pour organiser tes contacts.",
+  "peopleConnectionsCount": "{count, plural, one{{count} contact} other{{count} contacts}}",
+  "@peopleConnectionsCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "peopleEditGroup": "Modifier {name}",
+  "@peopleEditGroup": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "peopleDeleteGroup": "Supprimer {name}",
+  "@peopleDeleteGroup": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "peopleCreateGroup": "Créer un groupe",
+  "peopleInviteTitle": "Inviter {group}",
+  "@peopleInviteTitle": {
+    "placeholders": {"group": {"type": "String"}}
+  },
+  "peopleInviteBody": "Choisis un événement auquel inviter ce groupe.",
+  "peopleInvitePrepared": "Invitation à {event} préparée pour {count, plural, one{{count} personne} other{{count} personnes}} de {group}.",
+  "@peopleInvitePrepared": {
+    "placeholders": {
+      "event": {"type": "String"},
+      "count": {"type": "int"},
+      "group": {"type": "String"}
+    }
+  },
+  "peopleSectionUpdates": "Nouveautés",
+  "peopleSectionConnections": "Contacts",
+  "peopleSectionDiscover": "Découvrir",
+  "peopleInviteGroup": "Inviter le groupe",
+  "peopleNoConnectionsInGroup": "Aucun contact dans ce groupe pour l’instant.",
+  "peopleMessage": "Message",
+
+  "discoverFilterPhoneContacts": "Contacts du téléphone",
+  "discoverFilterPastEvents": "Événements passés",
+  "discoverFilterFriendsOfFriends": "Amis d’amis",
+  "discoverFilterSharedInterests": "Intérêts communs",
+  "discoverInviteSent": "Invitation envoyée",
+  "discoverInviteToApp": "Inviter dans l’appli",
+  "discoverRequested": "Demande envoyée",
+  "discoverConnect": "Se connecter",
+
+  "groupEditorNameError": "Saisis un nom de groupe",
+  "groupEditorEditTitle": "Modifier le groupe",
+  "groupEditorNameLabel": "Nom du groupe",
+
+  "updatesSampleNotice": "Ce sont des données d’exemple pour l’instant.",
+  "updatesViewEvent": "Voir l’événement",
+  "updatesAccepted": "Accepté",
+  "updatesDeclined": "Refusé",
+  "updatesAccept": "Accepter",
+  "updatesDecline": "Refuser",
+
+  "profileConnections": "Contacts",
+  "profileMutualConnections": "Contacts en commun",
+  "profilePastEvents": "Événements passés",
+  "profileUpcoming": "À venir",
+  "profileLookingFor": "Je cherche",
+  "profileInterests": "Intérêts",
+  "profileDeclared": "Déclaré le {date}",
+  "@profileDeclared": {
+    "placeholders": {"date": {"type": "DateTime", "format": "Md"}}
+  },
+  "profileBioHint": "Ajoute une courte bio",
+
+  "interestsAdd": "Ajouter un intérêt",
+  "interestsEmpty": "Choisis quelques intérêts pour aider les gens à découvrir ce que vous avez en commun.",
+  "interestsNoteHint": "Ajoute du contexte pour cet intérêt",
+  "interestsSearchHint": "Rechercher des intérêts",
+  "interestsCategoryCustom": "Personnalisé",
+  "interestsAddQuery": "Ajouter « {query} »",
+  "@interestsAddQuery": {
+    "placeholders": {"query": {"type": "String"}}
+  },
+
+  "lookingForAddMore": "En ajouter",
+  "lookingForRedeclare": "Redéclarer",
+  "lookingForHint1": "Prendre un verre après le travail",
+  "lookingForHint2": "Aller marcher cette fin de semaine",
+  "lookingForHint3": "Quelque chose de spontané cette semaine",
+  "lookingForLastDeclared": "Dernière déclaration : {lastDeclared}",
+  "@lookingForLastDeclared": {
+    "placeholders": {"lastDeclared": {"type": "DateTime", "format": "Md"}}
+  },
+
+  "audienceTypePublic": "Public",
+  "audienceTypeFriends": "Amis",
+  "audienceTypeGroups": "Groupes",
+  "audienceTypePastAttendees": "Participants passés",
+  "audienceTypeInterests": "Intérêts communs",
+  "audienceTypeCustom": "Personnalisé",
+  "audienceRuleGroups": "Groupes : {groups}",
+  "@audienceRuleGroups": {
+    "placeholders": {"groups": {"type": "String"}}
+  },
+  "audienceRuleEvents": "Événements passés : {events}",
+  "@audienceRuleEvents": {
+    "placeholders": {"events": {"type": "String"}}
+  },
+  "audienceRuleInterests": "Intérêts : {interests}",
+  "@audienceRuleInterests": {
+    "placeholders": {"interests": {"type": "String"}}
+  },
+  "audienceRuleOrSeparator": " ou ",
+  "audienceSummaryPublic": "Public",
+  "audienceSummaryFriends": "Tous les amis",
+  "audienceSummaryNobody": "Personne pour l’instant",
+  "audienceSummaryExcluding": "{text}, sauf {count}",
+  "@audienceSummaryExcluding": {
+    "placeholders": {
+      "text": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "audienceSummaryWithReach": "{summary} · {reach, plural, one{{reach} ami} other{{reach} amis}}",
+  "@audienceSummaryWithReach": {
+    "placeholders": {
+      "summary": {"type": "String"},
+      "reach": {"type": "int"}
+    }
+  },
+  "audiencePickerTitle": "Qui peut voir ceci",
+  "audienceSetN": "Ensemble {number}",
+  "@audienceSetN": {
+    "placeholders": {"number": {"type": "int"}}
+  },
+  "audienceSetAnother": "Ou un autre ensemble",
+  "audienceSetRemove": "Retirer cet ensemble",
+  "audiencePeopleTitle": "Personnes",
+  "audiencePeopleFilteredHint": "Toutes les personnes qui correspondent à cet ensemble. Décoche pour exclure quelqu’un.",
+  "audiencePeopleUnfilteredHint": "Choisis des filtres ci-dessus, ou ajoute des personnes précises ici.",
+  "audiencePeopleNone": "Personne ne correspond à ces filtres",
+  "audienceNothingToChoose": "Rien à choisir pour l’instant",
+  "audienceCustomTitle": "Public personnalisé",
+  "audienceCustomHint": "Les personnes doivent correspondre à tous les filtres d’un ensemble; les ensembles sont combinés.",
+  "audienceGroupsTitle": "Groupes",
+  "audienceNoGroups": "Aucun groupe pour l’instant. Crées-en un depuis l’onglet Contacts.",
+  "audiencePastEventsTitle": "Participants à des événements passés",
+  "audienceInterestsTitle": "Amis ayant des intérêts",
+  "audienceInterestsHint": "Amis qui partagent l’un de ces intérêts.",
+  "audienceReaches": "Rejoint {reach, plural, one{{reach} ami} other{{reach} amis}}",
+  "@audienceReaches": {
+    "placeholders": {"reach": {"type": "int"}}
+  }
+}

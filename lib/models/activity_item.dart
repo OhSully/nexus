@@ -13,6 +13,7 @@ class ActivityItem {
   final IconData icon;
   final Color color;
   final bool isGoing;
+  final bool guestsGoing;
   final DateTime? startsAt;
   final DateTime? endsAt;
   final String eventType;
@@ -39,6 +40,7 @@ class ActivityItem {
     required this.icon,
     required this.color,
     required this.isGoing,
+    this.guestsGoing = true,
     this.startsAt,
     this.endsAt,
     this.eventType = 'friends',
@@ -73,6 +75,7 @@ class ActivityItem {
     IconData? icon,
     Color? color,
     bool? isGoing,
+    bool? guestsGoing,
     DateTime? startsAt,
     DateTime? endsAt,
     String? eventType,
@@ -100,6 +103,7 @@ class ActivityItem {
       icon: icon ?? this.icon,
       color: color ?? this.color,
       isGoing: isGoing ?? this.isGoing,
+      guestsGoing: guestsGoing ?? this.guestsGoing,
       startsAt: startsAt ?? this.startsAt,
       endsAt: endsAt ?? this.endsAt,
       eventType: eventType ?? this.eventType,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/user_profile.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/section_header.dart';
@@ -26,6 +27,7 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     final lookingFor = profile.lookingFor
         .where((entry) => entry.text.trim().isNotEmpty)
         .toList();
@@ -70,24 +72,24 @@ class ProfileView extends StatelessWidget {
                       Expanded(
                         child: ProfileSummaryChip(
                           label: isCurrentUser
-                              ? 'Connections'
-                              : 'Mutual connections',
+                              ? l10n.profileConnections
+                              : l10n.profileMutualConnections,
                           value: '3',
                           icon: Icons.people_outline,
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Expanded(
+                      Expanded(
                         child: ProfileSummaryChip(
-                          label: 'Past Events',
+                          label: l10n.profilePastEvents,
                           value: '2',
                           icon: Icons.event_available_outlined,
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Expanded(
+                      Expanded(
                         child: ProfileSummaryChip(
-                          label: 'Upcoming',
+                          label: l10n.profileUpcoming,
                           value: '3',
                           icon: Icons.calendar_today_outlined,
                         ),
@@ -106,7 +108,7 @@ class ProfileView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeader('Looking For'),
+                SectionHeader(l10n.profileLookingFor),
                 const SizedBox(height: 10),
                 ...lookingFor.map(
                   (entry) =>
@@ -121,7 +123,7 @@ class ProfileView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeader('Interests'),
+                SectionHeader(l10n.profileInterests),
                 const SizedBox(height: 12),
                 _InterestWrap(profile: profile, interests: interests),
               ],
@@ -142,11 +144,12 @@ class _LookingForRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     final date = entry.declaredAt;
     final audience = entry.audience;
     final audienceLabel = audience.type.needsSelection
-        ? audience.summary
-        : audience.type.label;
+        ? audience.summary(l10n)
+        : audience.type.label(l10n);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -156,7 +159,7 @@ class _LookingForRow extends StatelessWidget {
           Text(entry.text.trim(), style: theme.textTheme.bodyMedium),
           const SizedBox(height: 2),
           Text(
-            'Declared ${date.month}/${date.day}',
+            l10n.profileDeclared(date),
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.primary,
             ),
@@ -172,7 +175,7 @@ class _LookingForRow extends StatelessWidget {
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
-                    'Visible to: $audienceLabel',
+                    l10n.activityDetailVisibleTo(audienceLabel),
                     style: theme.textTheme.bodySmall,
                   ),
                 ),

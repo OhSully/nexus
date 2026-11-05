@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
 import '../providers/providers.dart';
 import '../widgets/contact_picker.dart';
@@ -47,8 +48,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Future<void> _openNewChat() async {
     final people = await showContactPicker(
       context,
-      title: 'New message',
-      confirmLabel: 'Start chat',
+      title: AppLocalizations.of(context).homeNewMessageTitle,
+      confirmLabel: AppLocalizations.of(context).homeStartChat,
     );
     if (people == null || people.isEmpty || !mounted) {
       return;
@@ -105,13 +106,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (event == null) {
       return activity;
     }
+    final l10n = AppLocalizations.of(context);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           result.skipped > 0
-              ? 'Enrolled ${result.enrolled} in ${event.title}. ${result.skipped} could not fit.'
-              : 'Everyone interested is now going to ${event.title}.',
+              ? l10n.homeEnrolledPartial(
+                  result.enrolled,
+                  event.title,
+                  result.skipped,
+                )
+              : l10n.homeEnrolledAll(event.title),
         ),
       ),
     );
@@ -130,7 +136,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              'Cancelled ${result.cancelledCount} RSVPs for ${result.cancelledEventTitle}.',
+              AppLocalizations.of(context).homeCancelledRsvps(
+                result.cancelledCount,
+                result.cancelledEventTitle ?? '',
+              ),
             ),
           ),
         );
@@ -161,6 +170,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final items = ref.watch(activitiesProvider);
     final chats = ref.watch(chatsProvider);
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: null,
       body: IndexedStack(
@@ -176,7 +186,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       floatingActionButton: const [0, 1, 3].contains(_selectedIndex)
           ? FloatingActionButton(
               onPressed: _showCreateMenu,
-              tooltip: 'Create',
+              tooltip: l10n.homeCreateTooltip,
               child: const Icon(Icons.add),
             )
           : null,
@@ -188,18 +198,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             _selectedIndex = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Plans',
+            icon: const Icon(Icons.home),
+            label: l10n.navHome,
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'People'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            label: 'Chats',
+            icon: const Icon(Icons.calendar_today),
+            label: l10n.navPlans,
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.group),
+            label: l10n.navPeople,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.chat_bubble_outline),
+            label: l10n.navChats,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person),
+            label: l10n.navProfile,
+          ),
         ],
       ),
     );

@@ -1,17 +1,26 @@
+import '../l10n/app_localizations.dart';
 import 'sample_contacts.dart';
 
 enum AudienceType {
-  public('Public', 'public'),
-  friends('Friends', 'friends'),
-  groups('Groups', 'group'),
-  pastAttendees('Past attendees', 'past_attendees'),
-  interests('Friends with interests', 'shared_interest'),
-  custom('Custom', 'custom');
+  public('public'),
+  friends('friends'),
+  groups('group'),
+  pastAttendees('past_attendees'),
+  interests('shared_interest'),
+  custom('custom');
 
-  const AudienceType(this.label, this.visibilityKey);
+  const AudienceType(this.visibilityKey);
 
-  final String label;
   final String visibilityKey;
+
+  String label(AppLocalizations l10n) => switch (this) {
+    public => l10n.audienceTypePublic,
+    friends => l10n.audienceTypeFriends,
+    groups => l10n.audienceTypeGroups,
+    pastAttendees => l10n.audienceTypePastAttendees,
+    interests => l10n.audienceTypeInterests,
+    custom => l10n.audienceTypeCustom,
+  };
 
   bool get needsSelection => index >= AudienceType.groups.index;
 }
@@ -95,11 +104,12 @@ class AudienceRule {
     ...people,
   };
 
-  String get description {
+  String description(AppLocalizations l10n) {
     final parts = [
-      if (groups.isNotEmpty) 'Groups: ${groups.join(', ')}',
-      if (pastEvents.isNotEmpty) 'Events: ${pastEvents.join(', ')}',
-      if (interests.isNotEmpty) 'Interests: ${interests.join(', ')}',
+      if (groups.isNotEmpty) l10n.audienceRuleGroups(groups.join(', ')),
+      if (pastEvents.isNotEmpty) l10n.audienceRuleEvents(pastEvents.join(', ')),
+      if (interests.isNotEmpty)
+        l10n.audienceRuleInterests(interests.join(', ')),
       if (people.isNotEmpty) people.join(', '),
     ];
     return parts.join(' + ');
@@ -137,23 +147,25 @@ class Audience {
     _ => type.needsSelection && selections.isEmpty,
   };
 
-  String get summary {
+  String summary(AppLocalizations l10n) {
     switch (type) {
       case AudienceType.public:
-        return 'Anyone on Nexus can see this';
+        return l10n.audienceSummaryPublic;
       case AudienceType.friends:
-        return 'All of your friends';
+        return l10n.audienceSummaryFriends;
       case AudienceType.custom:
         final parts = [
           for (final rule in rules)
-            if (!rule.isEmpty) rule.description,
+            if (!rule.isEmpty) rule.description(l10n),
         ];
-        if (parts.isEmpty) return 'Nobody selected yet';
-        final text = parts.join(' OR ');
-        return excluded.isEmpty ? text : '$text (excluding ${excluded.length})';
+        if (parts.isEmpty) return l10n.audienceSummaryNobody;
+        final text = parts.join(l10n.audienceRuleOrSeparator);
+        return excluded.isEmpty
+            ? text
+            : l10n.audienceSummaryExcluding(text, excluded.length);
       default:
         return selections.isEmpty
-            ? 'Nobody selected yet'
+            ? l10n.audienceSummaryNobody
             : selections.join(', ');
     }
   }

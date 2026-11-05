@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
+import '../utils/activity_format.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({
@@ -69,8 +71,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Chat with ${widget.contactName}')),
+      appBar: AppBar(title: Text(l10n.chatDetailTitle(widget.contactName))),
       body: SafeArea(
         child: Column(
           children: [
@@ -93,10 +96,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     child: Column(
                       crossAxisAlignment: alignment,
                       children: [
-                        Text(
-                          sender,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
+                        Text(hostLabel(l10n, sender)),
                         const SizedBox(height: 4),
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -131,16 +131,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       controller: _messageController,
                       textInputAction: TextInputAction.send,
                       onSubmitted: (_) => _sendMessage(),
-                      decoration: const InputDecoration(
-                        hintText: 'Type a message',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        hintText: l10n.chatDetailHint,
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                   ),
                   const SizedBox(width: 12),
                   IconButton(
                     onPressed: _sendMessage,
-                    tooltip: 'Send message',
+                    tooltip: l10n.chatDetailSend,
                     icon: const Icon(Icons.send),
                   ),
                 ],

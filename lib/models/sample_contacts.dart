@@ -1,5 +1,8 @@
 const currentUserName = "Brendan O'Sullivan";
 
+/// Stored [ChatSummary.time] for a just-sent message; localized when shown.
+const chatTimeNow = 'Now';
+
 const sampleContacts = [
   "Brendan O'Sullivan",
   'Maya Patel',

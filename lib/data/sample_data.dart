@@ -5,7 +5,6 @@ import '../models/sample_contacts.dart';
 import '../models/audience.dart';
 import '../models/people.dart';
 import '../models/user_profile.dart';
-import '../utils/activity_format.dart';
 
 List<Connection> buildSampleConnections() => const [
   Connection(
@@ -221,8 +220,9 @@ List<ActivityItem> buildSampleActivities() {
     ActivityItem(
       id: 'morning-gym',
       title: 'Morning gym session',
-      subtitle: activitySubtitle(gymStartsAt, 'Riverside Gym'),
+      subtitle: 'Riverside Gym',
       guests: '5 people going',
+      location: 'Riverside Gym',
       attendeeCount: 5,
       icon: Icons.fitness_center,
       color: const Color(0xFF4F46E5),
@@ -235,8 +235,10 @@ List<ActivityItem> buildSampleActivities() {
     ActivityItem(
       id: 'dog-walk',
       title: 'Dog walk in the park',
-      subtitle: activitySubtitle(dogWalkStartsAt, 'Central Park'),
+      subtitle: 'Central Park',
       guests: '3 people interested',
+      guestsGoing: false,
+      location: 'Central Park',
       attendeeCount: 3,
       icon: Icons.pets,
       color: const Color(0xFF10B981),
@@ -249,7 +251,7 @@ List<ActivityItem> buildSampleActivities() {
     ActivityItem(
       id: 'movie-night',
       title: 'Movie night',
-      subtitle: activitySubtitle(movieStartsAt, 'Regal Cinema'),
+      subtitle: 'Regal Cinema',
       guests: '8 people attending',
       attendeeCount: 8,
       icon: Icons.movie,
@@ -266,8 +268,9 @@ List<ActivityItem> buildSampleActivities() {
     ActivityItem(
       id: 'coffee-catch-up',
       title: 'Coffee and catch-up',
-      subtitle: activitySubtitle(coffeeStartsAt, 'The Corner Café'),
+      subtitle: 'The Corner Café',
       guests: '2 people confirmed',
+      location: 'The Corner Café',
       attendeeCount: 2,
       icon: Icons.coffee,
       color: const Color(0xFFEC4899),

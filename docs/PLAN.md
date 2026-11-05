@@ -30,10 +30,10 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
   runs format check, analyze, test on PRs/main); branch workflow remains.
 - Error handling/logging convention; crash reporting (Sentry, chosen).
 - Introduce routing (e.g. go_router) with auth guard; keep Home swappable.
-- Localization (en/fr) via Flutter gen-l10n + ARB files; extract all existing
-  hardcoded strings now so every later feature ships bilingual; language
-  override setting; locale-aware date/number formatting; lint to catch new
-  hardcoded strings.
+- Localization (en/fr) via Flutter gen-l10n + ARB files (done: ~185 keys in
+  `lib/l10n`, `localeProvider` override, locale-aware dates, en/fr key parity
+  test). Remaining: in-app language setting UI, native French review, a check
+  that catches new hardcoded strings, localizing the interest catalog.
 - **Exit**: CI green, app builds for both platforms under the final ID.
 
 ## Phase 1 – Domain & backend design (1 week)

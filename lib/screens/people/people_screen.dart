@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/providers.dart';
 import '../../widgets/section_header.dart';
 import '../profile_screen.dart';
@@ -21,8 +22,6 @@ class PeopleScreen extends ConsumerStatefulWidget {
 }
 
 class _PeopleScreenState extends ConsumerState<PeopleScreen> {
-  static const _sections = ['Updates', 'Connections', 'Discover'];
-
   int _selectedSection = 0;
   int _discoverFilter = 0;
   String? _selectedGroup;
@@ -74,23 +73,26 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
+            final l10n = AppLocalizations.of(context);
             return AlertDialog(
-              title: const Text('Manage groups'),
+              title: Text(l10n.peopleManageGroups),
               content: SizedBox(
                 width: 360,
                 child: _groups.isEmpty
-                    ? const Text('Create a group to organize your connections.')
+                    ? Text(l10n.peopleManageGroupsEmpty)
                     : ListView(
                         shrinkWrap: true,
                         children: _groups.entries.map((entry) {
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             title: Text(entry.key),
-                            subtitle: Text('${entry.value.length} connections'),
+                            subtitle: Text(
+                              l10n.peopleConnectionsCount(entry.value.length),
+                            ),
                             trailing: Wrap(
                               children: [
                                 IconButton(
-                                  tooltip: 'Edit ${entry.key}',
+                                  tooltip: l10n.peopleEditGroup(entry.key),
                                   icon: const Icon(Icons.edit_outlined),
                                   onPressed: () async {
                                     await Navigator.of(
@@ -103,7 +105,7 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
                                   },
                                 ),
                                 IconButton(
-                                  tooltip: 'Delete ${entry.key}',
+                                  tooltip: l10n.peopleDeleteGroup(entry.key),
                                   icon: const Icon(Icons.delete_outline),
                                   onPressed: () {
                                     ref
@@ -133,11 +135,11 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
                     }
                   },
                   icon: const Icon(Icons.add),
-                  label: const Text('Create group'),
+                  label: Text(l10n.peopleCreateGroup),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Done'),
+                  child: Text(l10n.commonDone),
                 ),
               ],
             );
@@ -150,24 +152,27 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
   Future<void> _inviteGroup(String groupName) async {
     final event = await showDialog<String>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text('Invite $groupName'),
-        content: const Text('Choose an event to invite this group to.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop('Sunrise hike'),
-            child: const Text('Sunrise hike'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop('Sunday brunch'),
-            child: const Text('Sunday brunch'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Cancel'),
-          ),
-        ],
-      ),
+      builder: (dialogContext) {
+        final l10n = AppLocalizations.of(dialogContext);
+        return AlertDialog(
+          title: Text(l10n.peopleInviteTitle(groupName)),
+          content: Text(l10n.peopleInviteBody),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop('Sunrise hike'),
+              child: const Text('Sunrise hike'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop('Sunday brunch'),
+              child: const Text('Sunday brunch'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(l10n.commonCancel),
+            ),
+          ],
+        );
+      },
     );
 
     if (event == null || !mounted) {
@@ -177,7 +182,9 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Prepared an invite to $event for $inviteCount people in $groupName.',
+          AppLocalizations.of(
+            context,
+          ).peopleInvitePrepared(event, inviteCount, groupName),
         ),
       ),
     );
@@ -220,6 +227,12 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
   @override
   Widget build(BuildContext context) {
     ref.watch(groupsProvider);
+    final l10n = AppLocalizations.of(context);
+    final sections = [
+      l10n.peopleSectionUpdates,
+      l10n.peopleSectionConnections,
+      l10n.peopleSectionDiscover,
+    ];
 
     return SafeArea(
       child: Padding(
@@ -227,16 +240,16 @@ class _PeopleScreenState extends ConsumerState<PeopleScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ScreenTitle('People'),
+            ScreenTitle(l10n.navPeople),
             const SizedBox(height: 10),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: List.generate(_sections.length, (index) {
+                children: List.generate(sections.length, (index) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: ChoiceChip(
-                      label: Text(_sections[index]),
+                      label: Text(sections[index]),
                       selected: _selectedSection == index,
                       onSelected: (_) =>
                           setState(() => _selectedSection = index),

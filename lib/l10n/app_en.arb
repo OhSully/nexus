@@ -1,0 +1,332 @@
+{
+  "@@locale": "en",
+  "appTitle": "Nexus",
+  "navHome": "Home",
+  "@navHome": {"description": "Bottom navigation label"},
+  "navPlans": "Plans",
+  "navPeople": "People",
+  "navChats": "Chats",
+  "navProfile": "Profile",
+
+  "commonYou": "You",
+  "commonAll": "All",
+  "commonDone": "Done",
+  "commonCancel": "Cancel",
+  "commonSave": "Save",
+  "commonEdit": "Edit",
+  "commonLocation": "Location",
+  "commonLocationTbd": "Location TBD",
+
+  "dayToday": "Today",
+  "dayTomorrow": "Tomorrow",
+  "activitySubtitle": "{day} · {time} · {location}",
+  "@activitySubtitle": {
+    "description": "Subtitle of an activity card: weekday or Today/Tomorrow, start time, and place",
+    "placeholders": {
+      "day": {"type": "String"},
+      "time": {"type": "String"},
+      "location": {"type": "String"}
+    }
+  },
+  "guestsSpotsTaken": "{count} of {capacity} spots taken",
+  "@guestsSpotsTaken": {
+    "description": "Capacity progress for an event with limited spots",
+    "placeholders": {
+      "count": {"type": "int"},
+      "capacity": {"type": "int"}
+    }
+  },
+  "guestsGoing": "{count, plural, =1{1 person going} other{{count} people going}}",
+  "@guestsGoing": {
+    "description": "Number of people going to an activity or event",
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "guestsInterested": "{count, plural, =1{1 person interested} other{{count} people interested}}",
+  "@guestsInterested": {
+    "description": "Number of people interested in an activity",
+    "placeholders": {"count": {"type": "int"}}
+  },
+
+  "activityCardAttending": "You are attending",
+  "activityDetailTitleEvent": "Event details",
+  "activityDetailTitleActivity": "Activity details",
+  "activityDetailChooseEvent": "Choose an event",
+  "activityDetailCancelLinkedTitle": "Cancel linked RSVPs?",
+  "activityDetailCancelLinkedBody": "This will cancel your {count} RSVPs for {eventTitle}.",
+  "@activityDetailCancelLinkedBody": {
+    "description": "Confirmation body when unlinking an activity from an event",
+    "placeholders": {
+      "count": {"type": "int"},
+      "eventTitle": {"type": "String"}
+    }
+  },
+  "activityDetailLinkedEventFallback": "the linked event",
+  "activityDetailKeepLink": "Keep link",
+  "activityDetailCancelRsvps": "Cancel RSVPs",
+  "activityDetailNoRsvp": "No RSVP needed",
+  "activityDetailEventFull": "Event full",
+  "activityDetailYouAreGoing": "You are going",
+  "activityDetailGoing": "Going",
+  "activityDetailLinkedEvent": "Linked event: {title}",
+  "@activityDetailLinkedEvent": {
+    "placeholders": {"title": {"type": "String"}}
+  },
+  "activityDetailEnrolledNote": "Everyone interested has been enrolled in this event.",
+  "activityDetailEnrollPrompt": "Enroll the people going in the linked event.",
+  "activityDetailEnrollAll": "Enroll everyone in event",
+  "activityDetailChangeEvent": "Change event",
+  "activityDetailUnlink": "Unlink",
+  "activityDetailHostedBy": "Hosted by {hosts}",
+  "@activityDetailHostedBy": {
+    "placeholders": {"hosts": {"type": "String"}}
+  },
+  "activityDetailVisibleTo": "Visible to: {summary}",
+  "@activityDetailVisibleTo": {
+    "placeholders": {"summary": {"type": "String"}}
+  },
+  "activityDetailHappeningRegardless": "Happening regardless",
+  "activityDetailLinkToEvent": "Link to an event",
+
+  "homeNewMessageTitle": "New message",
+  "homeStartChat": "Start chat",
+  "homeEnrolledPartial": "Enrolled {enrolled} in {title}; {skipped} skipped",
+  "@homeEnrolledPartial": {
+    "placeholders": {
+      "enrolled": {"type": "int"},
+      "title": {"type": "String"},
+      "skipped": {"type": "int"}
+    }
+  },
+  "homeEnrolledAll": "Enrolled everyone in {title}",
+  "@homeEnrolledAll": {
+    "placeholders": {"title": {"type": "String"}}
+  },
+  "homeCancelledRsvps": "Cancelled {count} RSVPs for {title}",
+  "@homeCancelledRsvps": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "title": {"type": "String"}
+    }
+  },
+  "homeCreateTooltip": "Create",
+
+  "chatsTitle": "Chats",
+  "chatsSubtitle": "Your conversations",
+  "chatsTimeNow": "Now",
+  "chatDetailTitle": "Chat with {name}",
+  "@chatDetailTitle": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "chatDetailHint": "Type a message",
+  "chatDetailSend": "Send message",
+
+  "createActivityTitleError": "Enter an activity title",
+  "createEndTimeError": "End time must be after the start time",
+  "createActivityTitle": "New activity",
+  "createActivityIntro": "Share something casual you would like to do.",
+  "createActivityTitleLabel": "What do you want to do?",
+  "createActivityTitleHint": "Coffee and a walk",
+  "createActivityLocationHint": "Where?",
+  "createActivityNotesLabel": "Notes",
+  "createActivityRegardlessOn": "The activity will happen whether or not anyone joins.",
+  "createActivityRegardlessOff": "The activity may be cancelled if nobody joins.",
+  "createActivityLinkLabel": "Link to an event",
+  "createActivityLinkHelper": "People going will be enrolled in the event.",
+  "createActivityNoLinkedEvent": "No linked event",
+  "createActivityButton": "Create activity",
+
+  "createEventAddCoHosts": "Add co-hosts",
+  "createEventTitleError": "Enter an event title",
+  "createEventCapacityError": "Enter a limit of at least 1",
+  "createEventTitle": "New event",
+  "createEventTitleLabel": "Event title",
+  "createEventTitleHint": "Sunday brunch",
+  "createEventDescriptionLabel": "Description",
+  "createEventLocationHint": "Where is it?",
+  "createEventHosts": "Hosts",
+  "createEventAllowRsvps": "Allow RSVPs",
+  "createEventRsvpOn": "People can RSVP",
+  "createEventRsvpOff": "RSVPs are turned off",
+  "createEventLimitAttendance": "Limit attendance",
+  "createEventMaxAttendees": "Maximum attendees",
+  "createEventButton": "Create event",
+
+  "createMenuNewMessage": "New message",
+  "createMenuNewMessageSubtitle": "Start a conversation",
+  "createMenuNewActivity": "New activity",
+  "createMenuNewActivitySubtitle": "Something casual to do",
+  "createMenuNewEvent": "New event",
+  "createMenuNewEventSubtitle": "Plan something with details",
+
+  "discoverTitle": "Upcoming activities",
+  "plansChooseWeek": "Choose week",
+  "plansEmptyDay": "No ongoing or upcoming plans for this day.",
+  "plansFilterAll": "All",
+  "plansFilterFriendsOnly": "Friends only",
+  "plansFilterPublicEvents": "Public events",
+  "plansFilterSpecificGroup": "Specific group",
+  "plansFilterSharedInterest": "Shared interest",
+  "plansWeekOf": "Week of {weekStart} - {weekEnd}",
+  "@plansWeekOf": {
+    "description": "Date range of the displayed week",
+    "placeholders": {
+      "weekStart": {"type": "DateTime", "format": "Md"},
+      "weekEnd": {"type": "DateTime", "format": "Md"}
+    }
+  },
+  "whenPickerStarts": "Starts {time}",
+  "@whenPickerStarts": {
+    "placeholders": {"time": {"type": "String"}}
+  },
+  "whenPickerEnds": "Ends {time}",
+  "@whenPickerEnds": {
+    "placeholders": {"time": {"type": "String"}}
+  },
+
+  "peopleManageGroups": "Manage groups",
+  "peopleManageGroupsEmpty": "Create a group to organize your connections.",
+  "peopleConnectionsCount": "{count, plural, =1{1 connection} other{{count} connections}}",
+  "@peopleConnectionsCount": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "peopleEditGroup": "Edit {name}",
+  "@peopleEditGroup": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "peopleDeleteGroup": "Delete {name}",
+  "@peopleDeleteGroup": {
+    "placeholders": {"name": {"type": "String"}}
+  },
+  "peopleCreateGroup": "Create group",
+  "peopleInviteTitle": "Invite {group}",
+  "@peopleInviteTitle": {
+    "placeholders": {"group": {"type": "String"}}
+  },
+  "peopleInviteBody": "Choose an event to invite this group to.",
+  "peopleInvitePrepared": "Prepared an invite to {event} for {count, plural, =1{1 person} other{{count} people}} in {group}.",
+  "@peopleInvitePrepared": {
+    "placeholders": {
+      "event": {"type": "String"},
+      "count": {"type": "int"},
+      "group": {"type": "String"}
+    }
+  },
+  "peopleSectionUpdates": "Updates",
+  "peopleSectionConnections": "Connections",
+  "peopleSectionDiscover": "Discover",
+  "peopleInviteGroup": "Invite group",
+  "peopleNoConnectionsInGroup": "No connections in this group yet.",
+  "peopleMessage": "Message",
+
+  "discoverFilterPhoneContacts": "Phone contacts",
+  "discoverFilterPastEvents": "Past events",
+  "discoverFilterFriendsOfFriends": "Friends of friends",
+  "discoverFilterSharedInterests": "Shared interests",
+  "discoverInviteSent": "Invite sent",
+  "discoverInviteToApp": "Invite to app",
+  "discoverRequested": "Requested",
+  "discoverConnect": "Connect",
+
+  "groupEditorNameError": "Enter a group name",
+  "groupEditorEditTitle": "Edit group",
+  "groupEditorNameLabel": "Group name",
+
+  "updatesSampleNotice": "This is sample data for now.",
+  "updatesViewEvent": "View event",
+  "updatesAccepted": "Accepted",
+  "updatesDeclined": "Declined",
+  "updatesAccept": "Accept",
+  "updatesDecline": "Decline",
+
+  "profileConnections": "Connections",
+  "profileMutualConnections": "Mutual connections",
+  "profilePastEvents": "Past Events",
+  "profileUpcoming": "Upcoming",
+  "profileLookingFor": "Looking For",
+  "profileInterests": "Interests",
+  "profileDeclared": "Declared {date}",
+  "@profileDeclared": {
+    "placeholders": {"date": {"type": "DateTime", "format": "Md"}}
+  },
+  "profileBioHint": "Add a short bio",
+
+  "interestsAdd": "Add interest",
+  "interestsEmpty": "Choose a few interests to help people discover shared strengths.",
+  "interestsNoteHint": "Add context for this interest",
+  "interestsSearchHint": "Search interests",
+  "interestsCategoryCustom": "Custom",
+  "interestsAddQuery": "Add \"{query}\"",
+  "@interestsAddQuery": {
+    "placeholders": {"query": {"type": "String"}}
+  },
+
+  "lookingForAddMore": "Add more",
+  "lookingForRedeclare": "Redeclare",
+  "lookingForHint1": "Grab a drink after work",
+  "lookingForHint2": "Go for a walk this weekend",
+  "lookingForHint3": "Something spontaneous this week",
+  "lookingForLastDeclared": "Last declared {lastDeclared}",
+  "@lookingForLastDeclared": {
+    "placeholders": {"lastDeclared": {"type": "DateTime", "format": "Md"}}
+  },
+
+  "audienceTypePublic": "Public",
+  "audienceTypeFriends": "Friends",
+  "audienceTypeGroups": "Groups",
+  "audienceTypePastAttendees": "Past attendees",
+  "audienceTypeInterests": "Shared interests",
+  "audienceTypeCustom": "Custom",
+  "audienceRuleGroups": "Groups: {groups}",
+  "@audienceRuleGroups": {
+    "placeholders": {"groups": {"type": "String"}}
+  },
+  "audienceRuleEvents": "Past events: {events}",
+  "@audienceRuleEvents": {
+    "placeholders": {"events": {"type": "String"}}
+  },
+  "audienceRuleInterests": "Interests: {interests}",
+  "@audienceRuleInterests": {
+    "placeholders": {"interests": {"type": "String"}}
+  },
+  "audienceRuleOrSeparator": " or ",
+  "audienceSummaryPublic": "Public",
+  "audienceSummaryFriends": "All friends",
+  "audienceSummaryNobody": "Nobody yet",
+  "audienceSummaryExcluding": "{text}, excluding {count}",
+  "@audienceSummaryExcluding": {
+    "placeholders": {
+      "text": {"type": "String"},
+      "count": {"type": "int"}
+    }
+  },
+  "audienceSummaryWithReach": "{summary} · {reach, plural, =1{1 friend} other{{reach} friends}}",
+  "@audienceSummaryWithReach": {
+    "placeholders": {
+      "summary": {"type": "String"},
+      "reach": {"type": "int"}
+    }
+  },
+  "audiencePickerTitle": "Who can see this",
+  "audienceSetN": "Set {number}",
+  "@audienceSetN": {
+    "placeholders": {"number": {"type": "int"}}
+  },
+  "audienceSetAnother": "Or another set",
+  "audienceSetRemove": "Remove this set",
+  "audiencePeopleTitle": "People",
+  "audiencePeopleFilteredHint": "Everyone matching this set. Untick to exclude someone.",
+  "audiencePeopleUnfilteredHint": "Pick filters above, or add specific people here.",
+  "audiencePeopleNone": "Nobody matches these filters",
+  "audienceNothingToChoose": "Nothing to choose yet",
+  "audienceCustomTitle": "Custom audience",
+  "audienceCustomHint": "People must match every filter in a set; sets are combined.",
+  "audienceGroupsTitle": "Groups",
+  "audienceNoGroups": "No groups yet. Create one from the People tab.",
+  "audiencePastEventsTitle": "Attendees of past events",
+  "audienceInterestsTitle": "Friends with interests",
+  "audienceInterestsHint": "Friends who share any of these.",
+  "audienceReaches": "Reaches {reach, plural, =1{1 friend} other{{reach} friends}}",
+  "@audienceReaches": {
+    "placeholders": {"reach": {"type": "int"}}
+  }
+}

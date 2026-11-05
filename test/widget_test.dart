@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:nexus/l10n/app_localizations.dart';
 import 'package:nexus/main.dart';
 import 'package:nexus/models/activity_item.dart';
 import 'package:nexus/models/audience.dart';
@@ -364,6 +365,8 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: PlansScreen(plans: plans, onOpenActivity: (_) {}),
         ),
@@ -772,6 +775,8 @@ void main() {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: ProfileScreen(isCurrentUser: false, displayName: 'Maya Patel'),
         ),
       ),
@@ -788,7 +793,11 @@ void main() {
   ) async {
     await tester.pumpWidget(
       const ProviderScope(
-        child: MaterialApp(home: ProfileScreen(isCurrentUser: false)),
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: ProfileScreen(isCurrentUser: false),
+        ),
       ),
     );
     await tester.pumpAndSettle();
