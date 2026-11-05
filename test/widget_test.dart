@@ -338,6 +338,11 @@ void main() {
     WidgetTester tester,
   ) async {
     final now = DateTime.now();
+    // Keep both events on today's date regardless of when the test runs:
+    // upcoming before noon, ongoing (started within 2h) after noon.
+    final base = now.hour >= 12
+        ? now.subtract(const Duration(minutes: 60))
+        : now.add(const Duration(minutes: 30));
     final plans = [
       ActivityItem(
         id: 'booked',
@@ -348,7 +353,7 @@ void main() {
         icon: Icons.directions_run,
         color: Colors.blue,
         isGoing: true,
-        startsAt: now.add(const Duration(minutes: 30)),
+        startsAt: base,
       ),
       ActivityItem(
         id: 'available',
@@ -359,7 +364,7 @@ void main() {
         icon: Icons.coffee,
         color: Colors.brown,
         isGoing: false,
-        startsAt: now.add(const Duration(minutes: 60)),
+        startsAt: base.add(const Duration(minutes: 10)),
       ),
     ];
 
