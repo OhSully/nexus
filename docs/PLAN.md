@@ -10,7 +10,10 @@ Flutter + Riverpod; sample in-memory data behind repository interfaces
 notifications, or CI; placeholder app ID (`com.example.flutter_application_2`);
 2 test files. Layering is already friendly to a backend swap.
 
-## Proposed backend (for approval): Supabase
+## Backend: Supabase (approved 2026-11-05)
+
+Project region: Canada Central (`ca-central-1`). Beta scope: email, Google,
+Apple sign-in only; 16+ age gate; Toronto-first (America/Toronto, CAD).
 
 Why: relational data (audiences, RSVPs, connections) maps to Postgres; Row Level
 Security enforces visibility server-side; built-in auth (email, Google, Apple,
@@ -28,7 +31,7 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - **Exit**: CI green, app builds for both platforms under the final ID.
 
 ## Phase 1 – Domain & backend design (1 week)
-- Finalize open questions 1–6 in the requirements.
+- Finalize remaining open questions in the requirements (§9).
 - Schema: profiles, connections, blocks, groups/members, activities/events,
   audience rules, RSVPs, interests, looking-for, chats/messages, reports.
 - RLS policies encoding the audience rules; migrations kept in repo.
@@ -38,9 +41,9 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - **Exit**: schema + policies reviewed; policy tests written.
 
 ## Phase 2 – Auth & profile (1–2 weeks)
-- Email, Google, Apple (and phone if kept) sign-in; verification, reset,
+- Email, Google, Apple sign-in; verification, reset,
   account deletion; session persistence.
-- Onboarding; profile, interests, looking-for backed by backend; avatar upload.
+- Onboarding with 16+ age gate;  profile, interests, looking-for backed by backend; avatar upload.
 - **Exit**: users sign in on two devices and see the same profile.
 
 ## Phase 3 – Core social data (2–3 weeks)
@@ -86,9 +89,10 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - Visibility rules complexity (custom audiences): mitigate with DB-side
   evaluation and thorough policy tests.
 - Store review for UGC and account deletion: build report/delete early.
-- Phone auth SMS cost and abuse: defer or rate-limit.
+- Phone auth: deferred past beta (SMS cost and abuse).
+- PIPEDA/CASL compliance and privacy policy review before beta.
 - Scope creep from business features: keep post-beta.
 - Solo-developer bandwidth: keep phases small and shippable.
 
 ## Next step
-Approve backend choice, then start Phase 0.
+Start Phase 0.

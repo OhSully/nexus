@@ -37,7 +37,8 @@ Current prototype state is noted per area. All data is currently in-memory
 sample data behind repository interfaces (`lib/data/repositories.dart`).
 
 ### 5.1 Accounts & authentication (new)
-- Sign-in with email/password, Google, Apple, and phone number.
+- Sign-in with email/password, Google, and Apple. Phone number sign-in is
+  deferred until after beta (SMS cost).
 - Sign in with Apple is required on iOS if other social logins are offered.
 - Email verification, password reset, account deletion (store requirement)
   and data export.
@@ -91,8 +92,14 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 - **Platforms**: Android and iOS, portrait (current). Min OS versions TBD.
 - **Privacy/security**: server-side authorization on every read/write;
   encrypted transport; secrets never in the repo; minimal data collected;
-  privacy policy and terms; GDPR/CCPA-style delete & export; age gate (13+/16+
-  to be confirmed).
+  privacy policy and terms; delete & export of user data; 16+ age gate
+  (self-declared date of birth at sign-up; store date only as needed).
+- **Region/compliance**: initial market is Canada (Toronto residents first).
+  Follow PIPEDA (consent, purpose limitation, breach reporting) and CASL for
+  any email/push marketing. Host data in a Canadian region (Supabase
+  `ca-central-1`) where possible. Times default to America/Toronto; currency
+  CAD. Review Quebec Law 25 / French-language requirements before expanding
+  there. Not legal advice; have the privacy policy and terms reviewed.
 - **Offline/performance**: cached reads, graceful failure, optimistic UI where
   safe; list screens paginate.
 - **Reliability**: crash reporting, structured error handling (no silent
@@ -129,14 +136,13 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 
 ## 9. Open questions
 
-1. Backend final choice (proposal in PLAN.md: Supabase).
-2. Is phone auth needed for beta? SMS costs money per verification.
-3. Minimum age and target regions (affects legal/compliance).
-4. Location model: free-text vs. map/place search; discovery radius.
-5. What is the Home screen (remove, feed, dashboard)?
-6. Definition of "friend": mutual connections? Are follows needed?
-7. Where do business events appear in Discover vs. friends' content?
-8. App name/branding ("Nexus" availability on stores), app ID, domain.
+1. Location model: free-text vs. map/place search; discovery radius
+   (Toronto-first).
+2. What is the Home screen (remove, feed, dashboard)?
+3. Definition of "friend": mutual connections? Are follows needed?
+4. Where do business events appear in Discover vs. friends' content?
+5. App name/branding ("Nexus" availability on stores), app ID, domain.
+6. Is French-language support needed for launch?
 
 ## 10. Decision log
 
@@ -144,5 +150,8 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 |------|----------|
 | 2026-11-05 | Target: private beta on Android + iOS. |
 | 2026-11-05 | Sign-in: email/password, Google, Apple, phone. |
+| 2026-11-05 | Backend: Supabase (approved). |
+| 2026-11-05 | Phone sign-in dropped from beta scope. |
+| 2026-11-05 | Minimum age 16+; initial market Canada (Toronto). |
 | 2026-11-05 | Monetization: cost recovery via businesses + cosmetic extras. |
 | 2026-11-05 | Home screen deliberately deferred. |
