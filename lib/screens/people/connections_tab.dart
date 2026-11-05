@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/people.dart';
 
 class ConnectionsTab extends StatelessWidget {
@@ -27,6 +28,7 @@ class ConnectionsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     final visible = selectedGroup == null
         ? connections
         : connections
@@ -43,7 +45,7 @@ class ConnectionsTab extends StatelessWidget {
           child: Row(
             children: [
               ChoiceChip(
-                label: const Text('All'),
+                label: Text(l10n.commonAll),
                 selected: selectedGroup == null,
                 onSelected: (_) => onSelectGroup(null),
               ),
@@ -66,7 +68,7 @@ class ConnectionsTab extends StatelessWidget {
             TextButton.icon(
               onPressed: onManageGroups,
               icon: const Icon(Icons.group_add_outlined),
-              label: const Text('Manage groups'),
+              label: Text(l10n.peopleManageGroups),
             ),
             const Spacer(),
             if (selectedGroup != null)
@@ -74,14 +76,14 @@ class ConnectionsTab extends StatelessWidget {
                 onPressed: visible.isEmpty
                     ? null
                     : () => onInviteGroup(selectedGroup!),
-                child: const Text('Invite group'),
+                child: Text(l10n.peopleInviteGroup),
               ),
           ],
         ),
         const SizedBox(height: 4),
         Expanded(
           child: visible.isEmpty
-              ? const Center(child: Text('No connections in this group yet.'))
+              ? Center(child: Text(l10n.peopleNoConnectionsInGroup))
               : ListView.separated(
                   padding: const EdgeInsets.only(top: 4),
                   itemCount: visible.length,
@@ -138,7 +140,7 @@ class ConnectionsTab extends StatelessWidget {
                               TextButton.icon(
                                 onPressed: () => onMessage(connection.name),
                                 icon: const Icon(Icons.chat_bubble_outline),
-                                label: const Text('Message'),
+                                label: Text(l10n.peopleMessage),
                               ),
                             ],
                           ),

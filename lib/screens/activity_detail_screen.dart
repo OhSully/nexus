@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
 import '../theme/app_theme.dart';
 import '../utils/activity_format.dart';
@@ -44,10 +45,12 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
     final updated = _item.copyWith(
       attendeeCount: nextCount,
       guests: guestsLabel(
+        AppLocalizations.of(context),
         nextCount,
         going: nextGoing,
         capacity: _item.capacity,
       ),
+      guestsGoing: nextGoing,
       isGoing: nextGoing,
     );
 
@@ -86,7 +89,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
     return showDialog<String>(
       context: context,
       builder: (context) => SimpleDialog(
-        title: const Text('Choose an event'),
+        title: Text(AppLocalizations.of(context).activityDetailChooseEvent),
         children: [
           for (final event in choices)
             SimpleDialogOption(
@@ -104,23 +107,28 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
     }
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Cancel linked RSVPs?'),
-        content: Text(
-          'The ${_item.linkedEnrolledCount} RSVPs made for '
-          '${_linkedEvent?.title ?? 'the linked event'} will be cancelled.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Keep link'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context);
+        return AlertDialog(
+          title: Text(l10n.activityDetailCancelLinkedTitle),
+          content: Text(
+            l10n.activityDetailCancelLinkedBody(
+              _item.linkedEnrolledCount,
+              _linkedEvent?.title ?? l10n.activityDetailLinkedEventFallback,
+            ),
           ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Cancel RSVPs'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(l10n.activityDetailKeepLink),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(l10n.activityDetailCancelRsvps),
+            ),
+          ],
+        );
+      },
     );
     return confirmed ?? false;
   }
@@ -145,9 +153,9 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
     setState(() => _item = updated);
   }
 
-  Widget _buildRsvpButton() {
+  Widget _buildRsvpButton(AppLocalizations l10n) {
     if (!_item.rsvpEnabled) {
-      return const Text('No RSVP needed. Just show up.');
+      return Text(l10n.activityDetailNoRsvp);
     }
     final blocked = !_item.isGoing && _item.isFull;
 
@@ -156,13 +164,18 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
       child: FilledButton(
         onPressed: blocked ? null : _toggleRSVP,
         child: Text(
-          blocked ? 'Event full' : (_item.isGoing ? 'You are going' : 'Going'),
+          blocked
+              ? l10n.activityDetailEventFull
+              : (_item.isGoing
+                    ? l10n.activityDetailYouAreGoing
+                    : l10n.activityDetailGoing),
         ),
       ),
     );
   }
 
   Widget _buildLinkedEvent(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final event = _linkedEvent;
     if (event == null) {
       return const SizedBox.shrink();
@@ -181,7 +194,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Linked event: ${event.title}',
+                    l10n.activityDetailLinkedEvent(event.title),
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
@@ -190,8 +203,8 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
             const SizedBox(height: 4),
             Text(
               _item.linkedEventEnrolled
-                  ? 'Everyone interested has been enrolled in this event.'
-                  : 'Once you are sure, enroll everyone interested in the event.',
+                  ? l10n.activityDetailEnrolledNote
+                  : l10n.activityDetailEnrollPrompt,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8),
@@ -202,16 +215,16 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                       widget.onEnrollLinkedEvent != null)
                     OutlinedButton(
                       onPressed: _enrollLinkedEvent,
-                      child: const Text('Enroll everyone in event'),
+                      child: Text(l10n.activityDetailEnrollAll),
                     ),
                   if (_canManageLink) ...[
                     TextButton(
                       onPressed: () => _changeLink(unlink: false),
-                      child: const Text('Change event'),
+                      child: Text(l10n.activityDetailChangeEvent),
                     ),
                     TextButton(
                       onPressed: () => _changeLink(unlink: true),
-                      child: const Text('Unlink'),
+                      child: Text(l10n.activityDetailUnlink),
                     ),
                   ],
                 ],
@@ -226,10 +239,15 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_item.isEvent ? 'Event details' : 'Activity details'),
+        title: Text(
+          _item.isEvent
+              ? l10n.activityDetailTitleEvent
+              : l10n.activityDetailTitleActivity,
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
@@ -241,14 +259,18 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          Text(_item.subtitle),
+          Text(itemSubtitle(l10n, _item)),
           if (_item.description.isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(_item.description),
           ],
           if (_item.hosts.isNotEmpty) ...[
             const SizedBox(height: 12),
-            Text('Hosted by ${_item.hosts.join(', ')}'),
+            Text(
+              l10n.activityDetailHostedBy(
+                _item.hosts.map((host) => hostLabel(l10n, host)).join(', '),
+              ),
+            ),
           ],
           const SizedBox(height: 12),
           Row(
@@ -257,7 +279,9 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'Visible to: ${_item.effectiveAudience.summary}',
+                  l10n.activityDetailVisibleTo(
+                    _item.effectiveAudience.summary(l10n),
+                  ),
                   key: const Key('detail-audience'),
                 ),
               ),
@@ -277,12 +301,12 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
                   color: AppColors.brand.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(999),
                 ),
-                child: Text(_item.guests),
+                child: Text(itemGuests(l10n, _item)),
               ),
               if (_item.happensRegardless)
-                const Chip(
-                  avatar: Icon(Icons.check_circle_outline, size: 18),
-                  label: Text('Happening regardless'),
+                Chip(
+                  avatar: const Icon(Icons.check_circle_outline, size: 18),
+                  label: Text(l10n.activityDetailHappeningRegardless),
                 ),
             ],
           ),
@@ -294,11 +318,11 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
               child: TextButton.icon(
                 onPressed: () => _changeLink(unlink: false),
                 icon: const Icon(Icons.link),
-                label: const Text('Link to an event'),
+                label: Text(l10n.activityDetailLinkToEvent),
               ),
             ),
           const SizedBox(height: 24),
-          _buildRsvpButton(),
+          _buildRsvpButton(l10n),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/providers.dart';
 import '../../widgets/section_header.dart';
 import 'interest_catalog.dart';
@@ -16,25 +17,23 @@ class InterestsEditSection extends ConsumerWidget {
     final profile = ref.watch(profileProvider);
     final notifier = ref.read(profileProvider.notifier);
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     final selected = profile.selectedInterests.toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(
-          'Interests',
+          l10n.profileInterests,
           trailing: TextButton.icon(
             onPressed: () => showInterestPicker(context),
             icon: const Icon(Icons.add),
-            label: const Text('Add interest'),
+            label: Text(l10n.interestsAdd),
           ),
         ),
         const SizedBox(height: 12),
         if (selected.isEmpty)
-          Text(
-            'Choose a few interests to help people discover shared strengths.',
-            style: theme.textTheme.bodyMedium,
-          )
+          Text(l10n.interestsEmpty, style: theme.textTheme.bodyMedium)
         else
           LayoutBuilder(
             builder: (context, constraints) {

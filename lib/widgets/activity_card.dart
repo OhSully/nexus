@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
+import '../utils/activity_format.dart';
 
 class ActivityCard extends StatelessWidget {
   const ActivityCard({
@@ -16,6 +18,7 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final isAttending = showAttendanceStatus && item.isGoing;
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -61,10 +64,10 @@ class ActivityCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(item.subtitle),
+                    Text(itemSubtitle(l10n, item)),
                     const SizedBox(height: 12),
                     Text(
-                      item.guests,
+                      itemGuests(l10n, item),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Colors.grey.shade700,
                       ),
@@ -74,11 +77,11 @@ class ActivityCard extends StatelessWidget {
               ),
               if (isAttending) ...[
                 Tooltip(
-                  message: "You're attending this activity",
+                  message: l10n.activityCardAttending,
                   child: Icon(
                     Icons.check_circle,
                     color: colorScheme.primary,
-                    semanticLabel: "You're attending this activity",
+                    semanticLabel: l10n.activityCardAttending,
                   ),
                 ),
                 const SizedBox(width: 4),

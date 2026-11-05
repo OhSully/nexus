@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/people.dart';
 
 class UpdatesTab extends StatelessWidget {
@@ -72,25 +73,30 @@ class UpdatesTab extends StatelessWidget {
   }
 
   Widget _buildAction(BuildContext context, PeopleUpdate update) {
+    final l10n = AppLocalizations.of(context);
     if (update.action != 'Respond') {
       return TextButton(
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Event details are sample data and are not connected yet.',
-              ),
-            ),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.updatesSampleNotice)));
         },
-        child: Text(update.action!),
+        child: Text(
+          update.action == 'View event'
+              ? l10n.updatesViewEvent
+              : update.action!,
+        ),
       );
     }
 
     final response = responses[update.person];
     if (response != null) {
       return Text(
-        response,
+        switch (response) {
+          'Accepted' => l10n.updatesAccepted,
+          'Declined' => l10n.updatesDeclined,
+          _ => response,
+        },
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
           color: Theme.of(context).colorScheme.primary,
         ),
@@ -101,11 +107,11 @@ class UpdatesTab extends StatelessWidget {
       children: [
         FilledButton.tonal(
           onPressed: () => onRespond(update.person, 'Accepted'),
-          child: const Text('Accept'),
+          child: Text(l10n.updatesAccept),
         ),
         TextButton(
           onPressed: () => onRespond(update.person, 'Declined'),
-          child: const Text('Decline'),
+          child: Text(l10n.updatesDecline),
         ),
       ],
     );

@@ -1,4 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../l10n/app_localizations.dart';
+
+/// Visibility filters offered on the Plans screen.
+enum PlansFilter {
+  all,
+  friendsOnly,
+  publicEvents,
+  specificGroup,
+  sharedInterest;
+
+  String label(AppLocalizations l10n) => switch (this) {
+    all => l10n.plansFilterAll,
+    friendsOnly => l10n.plansFilterFriendsOnly,
+    publicEvents => l10n.plansFilterPublicEvents,
+    specificGroup => l10n.plansFilterSpecificGroup,
+    sharedInterest => l10n.plansFilterSharedInterest,
+  };
+}
 
 /// Previous/next week arrows around a "Week of …" label.
 class WeekNavigator extends StatelessWidget {
@@ -28,7 +48,7 @@ class WeekNavigator extends StatelessWidget {
         ),
         Expanded(
           child: Text(
-            'Week of ${weekStart.month}/${weekStart.day} - ${weekEnd.month}/${weekEnd.day}',
+            AppLocalizations.of(context).plansWeekOf(weekStart, weekEnd),
             textAlign: TextAlign.center,
             style: Theme.of(
               context,
@@ -67,8 +87,6 @@ class WeekDayStrip extends StatelessWidget {
   final ValueChanged<DateTime> onDaySelected;
   final ValueChanged<int> onPageChanged;
 
-  static const _labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
   static bool _sameDay(DateTime a, DateTime b) =>
       a.year == b.year && a.month == b.month && a.day == b.day;
 
@@ -76,6 +94,7 @@ class WeekDayStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final dayName = DateFormat.E(Localizations.localeOf(context).toString());
 
     return PageView.builder(
       controller: controller,
@@ -110,7 +129,7 @@ class WeekDayStrip extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        _labels[index],
+                        dayName.format(day),
                         style: textTheme.labelLarge?.copyWith(
                           color: foreground,
                         ),
@@ -162,12 +181,13 @@ class PlansFilterBar extends StatelessWidget {
     required this.onSelected,
   });
 
-  final List<String> filters;
-  final String selected;
-  final ValueChanged<String> onSelected;
+  final List<PlansFilter> filters;
+  final PlansFilter selected;
+  final ValueChanged<PlansFilter> onSelected;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: filters.length,
@@ -175,7 +195,7 @@ class PlansFilterBar extends StatelessWidget {
       itemBuilder: (context, index) {
         final filter = filters[index];
         return ChoiceChip(
-          label: Text(filter),
+          label: Text(filter.label(l10n)),
           selected: selected == filter,
           onSelected: (_) => onSelected(filter),
         );

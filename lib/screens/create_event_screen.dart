@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
 import '../models/audience.dart';
 import '../theme/app_theme.dart';
@@ -55,8 +56,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Future<void> _pickHosts() async {
     final picked = await showContactPicker(
       context,
-      title: 'Add co-hosts',
-      confirmLabel: 'Done',
+      title: AppLocalizations.of(context).createEventAddCoHosts,
+      confirmLabel: AppLocalizations.of(context).commonDone,
       initial: _coHosts,
       allowEmpty: true,
     );
@@ -66,20 +67,19 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   }
 
   void _save() {
+    final l10n = AppLocalizations.of(context);
     final title = _titleController.text.trim();
     final startsAt = WhenPicker.combine(_date, _start);
     final endsAt = WhenPicker.combine(_date, _end);
-    final titleError = title.isEmpty ? 'Enter an event title' : null;
-    final timeError = endsAt.isAfter(startsAt)
-        ? null
-        : 'End time must be after the start time';
+    final titleError = title.isEmpty ? l10n.createEventTitleError : null;
+    final timeError = endsAt.isAfter(startsAt) ? null : l10n.createEndTimeError;
 
     int? capacity;
     String? capacityError;
     if (_rsvpEnabled && _limitAttendance) {
       capacity = int.tryParse(_capacityController.text.trim());
       if (capacity == null || capacity < 1) {
-        capacityError = 'Enter a limit of at least 1';
+        capacityError = l10n.createEventCapacityError;
       }
     }
 
@@ -98,10 +98,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         id: 'event-${DateTime.now().microsecondsSinceEpoch}',
         title: title,
         subtitle: activitySubtitle(
+          l10n,
           startsAt,
-          location.isEmpty ? 'Location TBD' : location,
+          location.isEmpty ? l10n.commonLocationTbd : location,
         ),
-        guests: guestsLabel(1, going: true, capacity: capacity),
+        guests: guestsLabel(l10n, 1, going: true, capacity: capacity),
         attendeeCount: 1,
         icon: Icons.event,
         color: AppColors.event,
@@ -123,8 +124,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('New event')),
+      appBar: AppBar(title: Text(l10n.createEventTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         child: Column(
@@ -139,8 +141,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 }
               },
               decoration: InputDecoration(
-                labelText: 'Event title',
-                hintText: 'Rooftop movie night',
+                labelText: l10n.createEventTitleLabel,
+                hintText: l10n.createEventTitleHint,
                 border: const OutlineInputBorder(),
                 errorText: _titleError,
               ),
@@ -150,19 +152,19 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               controller: _descriptionController,
               maxLines: 3,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'Description',
+              decoration: InputDecoration(
+                labelText: l10n.createEventDescriptionLabel,
                 alignLabelWithHint: true,
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _locationController,
-              decoration: const InputDecoration(
-                labelText: 'Location',
-                hintText: 'Regal Cinema',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.commonLocation,
+                hintText: l10n.createEventLocationHint,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
@@ -185,17 +187,20 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               }),
             ),
             const SizedBox(height: 16),
-            Text('Hosts', style: Theme.of(context).textTheme.labelLarge),
+            Text(
+              l10n.createEventHosts,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                const Chip(label: Text('You')),
+                Chip(label: Text(l10n.commonYou)),
                 for (final host in _coHosts) Chip(label: Text(host)),
                 ActionChip(
                   avatar: const Icon(Icons.person_add_alt, size: 18),
-                  label: const Text('Add co-hosts'),
+                  label: Text(l10n.createEventAddCoHosts),
                   onPressed: _pickHosts,
                 ),
               ],
@@ -205,11 +210,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               contentPadding: EdgeInsets.zero,
               value: _rsvpEnabled,
               onChanged: (value) => setState(() => _rsvpEnabled = value),
-              title: const Text('Allow RSVPs'),
+              title: Text(l10n.createEventAllowRsvps),
               subtitle: Text(
-                _rsvpEnabled
-                    ? 'People can mark themselves as going.'
-                    : 'Open event, no RSVP needed.',
+                _rsvpEnabled ? l10n.createEventRsvpOn : l10n.createEventRsvpOff,
               ),
             ),
             if (_rsvpEnabled) ...[
@@ -217,14 +220,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 contentPadding: EdgeInsets.zero,
                 value: _limitAttendance,
                 onChanged: (value) => setState(() => _limitAttendance = value),
-                title: const Text('Limit attendance'),
+                title: Text(l10n.createEventLimitAttendance),
               ),
               if (_limitAttendance)
                 TextField(
                   controller: _capacityController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Maximum attendees',
+                    labelText: l10n.createEventMaxAttendees,
                     border: const OutlineInputBorder(),
                     errorText: _capacityError,
                   ),
@@ -242,7 +245,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               onChanged: (value) => setState(() => _audience = value),
             ),
             const SizedBox(height: 24),
-            FilledButton(onPressed: _save, child: const Text('Create event')),
+            FilledButton(onPressed: _save, child: Text(l10n.createEventButton)),
           ],
         ),
       ),

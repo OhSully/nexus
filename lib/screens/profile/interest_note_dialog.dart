@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class InterestNoteDialog extends StatefulWidget {
   const InterestNoteDialog({
     super.key,
@@ -27,6 +29,7 @@ class _InterestNoteDialogState extends State<InterestNoteDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
       title: Text(widget.interest),
       content: TextField(
@@ -34,14 +37,14 @@ class _InterestNoteDialogState extends State<InterestNoteDialog> {
         minLines: 1,
         maxLines: 5,
         decoration: InputDecoration(
-          hintText: 'Add context for this interest',
+          hintText: l10n.interestsNoteHint,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(_controller.text),
-          child: const Text('Done'),
+          child: Text(l10n.commonDone),
         ),
       ],
     );

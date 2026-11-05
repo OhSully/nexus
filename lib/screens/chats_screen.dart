@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/sample_contacts.dart';
 import '../theme/app_theme.dart';
 
@@ -11,6 +12,7 @@ class ChatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
@@ -18,14 +20,14 @@ class ChatsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Your conversations',
+              l10n.chatsTitle,
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              'Stay in touch with your network',
+              l10n.chatsSubtitle,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 16),
@@ -37,7 +39,9 @@ class ChatsScreen extends StatelessWidget {
                   final chat = chats[index];
                   final name = chat.name;
                   final message = chat.lastMessage;
-                  final time = chat.time;
+                  final time = chat.time == chatTimeNow
+                      ? l10n.chatsTimeNow
+                      : chat.time;
                   final unread = chat.unread;
 
                   return ListTile(

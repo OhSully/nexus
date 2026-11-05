@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/providers.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/audience_picker.dart';
@@ -16,12 +17,6 @@ class LookingForEditSection extends ConsumerStatefulWidget {
 }
 
 class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
-  static const _hints = [
-    'Grab a drink after work',
-    'Go for a walk this weekend',
-    'Something spontaneous this week',
-  ];
-
   // Text fields need controllers; everything else is read from the provider.
   final List<TextEditingController> _controllers = [];
 
@@ -60,6 +55,12 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
     final profile = ref.watch(profileProvider);
     final directory = ref.watch(audienceDirectoryProvider);
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final hints = [
+      l10n.lookingForHint1,
+      l10n.lookingForHint2,
+      l10n.lookingForHint3,
+    ];
     _syncControllers(
       profile.lookingFor.length,
       profile.lookingFor.map((e) => e.text).toList(),
@@ -76,11 +77,11 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            'Looking For',
+            l10n.profileLookingFor,
             trailing: _controllers.length < maxLookingForEntries
                 ? TextButton(
                     onPressed: _notifier.addLookingFor,
-                    child: const Text('Add more'),
+                    child: Text(l10n.lookingForAddMore),
                   )
                 : null,
           ),
@@ -100,7 +101,7 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
                           maxLines: 1,
                           minLines: 1,
                           decoration: InputDecoration(
-                            hintText: _hints[index.clamp(0, _hints.length - 1)],
+                            hintText: hints[index.clamp(0, hints.length - 1)],
                             filled: true,
                             fillColor: theme.colorScheme.surfaceContainerHighest
                                 .withValues(alpha: 0.35),
@@ -150,7 +151,7 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  'Last declared ${lastDeclared.month}/${lastDeclared.day}',
+                  l10n.lookingForLastDeclared(lastDeclared),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.primary,
                   ),
@@ -158,7 +159,7 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
               ),
               TextButton(
                 onPressed: _notifier.redeclareAll,
-                child: const Text('Redeclare'),
+                child: Text(l10n.lookingForRedeclare),
               ),
             ],
           ),

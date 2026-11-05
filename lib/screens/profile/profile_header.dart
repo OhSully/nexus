@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/user_avatar.dart';
 
@@ -151,11 +152,13 @@ class ProfileEditHeader extends StatelessWidget {
                           onChanged: onBioChanged,
                           minLines: 1,
                           maxLines: 3,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
                             isDense: true,
                             contentPadding: EdgeInsets.zero,
-                            hintText: 'Add a short bio',
+                            hintText: AppLocalizations.of(
+                              context,
+                            ).profileBioHint,
                           ),
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: onImage

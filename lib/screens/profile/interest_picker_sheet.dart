@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/providers.dart';
 import '../../widgets/section_header.dart';
 import 'interest_catalog.dart';
@@ -62,6 +63,7 @@ class _InterestPickerSheetState extends ConsumerState<InterestPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final profile = ref.watch(profileProvider);
     final interests = _visibleInterests(profile.customInterests);
     final query = _searchController.text.trim();
@@ -92,12 +94,12 @@ class _InterestPickerSheetState extends ConsumerState<InterestPickerSheet> {
             ),
           ),
           const SizedBox(height: 12),
-          const SectionHeader('Add interest'),
+          SectionHeader(l10n.interestsAdd),
           const SizedBox(height: 12),
           TextField(
             controller: _searchController,
             decoration: InputDecoration(
-              hintText: 'Search interests',
+              hintText: l10n.interestsSearchHint,
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -117,7 +119,11 @@ class _InterestPickerSheetState extends ConsumerState<InterestPickerSheet> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: ChoiceChip(
-                    label: Text(category),
+                    label: Text(switch (category) {
+                      'All' => l10n.commonAll,
+                      'Custom' => l10n.interestsCategoryCustom,
+                      _ => category,
+                    }),
                     selected: category == _selectedCategory,
                     onSelected: (_) =>
                         setState(() => _selectedCategory = category),
@@ -137,7 +143,7 @@ class _InterestPickerSheetState extends ConsumerState<InterestPickerSheet> {
                   children: [
                     if (hasManualInterest)
                       FilterChip(
-                        label: Text('Add "$query"'),
+                        label: Text(l10n.interestsAddQuery(query)),
                         selected: false,
                         onSelected: (_) {
                           _toggle(query);

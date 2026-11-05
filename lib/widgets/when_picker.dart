@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
+
 class WhenPicker extends StatelessWidget {
   const WhenPicker({
     super.key,
@@ -50,6 +52,7 @@ class WhenPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = MaterialLocalizations.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,12 +68,16 @@ class WhenPicker extends StatelessWidget {
             ),
             ActionChip(
               avatar: const Icon(Icons.schedule, size: 18),
-              label: Text('Starts ${localizations.formatTimeOfDay(start)}'),
+              label: Text(
+                l10n.whenPickerStarts(localizations.formatTimeOfDay(start)),
+              ),
               onPressed: () => _pickTime(context, start, onStartChanged),
             ),
             ActionChip(
               avatar: const Icon(Icons.schedule, size: 18),
-              label: Text('Ends ${localizations.formatTimeOfDay(end)}'),
+              label: Text(
+                l10n.whenPickerEnds(localizations.formatTimeOfDay(end)),
+              ),
               onPressed: () => _pickTime(context, end, onEndChanged),
             ),
           ],

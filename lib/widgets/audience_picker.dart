@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/audience.dart';
 
 class AudiencePicker extends StatelessWidget {
@@ -32,12 +33,16 @@ class AudiencePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final reach = audience.resolve(directory)?.length;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Who can see this', style: Theme.of(context).textTheme.labelLarge),
+        Text(
+          l10n.audiencePickerTitle,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
@@ -45,7 +50,7 @@ class AudiencePicker extends StatelessWidget {
           children: [
             for (final type in AudienceType.values)
               ChoiceChip(
-                label: Text(type.label),
+                label: Text(type.label(l10n)),
                 selected: audience.type == type,
                 onSelected: (_) => _select(context, type),
               ),
@@ -57,8 +62,11 @@ class AudiencePicker extends StatelessWidget {
             Expanded(
               child: Text(
                 reach == null
-                    ? audience.summary
-                    : '${audience.summary} · $reach ${reach == 1 ? 'friend' : 'friends'}',
+                    ? audience.summary(l10n)
+                    : l10n.audienceSummaryWithReach(
+                        audience.summary(l10n),
+                        reach,
+                      ),
                 key: const Key('audience-summary'),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
@@ -66,7 +74,7 @@ class AudiencePicker extends StatelessWidget {
             if (audience.type.needsSelection)
               TextButton(
                 onPressed: () => _select(context, audience.type),
-                child: const Text('Edit'),
+                child: Text(l10n.commonEdit),
               ),
           ],
         ),
@@ -177,14 +185,14 @@ class _AudienceSheetState extends State<_AudienceSheet> {
         children: [
           for (var i = 0; i < _drafts.length; i++)
             ChoiceChip(
-              label: Text('Set ${i + 1}'),
+              label: Text(AppLocalizations.of(context).audienceSetN(i + 1)),
               selected: i == _active,
               onSelected: (_) => setState(() => _active = i),
             ),
           ActionChip(
             key: const Key('add-audience-set'),
             avatar: const Icon(Icons.add, size: 16),
-            label: const Text('Or another set'),
+            label: Text(AppLocalizations.of(context).audienceSetAnother),
             onPressed: () => setState(() {
               _drafts.add(_RuleDraft());
               _active = _drafts.length - 1;
@@ -192,7 +200,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
           ),
           if (_drafts.length > 1)
             IconButton(
-              tooltip: 'Remove this set',
+              tooltip: AppLocalizations.of(context).audienceSetRemove,
               icon: const Icon(Icons.delete_outline),
               onPressed: () => setState(() {
                 _drafts.removeAt(_active);
@@ -205,6 +213,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
   }
 
   Widget _peopleSection() {
+    final l10n = AppLocalizations.of(context);
     final directory = widget.directory;
     final rule = _draft.toRule();
     final filtered = rule.hasCriteria;
@@ -216,16 +225,19 @@ class _AudienceSheetState extends State<_AudienceSheet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('People', style: Theme.of(context).textTheme.titleSmall),
+          Text(
+            l10n.audiencePeopleTitle,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
           Text(
             filtered
-                ? 'Everyone matching this set. Untick to exclude someone.'
-                : 'Pick filters above, or add specific people here.',
+                ? l10n.audiencePeopleFilteredHint
+                : l10n.audiencePeopleUnfilteredHint,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(height: 8),
           if (candidates.isEmpty)
-            const Text('Nobody matches these filters')
+            Text(l10n.audiencePeopleNone)
           else
             Wrap(
               spacing: 8,
@@ -271,7 +283,9 @@ class _AudienceSheetState extends State<_AudienceSheet> {
             Text(hint, style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(height: 8),
           if (options.isEmpty)
-            Text(emptyText ?? 'Nothing to choose yet')
+            Text(
+              emptyText ?? AppLocalizations.of(context).audienceNothingToChoose,
+            )
           else
             Wrap(
               spacing: 8,
@@ -298,6 +312,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final directory = widget.directory;
     final current = _current;
     final reach = current.resolve(directory)?.length ?? 0;
@@ -319,7 +334,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _isCustom ? 'Custom audience' : _type.label,
+                _isCustom ? l10n.audienceCustomTitle : _type.label(l10n),
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -333,31 +348,30 @@ class _AudienceSheetState extends State<_AudienceSheet> {
                       if (_isCustom) ...[
                         _setTabs(),
                         Text(
-                          'People must match every filter in a set; sets are combined.',
+                          l10n.audienceCustomHint,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(height: 12),
                       ],
                       if (_isCustom || _type == AudienceType.groups)
                         _section(
-                          'Groups',
+                          l10n.audienceGroupsTitle,
                           directory.groups.keys.toList(),
                           _draft.groups,
-                          emptyText:
-                              'No groups yet. Create one from the People tab.',
+                          emptyText: l10n.audienceNoGroups,
                         ),
                       if (_isCustom || _type == AudienceType.pastAttendees)
                         _section(
-                          'Attendees of past events',
+                          l10n.audiencePastEventsTitle,
                           directory.pastEventAttendees.keys.toList(),
                           _draft.pastEvents,
                         ),
                       if (_isCustom || _type == AudienceType.interests)
                         _section(
-                          'Friends with interests',
+                          l10n.audienceInterestsTitle,
                           directory.interests,
                           _draft.interests,
-                          hint: 'Friends who share any of these.',
+                          hint: l10n.audienceInterestsHint,
                         ),
                       if (_isCustom) _peopleSection(),
                     ],
@@ -365,7 +379,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
                 ),
               ),
               Text(
-                'Reaches $reach ${reach == 1 ? 'friend' : 'friends'}',
+                l10n.audienceReaches(reach),
                 key: const Key('audience-reach'),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
@@ -376,7 +390,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
                   onPressed: current.isEmpty
                       ? null
                       : () => Navigator.of(context).pop(current),
-                  child: const Text('Done'),
+                  child: Text(l10n.commonDone),
                 ),
               ),
             ],

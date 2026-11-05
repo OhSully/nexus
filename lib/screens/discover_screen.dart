@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
 import '../widgets/activity_card.dart';
 import '../widgets/section_header.dart';
@@ -20,9 +21,9 @@ class DiscoverScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 20, 16, 8),
-            child: ScreenTitle('Upcoming activities'),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+            child: ScreenTitle(AppLocalizations.of(context).discoverTitle),
           ),
           Expanded(
             child: ListView.builder(

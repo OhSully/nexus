@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/repositories.dart';
@@ -7,7 +8,18 @@ import '../models/people.dart';
 import '../models/audience.dart';
 import '../models/sample_contacts.dart';
 import '../models/user_profile.dart';
-import '../utils/activity_format.dart';
+
+/// The user's language override; null follows the device language.
+class LocaleNotifier extends Notifier<Locale?> {
+  @override
+  Locale? build() => null;
+
+  void set(Locale? locale) => state = locale;
+}
+
+final localeProvider = NotifierProvider<LocaleNotifier, Locale?>(
+  LocaleNotifier.new,
+);
 
 final activityRepositoryProvider = Provider<ActivityRepository>(
   (ref) => InMemoryActivityRepository(),
@@ -88,7 +100,7 @@ class ActivitiesNotifier extends Notifier<List<ActivityItem>> {
     final updatedEvent = event.copyWith(
       isGoing: alreadyGoing || spots > 0,
       attendeeCount: nextCount,
-      guests: guestsLabel(nextCount, going: true, capacity: event.capacity),
+      guestsGoing: true,
     );
 
     final next = [...state];
@@ -122,7 +134,7 @@ class ActivitiesNotifier extends Notifier<List<ActivityItem>> {
         next[eventIndex] = event.copyWith(
           isGoing: activity.linkedEnrolledSelf ? false : event.isGoing,
           attendeeCount: nextCount,
-          guests: guestsLabel(nextCount, going: true, capacity: event.capacity),
+          guestsGoing: true,
         );
         cancelled = activity.linkedEnrolledCount;
         cancelledTitle = event.title;
@@ -209,7 +221,11 @@ class ChatsNotifier extends Notifier<List<ChatSummary>> {
         : next.removeAt(index).participants;
     next.insert(
       0,
-      ChatSummary(participants: participants, lastMessage: text, time: 'Now'),
+      ChatSummary(
+        participants: participants,
+        lastMessage: text,
+        time: chatTimeNow,
+      ),
     );
     state = List.unmodifiable(next);
     ref.read(chatRepositoryProvider).saveAll(next);

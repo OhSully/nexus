@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/people.dart';
 
 class DiscoverTab extends StatelessWidget {
@@ -25,6 +26,15 @@ class DiscoverTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    // Same order as [discoverFilters], which holds the stored category names.
+    final filterLabels = [
+      l10n.commonAll,
+      l10n.discoverFilterPhoneContacts,
+      l10n.discoverFilterPastEvents,
+      l10n.discoverFilterFriendsOfFriends,
+      l10n.discoverFilterSharedInterests,
+    ];
     final category = discoverFilters[filterIndex];
     final visible = filterIndex == 0
         ? people
@@ -41,7 +51,7 @@ class DiscoverTab extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: ChoiceChip(
-                  label: Text(discoverFilters[index]),
+                  label: Text(filterLabels[index]),
                   selected: filterIndex == index,
                   onSelected: (_) => onFilterChanged(index),
                 ),
@@ -104,11 +114,11 @@ class DiscoverTab extends StatelessWidget {
                         child: Text(
                           person.isInvite
                               ? invited
-                                    ? 'Invite sent'
-                                    : 'Invite to app'
+                                    ? l10n.discoverInviteSent
+                                    : l10n.discoverInviteToApp
                               : requested
-                              ? 'Requested'
-                              : 'Connect',
+                              ? l10n.discoverRequested
+                              : l10n.discoverConnect,
                         ),
                       ),
                     ],

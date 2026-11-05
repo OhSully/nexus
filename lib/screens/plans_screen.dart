@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
 import '../theme/app_theme.dart';
 import '../widgets/activity_card.dart';
@@ -22,19 +23,11 @@ class PlansScreen extends StatefulWidget {
 
 class _PlansScreenState extends State<PlansScreen> {
   DateTime _selectedDate = DateTime.now();
-  String _selectedFilter = 'All';
+  PlansFilter _selectedFilter = PlansFilter.all;
   static const int _pageOffset = 4000;
   static const int _pageCount = 8001;
 
   late final PageController _weekPageController;
-
-  final List<String> _filters = [
-    'All',
-    'Friends only',
-    'Public events',
-    'Specific group',
-    'Shared interest',
-  ];
 
   @override
   void initState() {
@@ -100,19 +93,19 @@ class _PlansScreenState extends State<PlansScreen> {
       }
 
       switch (_selectedFilter) {
-        case 'Friends only':
+        case PlansFilter.friendsOnly:
           return plan.visibility == 'friends';
-        case 'Public events':
+        case PlansFilter.publicEvents:
           return plan.visibility == 'public';
-        case 'Specific group':
+        case PlansFilter.specificGroup:
           return const {
             'group',
             'past_attendees',
             'custom',
           }.contains(plan.visibility);
-        case 'Shared interest':
+        case PlansFilter.sharedInterest:
           return plan.visibility == 'shared_interest';
-        default:
+        case PlansFilter.all:
           return true;
       }
     }).toList();
@@ -214,6 +207,7 @@ class _PlansScreenState extends State<PlansScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final dailyPlans = _filteredDailyPlans();
 
     return SafeArea(
@@ -224,11 +218,11 @@ class _PlansScreenState extends State<PlansScreen> {
           children: [
             Row(
               children: [
-                const Expanded(child: ScreenTitle('Plans')),
+                Expanded(child: ScreenTitle(l10n.navPlans)),
                 IconButton(
                   onPressed: _pickDate,
                   icon: const Icon(Icons.calendar_month_outlined),
-                  tooltip: 'Choose week',
+                  tooltip: l10n.plansChooseWeek,
                   visualDensity: VisualDensity.compact,
                   constraints: const BoxConstraints.tightFor(
                     width: 40,
@@ -268,7 +262,7 @@ class _PlansScreenState extends State<PlansScreen> {
             SizedBox(
               height: 36,
               child: PlansFilterBar(
-                filters: _filters,
+                filters: PlansFilter.values,
                 selected: _selectedFilter,
                 onSelected: (filter) =>
                     setState(() => _selectedFilter = filter),
@@ -279,7 +273,7 @@ class _PlansScreenState extends State<PlansScreen> {
               Expanded(
                 child: Center(
                   child: Text(
-                    'No ongoing or upcoming plans for this day.',
+                    l10n.plansEmptyDay,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
