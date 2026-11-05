@@ -1,0 +1,94 @@
+# Nexus – Production Plan
+
+Companion to [REQUIREMENTS.md](./REQUIREMENTS.md). Goal: private beta on
+Android + iOS, then public launch. Phases are ordered; each has exit criteria.
+
+## Baseline (today)
+
+Flutter + Riverpod; sample in-memory data behind repository interfaces
+(activities, groups, chats, profile); no auth, backend, persistence,
+notifications, or CI; placeholder app ID (`com.example.flutter_application_2`);
+2 test files. Layering is already friendly to a backend swap.
+
+## Proposed backend (for approval): Supabase
+
+Why: relational data (audiences, RSVPs, connections) maps to Postgres; Row Level
+Security enforces visibility server-side; built-in auth (email, Google, Apple,
+phone), realtime (chat), and storage; free tier then low fixed cost; no vendor
+lock-in (open source, can self-host).
+Alternative: Firebase (strong push/analytics, but Firestore struggles with
+rule-based audience queries and costs scale per read). Push uses FCM either way.
+
+## Phase 0 – Foundations (1 week)
+- Rename package/app ID/display name; remove `com.example`; icons and splash.
+- Environment config + flavors (dev/prod); no secrets in git.
+- Lint hardening, CI (analyze + test on PR), branch workflow.
+- Error handling/logging convention; crash reporting (Crashlytics or Sentry).
+- Introduce routing (e.g. go_router) with auth guard; keep Home swappable.
+- **Exit**: CI green, app builds for both platforms under the final ID.
+
+## Phase 1 – Domain & backend design (1 week)
+- Finalize open questions 1–6 in the requirements.
+- Schema: profiles, connections, blocks, groups/members, activities/events,
+  audience rules, RSVPs, interests, looking-for, chats/messages, reports.
+- RLS policies encoding the audience rules; migrations kept in repo.
+- Make models serializable (JSON); split UI-only fields (`IconData`, `Color`)
+  from persisted data; replace string `visibility` with the `Audience` type.
+- Make repositories async (`Future`/`Stream`); providers become async notifiers.
+- **Exit**: schema + policies reviewed; policy tests written.
+
+## Phase 2 – Auth & profile (1–2 weeks)
+- Email, Google, Apple (and phone if kept) sign-in; verification, reset,
+  account deletion; session persistence.
+- Onboarding; profile, interests, looking-for backed by backend; avatar upload.
+- **Exit**: users sign in on two devices and see the same profile.
+
+## Phase 3 – Core social data (2–3 weeks)
+- Activities/events CRUD, RSVP with atomic capacity (DB function/transaction),
+  linked-event enrolment, audience-filtered queries and pagination.
+- Connections, groups, discover people, updates feed; block/report.
+- Loading/empty/error states on every screen.
+- **Exit**: end-to-end flows work for 2+ real accounts; visibility tests pass.
+
+## Phase 4 – Chat & notifications (1–2 weeks)
+- Realtime 1:1/group chat, unread counts, history paging.
+- Push (FCM/APNs): messages, requests, invites, event changes; preferences.
+- **Exit**: messages and pushes delivered with app foreground/background.
+
+## Phase 5 – Quality & safety (1–2 weeks)
+- Tests: provider/unit, widget, integration (sign-in, create, RSVP, chat);
+  backend policy tests.
+- Accessibility and text-scaling pass; localization scaffolding.
+- Moderation: report queue + admin action path, content policy, ToS/privacy
+  policy, age gate; data export/delete verified.
+- Performance: pagination, image sizing/caching, offline cache of reads.
+- **Exit**: success criteria in REQUIREMENTS §8 met.
+
+## Phase 6 – Private beta release (1 week)
+- Signing, versioning, store metadata, privacy labels/data-safety forms.
+- TestFlight + Play internal testing; feedback and crash monitoring.
+
+## Phase 7 – Post-beta
+- Business host accounts, verification, promotion/payments.
+- Cosmetic premium features via an entitlement layer (RevenueCat or store
+  billing); cost monitoring and quotas.
+- Home screen decision; map/place search; ranking in Discover.
+
+## Prototype → production work items (code-level)
+- `ActivityItem`: string `visibility` and `eventType` → enums; no `Color`/`IconData`
+  in persisted model; `guests` free-text → derived from RSVPs.
+- Replace `sample_contacts.dart`, `sample_data.dart`, and sample audience
+  directories with backend-driven data.
+- Optimistic updates in notifiers need rollback on failure.
+- Add tests alongside each migrated repository.
+
+## Risks
+- Visibility rules complexity (custom audiences): mitigate with DB-side
+  evaluation and thorough policy tests.
+- Store review for UGC and account deletion: build report/delete early.
+- Phone auth SMS cost and abuse: defer or rate-limit.
+- Scope creep from business features: keep post-beta.
+- Solo-developer bandwidth: keep phases small and shippable.
+
+## Next step
+Approve backend choice, then start Phase 0.
