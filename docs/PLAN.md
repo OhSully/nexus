@@ -24,11 +24,11 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 
 ## Phase 0 – Foundations (1 week)
 - Rename app ID/display name (done: `ca.ynexus.nexus`, "Nexus"); icons and
-  splash remain. Dart package renamed to `nexus`.
+  splash done. Dart package renamed to `nexus`.
 - Environment config via `--dart-define` (done: `AppConfig`, `APP_ENV`,
   `SENTRY_DSN`; no secrets in git). Android flavors done (`dev` adds `.dev` app
-  ID and "Nexus Dev" label; minSdk 26 for Sentry). iOS flavors remain, to be
-  verified with a macOS CI build.
+  ID and "Nexus Dev" label; minSdk 26 for Sentry). iOS `dev`/`prod` flavors and
+  macOS CI builds for both are configured; CI must pass to verify them.
 - Lint hardening and CI (done: strict analyzer + extra lints, GitHub Actions
   runs format check, analyze, test on PRs/main); branch workflow remains.
 - Error handling/logging convention; crash reporting (Sentry, chosen) (done:
@@ -114,5 +114,5 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - Solo-developer bandwidth: keep phases small and shippable.
 
 ## Next step
-Continue Phase 0: icons/splash, iOS flavors + macOS CI build (then the Phase 0
-exit check).
+Continue Phase 0: verify the iOS flavor builds pass in macOS CI, then confirm
+the Phase 0 exit criteria.

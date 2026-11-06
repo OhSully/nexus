@@ -14,9 +14,9 @@ flutter run --flavor dev --dart-define=APP_ENV=dev
 
 Android has `dev` (`ca.ynexus.nexus.dev`, "Nexus Dev") and `prod`
 (`ca.ynexus.nexus`, "Nexus") flavors, so both install side by side. Android
-flavors require `--flavor`. iOS flavors are not set up yet, so omit
-`--flavor` when running on iOS. Optional `--dart-define=SENTRY_DSN=...` enables
-crash reporting.
+and iOS use the same flavors; both require `--flavor`. Use `prod` for the
+production bundle ID and app name. Optional `--dart-define=SENTRY_DSN=...`
+enables crash reporting.
 
 Run the checks with:
 
