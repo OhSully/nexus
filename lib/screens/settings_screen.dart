@@ -96,6 +96,7 @@ class SettingsScreen extends ConsumerWidget {
           _Hint(l10n.settingsNotificationsNote),
           const Divider(),
           _SectionTitle(l10n.settingsPrivacy),
+          _Hint(l10n.settingsCrashReportingNote),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(l10n.settingsDefaultAudience),

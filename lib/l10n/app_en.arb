@@ -24,6 +24,7 @@
   "settingsNotifInvitations": "Invitations",
   "settingsNotifEventChanges": "Event changes",
   "settingsPrivacy": "Privacy",
+  "settingsCrashReportingNote": "Crash reports: When configured, Nexus sends anonymized technical error details to Sentry to fix bugs and improve the app for you. Personal identifiers, request data, and free-text error details are removed. Sentry may process data outside Canada; hosting in Canada is a future goal.",
   "settingsDefaultAudience": "Default audience for new activities and events",
   "settingsDefaultAudienceHelp": "You can still change the audience each time you create one.",
   "settingsAccount": "Account",

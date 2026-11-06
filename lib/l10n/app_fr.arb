@@ -23,6 +23,7 @@
   "settingsNotifInvitations": "Invitations",
   "settingsNotifEventChanges": "Modifications d'événements",
   "settingsPrivacy": "Confidentialité",
+  "settingsCrashReportingNote": "Rapports d’erreur : lorsque la fonction est configurée, Nexus envoie à Sentry des données techniques anonymisées pour corriger les bogues et améliorer l’application pour vous. Les identifiants personnels, les données de requête et le texte libre des erreurs sont supprimés. Sentry peut traiter ces données à l’extérieur du Canada; l’hébergement au Canada est un objectif futur.",
   "settingsDefaultAudience": "Public par défaut pour les nouvelles activités et événements",
   "settingsDefaultAudienceHelp": "Vous pouvez toujours changer le public à chaque création.",
   "settingsAccount": "Compte",

@@ -230,6 +230,12 @@ abstract class AppLocalizations {
   /// **'Privacy'**
   String get settingsPrivacy;
 
+  /// No description provided for @settingsCrashReportingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Crash reports: When configured, Nexus sends anonymized technical error details to Sentry to fix bugs and improve the app for you. Personal identifiers, request data, and free-text error details are removed. Sentry may process data outside Canada; hosting in Canada is a future goal.'**
+  String get settingsCrashReportingNote;
+
   /// No description provided for @settingsDefaultAudience.
   ///
   /// In en, this message translates to:

@@ -77,6 +77,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsPrivacy => 'Confidentialité';
 
   @override
+  String get settingsCrashReportingNote =>
+      'Rapports d’erreur : lorsque la fonction est configurée, Nexus envoie à Sentry des données techniques anonymisées pour corriger les bogues et améliorer l’application pour vous. Les identifiants personnels, les données de requête et le texte libre des erreurs sont supprimés. Sentry peut traiter ces données à l’extérieur du Canada; l’hébergement au Canada est un objectif futur.';
+
+  @override
   String get settingsDefaultAudience =>
       'Public par défaut pour les nouvelles activités et événements';
 

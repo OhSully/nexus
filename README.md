@@ -16,8 +16,42 @@ Android has `dev` (`ca.ynexus.nexus.dev`, "Nexus Dev") and `prod`
 (`ca.ynexus.nexus`, "Nexus") flavors, so both install side by side. Android
 and iOS use the same flavors; both require `--flavor`. Use `prod` for the
 production bundle ID and app name. Optional `--dart-define=SENTRY_DSN=...`
-enables crash reporting.
+enables crash reporting. Dart error events are filtered to remove account
+identifiers, request data, free-text error details, and breadcrumbs;
+performance tracing is disabled. Complete anonymization has not been verified,
+particularly for native crashes and network metadata. Keep Sentry disabled until
+its privacy and event handling have been validated. Sentry may process data
+outside Canada; Canadian hosting is a future goal.
 The iOS deployment target is iOS 15, required by the current Sentry SDK.
+
+## Sentry setup
+
+Sentry project setup is deferred until before beta. Before enabling it, validate
+Dart and native event payloads, network metadata, privacy settings, the in-app
+notice, event delivery, and symbolication. Then configure these GitHub
+repository settings for the Flutter project:
+
+- Variable `SENTRY_DSN` with the project DSN. The app's `APP_ENV` distinguishes
+  dev and prod events in Sentry.
+- Variables `SENTRY_ORG` and `SENTRY_PROJECT` with the Sentry organization and
+  project slugs.
+- Secret `SENTRY_AUTH_TOKEN` with a Sentry auth token scoped to upload debug
+  symbols. Never add this token to the repository.
+
+The CI workflow only injects the DSN on pushes to `main`. When configured, it
+uploads available debug symbols after successful Android and iOS flavor
+builds. It does not upload application source code. A main-branch build fails
+clearly if the DSN is present but any symbol-upload setting is missing.
+Local builds remain disconnected unless a DSN is passed:
+
+```sh
+flutter run --flavor dev --dart-define=APP_ENV=dev --dart-define=SENTRY_DSN=<dev-dsn>
+```
+
+For a release build, use the matching flavor and DSN, include
+`--split-debug-info=build/sentry-symbols/<flavor>`, then run
+`dart run sentry_dart_plugin` with `SENTRY_ORG`, `SENTRY_PROJECT`, and
+`SENTRY_AUTH_TOKEN` set in the environment.
 
 Run the checks with:
 

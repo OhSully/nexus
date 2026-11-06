@@ -6,6 +6,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'config/app_config.dart';
 import 'utils/app_logger.dart';
+import 'utils/sentry_event_sanitizer.dart';
 
 final _log = appLogger('app');
 
@@ -24,7 +25,8 @@ Future<void> bootstrap(
       options.dsn = config.sentryDsn;
       options.environment = config.environment;
       options.sendDefaultPii = false;
-      options.tracesSampleRate = config.isProd ? 0.1 : 1.0;
+      options.tracesSampleRate = 0;
+      options.beforeSend = (event, _) => sanitizeSentryEvent(event);
     }, appRunner: () async => _installHandlers(runner));
   } else {
     await _installHandlers(runner);
