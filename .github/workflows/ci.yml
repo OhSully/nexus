@@ -32,3 +32,24 @@ jobs:
 
       - name: Test
         run: flutter test
+
+  ios-build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [dev, prod]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.44.2
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Build iOS (${{ matrix.flavor }})
+        run: flutter build ios --flavor ${{ matrix.flavor }} --no-codesign --dart-define=APP_ENV=${{ matrix.flavor }}
