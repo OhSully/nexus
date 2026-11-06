@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../models/interest_catalog.dart';
 import '../../providers/providers.dart';
 import '../../widgets/section_header.dart';
-import 'interest_catalog.dart';
 
 Future<void> showInterestPicker(BuildContext context) {
   return showModalBottomSheet<void>(
@@ -48,7 +48,7 @@ class _InterestPickerSheetState extends ConsumerState<InterestPickerSheet> {
         );
   }
 
-  List<String> _visibleInterests(Set<String> custom) {
+  List<String> _visibleInterests(Set<String> custom, AppLocalizations l10n) {
     final query = _searchController.text.trim().toLowerCase();
     final inCategory = switch (_selectedCategory) {
       'All' => {...interestGroups.values.expand((g) => g), ...custom}.toList(),
@@ -58,18 +58,28 @@ class _InterestPickerSheetState extends ConsumerState<InterestPickerSheet> {
     if (query.isEmpty) {
       return inCategory;
     }
-    return inCategory.where((i) => i.toLowerCase().contains(query)).toList();
+    return inCategory
+        .where(
+          (i) =>
+              i.toLowerCase().contains(query) ||
+              interestLabel(l10n, i).toLowerCase().contains(query),
+        )
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final profile = ref.watch(profileProvider);
-    final interests = _visibleInterests(profile.customInterests);
+    final interests = _visibleInterests(profile.customInterests, l10n);
     final query = _searchController.text.trim();
     final hasManualInterest =
         query.isNotEmpty &&
-        !interests.any((i) => i.toLowerCase() == query.toLowerCase());
+        !interests.any(
+          (i) =>
+              i.toLowerCase() == query.toLowerCase() ||
+              interestLabel(l10n, i).toLowerCase() == query.toLowerCase(),
+        );
     final categories = ['All', ...interestGroups.keys, 'Custom'];
 
     return Padding(
@@ -122,7 +132,7 @@ class _InterestPickerSheetState extends ConsumerState<InterestPickerSheet> {
                     label: Text(switch (category) {
                       'All' => l10n.commonAll,
                       'Custom' => l10n.interestsCategoryCustom,
-                      _ => category,
+                      _ => interestCategoryLabel(l10n, category),
                     }),
                     selected: category == _selectedCategory,
                     onSelected: (_) =>
@@ -153,7 +163,7 @@ class _InterestPickerSheetState extends ConsumerState<InterestPickerSheet> {
                       ),
                     ...interests.take(16).map((interest) {
                       return FilterChip(
-                        label: Text(interest),
+                        label: Text(interestLabel(l10n, interest)),
                         selected: profile.selectedInterests.contains(interest),
                         onSelected: (_) => _toggle(interest),
                       );

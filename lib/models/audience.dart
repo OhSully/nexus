@@ -1,4 +1,5 @@
 import '../l10n/app_localizations.dart';
+import 'interest_catalog.dart';
 import 'sample_contacts.dart';
 
 enum AudienceType {
@@ -109,7 +110,9 @@ class AudienceRule {
       if (groups.isNotEmpty) l10n.audienceRuleGroups(groups.join(', ')),
       if (pastEvents.isNotEmpty) l10n.audienceRuleEvents(pastEvents.join(', ')),
       if (interests.isNotEmpty)
-        l10n.audienceRuleInterests(interests.join(', ')),
+        l10n.audienceRuleInterests(
+          interests.map((i) => interestLabel(l10n, i)).join(', '),
+        ),
       if (people.isNotEmpty) people.join(', '),
     ];
     return parts.join(' + ');
@@ -166,7 +169,11 @@ class Audience {
       default:
         return selections.isEmpty
             ? l10n.audienceSummaryNobody
-            : selections.join(', ');
+            : [
+                ...groups,
+                ...pastEvents,
+                ...interests.map((i) => interestLabel(l10n, i)),
+              ].join(', ');
     }
   }
 

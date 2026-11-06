@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../models/interest_catalog.dart';
 
 class InterestNoteDialog extends StatefulWidget {
   const InterestNoteDialog({
@@ -31,7 +32,7 @@ class _InterestNoteDialogState extends State<InterestNoteDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: Text(widget.interest),
+      title: Text(interestLabel(l10n, widget.interest)),
       content: TextField(
         controller: _controller,
         minLines: 1,

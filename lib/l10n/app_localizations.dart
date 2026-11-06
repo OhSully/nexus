@@ -1345,6 +1345,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reaches {reach, plural, =1{1 friend} other{{reach} friends}}'**
   String audienceReaches(int reach);
+
+  /// No description provided for @interestCategoryFitness.
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness'**
+  String get interestCategoryFitness;
+
+  /// No description provided for @interestCategoryCreative.
+  ///
+  /// In en, this message translates to:
+  /// **'Creative'**
+  String get interestCategoryCreative;
+
+  /// No description provided for @interestCategorySocial.
+  ///
+  /// In en, this message translates to:
+  /// **'Social'**
+  String get interestCategorySocial;
+
+  /// No description provided for @interestCategoryOutdoors.
+  ///
+  /// In en, this message translates to:
+  /// **'Outdoors'**
+  String get interestCategoryOutdoors;
+
+  /// No description provided for @interestCategoryLearning.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning'**
+  String get interestCategoryLearning;
+
+  /// No description provided for @interestYoga.
+  ///
+  /// In en, this message translates to:
+  /// **'Yoga'**
+  String get interestYoga;
+
+  /// No description provided for @interestRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Running'**
+  String get interestRunning;
+
+  /// No description provided for @interestHiking.
+  ///
+  /// In en, this message translates to:
+  /// **'Hiking'**
+  String get interestHiking;
+
+  /// No description provided for @interestCycling.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycling'**
+  String get interestCycling;
+
+  /// No description provided for @interestPilates.
+  ///
+  /// In en, this message translates to:
+  /// **'Pilates'**
+  String get interestPilates;
+
+  /// No description provided for @interestPhotography.
+  ///
+  /// In en, this message translates to:
+  /// **'Photography'**
+  String get interestPhotography;
+
+  /// No description provided for @interestCooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooking'**
+  String get interestCooking;
+
+  /// No description provided for @interestDancing.
+  ///
+  /// In en, this message translates to:
+  /// **'Dancing'**
+  String get interestDancing;
+
+  /// No description provided for @interestDrawing.
+  ///
+  /// In en, this message translates to:
+  /// **'Drawing'**
+  String get interestDrawing;
+
+  /// No description provided for @interestPottery.
+  ///
+  /// In en, this message translates to:
+  /// **'Pottery'**
+  String get interestPottery;
+
+  /// No description provided for @interestBoardGames.
+  ///
+  /// In en, this message translates to:
+  /// **'Board games'**
+  String get interestBoardGames;
+
+  /// No description provided for @interestTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get interestTravel;
+
+  /// No description provided for @interestBrunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Brunch'**
+  String get interestBrunch;
+
+  /// No description provided for @interestVolunteering.
+  ///
+  /// In en, this message translates to:
+  /// **'Volunteering'**
+  String get interestVolunteering;
+
+  /// No description provided for @interestLiveMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Live music'**
+  String get interestLiveMusic;
+
+  /// No description provided for @interestCamping.
+  ///
+  /// In en, this message translates to:
+  /// **'Camping'**
+  String get interestCamping;
+
+  /// No description provided for @interestKayaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Kayaking'**
+  String get interestKayaking;
+
+  /// No description provided for @interestBeachDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Beach days'**
+  String get interestBeachDays;
+
+  /// No description provided for @interestBirdWatching.
+  ///
+  /// In en, this message translates to:
+  /// **'Bird watching'**
+  String get interestBirdWatching;
+
+  /// No description provided for @interestGardening.
+  ///
+  /// In en, this message translates to:
+  /// **'Gardening'**
+  String get interestGardening;
+
+  /// No description provided for @interestLanguageExchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Language exchange'**
+  String get interestLanguageExchange;
+
+  /// No description provided for @interestReadingCircles.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading circles'**
+  String get interestReadingCircles;
+
+  /// No description provided for @interestCoding.
+  ///
+  /// In en, this message translates to:
+  /// **'Coding'**
+  String get interestCoding;
+
+  /// No description provided for @interestWorkshops.
+  ///
+  /// In en, this message translates to:
+  /// **'Workshops'**
+  String get interestWorkshops;
+
+  /// No description provided for @signInTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan things with the people you care about.'**
+  String get signInTagline;
+
+  /// No description provided for @signInContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get signInContinue;
 }
 
 class _AppLocalizationsDelegate

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../models/interest_catalog.dart';
 import '../../providers/providers.dart';
 import '../../widgets/section_header.dart';
-import 'interest_catalog.dart';
 import 'interest_note_dialog.dart';
 import 'interest_picker_sheet.dart';
 
@@ -53,7 +53,7 @@ class InterestsEditSection extends ConsumerWidget {
                   return SizedBox(
                     width: width,
                     child: InputChip(
-                      label: Text(interest),
+                      label: Text(interestLabel(l10n, interest)),
                       avatar: Container(
                         width: 18,
                         height: 18,

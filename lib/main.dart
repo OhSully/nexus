@@ -3,13 +3,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 
+import 'bootstrap.dart';
+import 'config/app_config.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/providers.dart';
-import 'screens/home_screen.dart';
+import 'router.dart';
 import 'theme/app_theme.dart';
 
-void main() {
-  runApp(const NexusApp());
+Future<void> main() async {
+  await bootstrap(AppConfig.fromEnvironment(), () => runApp(const NexusApp()));
 }
 
 class NexusApp extends StatelessWidget {
@@ -32,7 +34,8 @@ class _NexusMaterialApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: ref.watch(routerProvider),
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       theme: buildAppTheme(),
       darkTheme: buildAppTheme(brightness: Brightness.dark),
@@ -45,7 +48,6 @@ class _NexusMaterialApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const HomeScreen(),
     );
   }
 }
