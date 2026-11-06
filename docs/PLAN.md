@@ -25,10 +25,15 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 ## Phase 0 – Foundations (1 week)
 - Rename app ID/display name (done: `ca.ynexus.nexus`, "Nexus"); icons and
   splash remain. Dart package renamed to `nexus`.
-- Environment config + flavors (dev/prod); no secrets in git.
+- Environment config via `--dart-define` (done: `AppConfig`, `APP_ENV`,
+  `SENTRY_DSN`; no secrets in git). Native flavors (dev/prod app IDs) remain.
 - Lint hardening and CI (done: strict analyzer + extra lints, GitHub Actions
   runs format check, analyze, test on PRs/main); branch workflow remains.
-- Error handling/logging convention; crash reporting (Sentry, chosen).
+- Error handling/logging convention; crash reporting (Sentry, chosen) (done:
+  `bootstrap.dart` global handlers, `appLogger` in `utils/app_logger.dart`,
+  SEVERE logs go to Sentry only when `SENTRY_DSN` is set). Remaining: create
+  the Sentry project/DSN, add the DSN to CI/release builds, upload symbols,
+  and add a user-consent/privacy-policy mention before beta.
 - Introduce routing (e.g. go_router) with auth guard; keep Home swappable.
 - Localization (en/fr) via Flutter gen-l10n + ARB files (done: ~185 keys in
   `lib/l10n`, `localeProvider` override, locale-aware dates, en/fr key parity
@@ -103,4 +108,4 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - Solo-developer bandwidth: keep phases small and shippable.
 
 ## Next step
-Start Phase 0.
+Continue Phase 0: routing with auth guard, then native flavors, icons/splash.
