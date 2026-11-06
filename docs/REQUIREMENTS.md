@@ -132,8 +132,17 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 - Premium/entitlement checks should be a thin, separate layer so they can be
   added later without reworking features.
 
-## 8. Success criteria for private beta
+## 8. Release phases & success criteria
 
+- Roll out in stages: a small, invite-only alpha may come first for early
+  testing; follow it with an invite-only private beta for broader validation.
+  Alpha is optional, but if run it precedes beta.
+- Only people on the approved invite list can create accounts during these
+  phases. Expand access in controlled cohorts; set a cohort/account cap before
+  each phase, with the initial cap still TBD.
+- Invite-only access limits new accounts, not the server usage of each account.
+  Before increasing a cohort, monitor backend usage and costs, configure alerts,
+  and apply available quotas/rate limits to reduce unexpected usage.
 - Testers can register, build profile, connect, create and RSVP to
   activities, and chat, with data persisted across devices.
 - Visibility rules verified by automated tests against the backend.
@@ -149,11 +158,12 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 4. Where do business events appear in Discover vs. friends' content?
 5. App name/branding ("Nexus" availability on stores), app ID, domain.
 6. Who translates/reviews French copy (Canadian French, not machine-only)?
+7. Initial alpha/beta cohort caps and backend usage/cost alert thresholds.
 
 ## 10. Decision log
 
-| Date | Decision |
-|------|----------|
+|    Date    | Decision |
+|------------|----------|
 | 2026-11-05 | Target: private beta on Android + iOS. |
 | 2026-11-05 | Sign-in: email/password, Google, Apple, phone. |
 | 2026-11-05 | Backend: Supabase (approved). |
@@ -164,3 +174,4 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 | 2026-11-05 | App ID (Android + iOS): `ca.ynexus.nexus`; display name "Nexus". Permanent once published; confirm domain ownership. |
 | 2026-11-05 | Monetization: cost recovery via businesses + cosmetic extras. |
 | 2026-11-05 | Home screen deliberately deferred. |
+| 2026-11-06 | Rollout: optional invite-only alpha before an invite-only private beta; expand in capped cohorts. |
