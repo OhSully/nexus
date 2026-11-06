@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
 import '../models/audience.dart';
+import '../providers/providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/activity_format.dart';
 import '../widgets/audience_picker.dart';
 import '../widgets/when_picker.dart';
 
-class CreateActivityScreen extends StatefulWidget {
+class CreateActivityScreen extends ConsumerStatefulWidget {
   const CreateActivityScreen({
     super.key,
     required this.events,
@@ -19,10 +21,11 @@ class CreateActivityScreen extends StatefulWidget {
   final AudienceDirectory directory;
 
   @override
-  State<CreateActivityScreen> createState() => _CreateActivityScreenState();
+  ConsumerState<CreateActivityScreen> createState() =>
+      _CreateActivityScreenState();
 }
 
-class _CreateActivityScreenState extends State<CreateActivityScreen> {
+class _CreateActivityScreenState extends ConsumerState<CreateActivityScreen> {
   final _titleController = TextEditingController();
   final _locationController = TextEditingController();
   final _notesController = TextEditingController();
@@ -31,7 +34,7 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
   late TimeOfDay _start;
   late TimeOfDay _end;
   bool _happensRegardless = false;
-  Audience _audience = Audience.friends;
+  late Audience _audience;
   String? _linkedEventId;
   String? _titleError;
   String? _timeError;
@@ -39,7 +42,8 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
+    _audience = ref.read(defaultAudienceProvider);
+    final now = ref.read(clockProvider)();
     _date = DateTime(now.year, now.month, now.day);
     final startHour = (now.hour + 1).clamp(0, 23);
     _start = TimeOfDay(hour: startHour, minute: 0);
@@ -73,14 +77,16 @@ class _CreateActivityScreenState extends State<CreateActivityScreen> {
     }
 
     final location = _locationController.text.trim();
+    final now = ref.read(clockProvider)();
     Navigator.of(context).pop(
       ActivityItem(
-        id: 'activity-${DateTime.now().microsecondsSinceEpoch}',
+        id: ref.read(idGeneratorProvider).next('activity'),
         title: title,
         subtitle: activitySubtitle(
           l10n,
           startsAt,
           location.isEmpty ? l10n.commonLocationTbd : location,
+          now,
         ),
         guests: guestsLabel(l10n, 1, going: true),
         attendeeCount: 1,

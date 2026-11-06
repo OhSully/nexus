@@ -135,8 +135,7 @@ List<DiscoverPerson> buildSampleDiscoverPeople() => const [
   ),
 ];
 
-Map<String, UserProfile> buildSampleOtherProfiles() {
-  final now = DateTime.now();
+Map<String, UserProfile> buildSampleOtherProfiles(DateTime now) {
   return {
     'Maya Patel': UserProfile(
       bio: 'Yoga teacher and brunch enthusiast',
@@ -183,8 +182,7 @@ Map<String, UserProfile> buildSampleOtherProfiles() {
   };
 }
 
-UserProfile buildSampleProfile() {
-  final now = DateTime.now();
+UserProfile buildSampleProfile(DateTime now) {
   return UserProfile(
     bio: 'Outdoorsy, social, and always planning the next meetup',
     lookingFor: [
@@ -209,8 +207,7 @@ UserProfile buildSampleProfile() {
   );
 }
 
-List<ActivityItem> buildSampleActivities() {
-  final now = DateTime.now();
+List<ActivityItem> buildSampleActivities(DateTime now) {
   final gymStartsAt = now.subtract(const Duration(hours: 1));
   final dogWalkStartsAt = now.add(const Duration(hours: 3));
   final movieStartsAt = now.add(const Duration(days: 1, hours: 5));

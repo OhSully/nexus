@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
+import '../providers/providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/activity_format.dart';
 
-class ActivityDetailScreen extends StatefulWidget {
+class ActivityDetailScreen extends ConsumerStatefulWidget {
   const ActivityDetailScreen({
     super.key,
     required this.item,
@@ -23,10 +25,11 @@ class ActivityDetailScreen extends StatefulWidget {
   onChangeLinkedEvent;
 
   @override
-  State<ActivityDetailScreen> createState() => _ActivityDetailScreenState();
+  ConsumerState<ActivityDetailScreen> createState() =>
+      _ActivityDetailScreenState();
 }
 
-class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
+class _ActivityDetailScreenState extends ConsumerState<ActivityDetailScreen> {
   late ActivityItem _item;
 
   @override
@@ -259,7 +262,7 @@ class _ActivityDetailScreenState extends State<ActivityDetailScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          Text(itemSubtitle(l10n, _item)),
+          Text(itemSubtitle(l10n, _item, ref.read(clockProvider)())),
           if (_item.description.isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(_item.description),

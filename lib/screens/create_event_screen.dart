@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
 import '../models/audience.dart';
+import '../providers/providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/activity_format.dart';
 import '../widgets/contact_picker.dart';
 import '../widgets/audience_picker.dart';
 import '../widgets/when_picker.dart';
 
-class CreateEventScreen extends StatefulWidget {
+class CreateEventScreen extends ConsumerStatefulWidget {
   const CreateEventScreen({super.key, required this.directory});
 
   final AudienceDirectory directory;
 
   @override
-  State<CreateEventScreen> createState() => _CreateEventScreenState();
+  ConsumerState<CreateEventScreen> createState() => _CreateEventScreenState();
 }
 
-class _CreateEventScreenState extends State<CreateEventScreen> {
+class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _locationController = TextEditingController();
@@ -29,7 +31,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   late TimeOfDay _end;
   bool _rsvpEnabled = true;
   bool _limitAttendance = false;
-  Audience _audience = Audience.friends;
+  late Audience _audience;
   List<String> _coHosts = [];
   String? _titleError;
   String? _timeError;
@@ -38,7 +40,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
+    _audience = ref.read(defaultAudienceProvider);
+    final now = ref.read(clockProvider)();
     _date = DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
     _start = const TimeOfDay(hour: 18, minute: 0);
     _end = const TimeOfDay(hour: 20, minute: 0);
@@ -93,14 +96,16 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     }
 
     final location = _locationController.text.trim();
+    final now = ref.read(clockProvider)();
     Navigator.of(context).pop(
       ActivityItem(
-        id: 'event-${DateTime.now().microsecondsSinceEpoch}',
+        id: ref.read(idGeneratorProvider).next('event'),
         title: title,
         subtitle: activitySubtitle(
           l10n,
           startsAt,
           location.isEmpty ? l10n.commonLocationTbd : location,
+          now,
         ),
         guests: guestsLabel(l10n, 1, going: true, capacity: capacity),
         attendeeCount: 1,

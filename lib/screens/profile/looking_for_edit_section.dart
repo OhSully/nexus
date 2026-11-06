@@ -68,7 +68,7 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
 
     final dates = profile.lookingFor.map((entry) => entry.declaredAt);
     final lastDeclared = dates.isEmpty
-        ? DateTime.now()
+        ? ref.read(clockProvider)()
         : dates.reduce((a, b) => a.isAfter(b) ? a : b);
 
     return AppCard(

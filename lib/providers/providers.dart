@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart' show Locale;
+import 'package:flutter/material.dart' show Locale, ThemeMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/repositories.dart';
@@ -8,6 +8,8 @@ import '../models/people.dart';
 import '../models/audience.dart';
 import '../models/sample_contacts.dart';
 import '../models/user_profile.dart';
+import '../utils/clock.dart';
+import '../utils/id_generator.dart';
 
 /// The user's language override; null follows the device language.
 class LocaleNotifier extends Notifier<Locale?> {
@@ -21,8 +23,61 @@ final localeProvider = NotifierProvider<LocaleNotifier, Locale?>(
   LocaleNotifier.new,
 );
 
+class ThemeModeNotifier extends Notifier<ThemeMode> {
+  @override
+  ThemeMode build() => ThemeMode.system;
+
+  void set(ThemeMode mode) => state = mode;
+}
+
+final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
+  ThemeModeNotifier.new,
+);
+
+enum NotificationKind {
+  messages,
+  connectionRequests,
+  invitations,
+  eventChanges,
+}
+
+/// Which notification kinds the user wants. Stored only; nothing is sent
+/// until push notifications exist.
+class NotificationPrefsNotifier extends Notifier<Set<NotificationKind>> {
+  @override
+  Set<NotificationKind> build() => {...NotificationKind.values};
+
+  void setEnabled(NotificationKind kind, {required bool enabled}) {
+    state = enabled ? {...state, kind} : ({...state}..remove(kind));
+  }
+}
+
+final notificationPrefsProvider =
+    NotifierProvider<NotificationPrefsNotifier, Set<NotificationKind>>(
+      NotificationPrefsNotifier.new,
+    );
+
+/// Audience pre-selected when creating a new activity or event.
+class DefaultAudienceNotifier extends Notifier<Audience> {
+  @override
+  Audience build() => Audience.friends;
+
+  void set(Audience audience) => state = audience;
+}
+
+final defaultAudienceProvider =
+    NotifierProvider<DefaultAudienceNotifier, Audience>(
+      DefaultAudienceNotifier.new,
+    );
+
+/// The app's source of "now". Override in tests for deterministic dates.
+final clockProvider = Provider<Clock>((ref) => systemClock);
+
+/// Source of new activity and event IDs, one instance per app.
+final idGeneratorProvider = Provider<IdGenerator>((ref) => IdGenerator());
+
 final activityRepositoryProvider = Provider<ActivityRepository>(
-  (ref) => InMemoryActivityRepository(),
+  (ref) => InMemoryActivityRepository(clock: ref.read(clockProvider)),
 );
 final groupRepositoryProvider = Provider<GroupRepository>(
   (ref) => InMemoryGroupRepository(),
@@ -248,7 +303,7 @@ final discoverPeopleProvider = Provider<List<DiscoverPerson>>(
 );
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
-  (ref) => InMemoryProfileRepository(),
+  (ref) => InMemoryProfileRepository(clock: ref.read(clockProvider)),
 );
 
 const maxLookingForEntries = 3;
@@ -298,7 +353,7 @@ class ProfileNotifier extends Notifier<UserProfile> {
       state.copyWith(
         lookingFor: [
           ...state.lookingFor,
-          LookingForEntry(text: '', declaredAt: DateTime.now()),
+          LookingForEntry(text: '', declaredAt: ref.read(clockProvider)()),
         ],
       ),
     );
@@ -310,7 +365,9 @@ class ProfileNotifier extends Notifier<UserProfile> {
     if (state.lookingFor.length == 1) {
       _set(
         state.copyWith(
-          lookingFor: [LookingForEntry(text: '', declaredAt: DateTime.now())],
+          lookingFor: [
+            LookingForEntry(text: '', declaredAt: ref.read(clockProvider)()),
+          ],
         ),
       );
       return;
@@ -319,7 +376,7 @@ class ProfileNotifier extends Notifier<UserProfile> {
   }
 
   void redeclareAll() {
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
     _set(
       state.copyWith(
         lookingFor: [

@@ -3,14 +3,46 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:nexus/l10n/app_localizations.dart';
-import 'package:nexus/main.dart';
+import 'package:nexus/main.dart' as app show NexusApp;
 import 'package:nexus/models/activity_item.dart';
 import 'package:nexus/models/audience.dart';
 import 'package:nexus/providers/providers.dart';
 import 'package:nexus/screens/plans_screen.dart';
 import 'package:nexus/screens/profile_screen.dart';
 
+/// Wednesday noon. Every test runs against this instant so results never
+/// depend on the real date or time of day.
+final fixedNow = DateTime(2026, 11, 4, 12);
+
+final _fixedClock = clockProvider.overrideWithValue(() => fixedNow);
+
+/// The real app with the clock pinned to [fixedNow].
+class NexusApp extends StatelessWidget {
+  const NexusApp({super.key});
+
+  @override
+  Widget build(BuildContext context) => app.NexusApp(overrides: [_fixedClock]);
+}
+
 void main() {
+  testWidgets(
+    'Sample activities are scheduled relative to the injected clock',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(const NexusApp());
+
+      // Morning gym session starts one hour before the fixed noon. Times may
+      // use a non-breaking space before AM/PM, so match whitespace loosely.
+      expect(
+        find.textContaining(RegExp(r'^Today · 11:00\s*AM · Riverside Gym$')),
+        findsOneWidget,
+      );
+      expect(
+        find.textContaining(RegExp(r'^Today · 3:00\s*PM · Central Park$')),
+        findsOneWidget,
+      );
+    },
+  );
+
   testWidgets('Nexus app shows the discover screen', (
     WidgetTester tester,
   ) async {
@@ -56,6 +88,30 @@ void main() {
     await tester.tap(find.text('Sunset run'));
     await tester.pumpAndSettle();
     expect(find.text('Happening regardless'), findsOneWidget);
+  });
+
+  testWidgets('Items created under a fixed clock get unique IDs', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const NexusApp());
+
+    for (final title in ['First run', 'Second run']) {
+      await tester.tap(find.byIcon(Icons.add));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('New activity'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).first, title);
+      await tester.ensureVisible(find.text('Create activity'));
+      await tester.tap(find.text('Create activity'));
+      await tester.pumpAndSettle();
+    }
+
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(Scaffold).first),
+    );
+    final ids = container.read(activitiesProvider).map((a) => a.id).toList();
+    expect(ids.toSet().length, ids.length);
+    expect(ids, containsAll(['activity-1', 'activity-2']));
   });
 
   testWidgets('Activity title is required when creating an activity', (
@@ -337,12 +393,6 @@ void main() {
   testWidgets('Plans distinguishes RSVP events from other events', (
     WidgetTester tester,
   ) async {
-    final now = DateTime.now();
-    // Keep both events on today's date regardless of when the test runs:
-    // upcoming before noon, ongoing (started within 2h) after noon.
-    final base = now.hour >= 12
-        ? now.subtract(const Duration(minutes: 60))
-        : now.add(const Duration(minutes: 30));
     final plans = [
       ActivityItem(
         id: 'booked',
@@ -353,7 +403,7 @@ void main() {
         icon: Icons.directions_run,
         color: Colors.blue,
         isGoing: true,
-        startsAt: base,
+        startsAt: fixedNow.add(const Duration(minutes: 30)),
       ),
       ActivityItem(
         id: 'available',
@@ -364,16 +414,19 @@ void main() {
         icon: Icons.coffee,
         color: Colors.brown,
         isGoing: false,
-        startsAt: base.add(const Duration(minutes: 10)),
+        startsAt: fixedNow.add(const Duration(minutes: 60)),
       ),
     ];
 
     await tester.pumpWidget(
-      MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: PlansScreen(plans: plans, onOpenActivity: (_) {}),
+      ProviderScope(
+        overrides: [_fixedClock],
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: PlansScreen(plans: plans, onOpenActivity: (_) {}),
+          ),
         ),
       ),
     );
@@ -453,7 +506,7 @@ void main() {
     await tester.tap(find.byIcon(Icons.edit_outlined));
     await tester.pumpAndSettle();
 
-    final targetDate = DateTime.now().add(const Duration(days: 10));
+    final targetDate = fixedNow.add(const Duration(days: 10));
     final inputDate =
         '${targetDate.month}/${targetDate.day}/${targetDate.year}';
     await tester.enterText(find.byType(TextField).first, inputDate);
