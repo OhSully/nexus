@@ -760,6 +760,93 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get interestCategoryFitness => 'Fitness';
+
+  @override
+  String get interestCategoryCreative => 'Creative';
+
+  @override
+  String get interestCategorySocial => 'Social';
+
+  @override
+  String get interestCategoryOutdoors => 'Outdoors';
+
+  @override
+  String get interestCategoryLearning => 'Learning';
+
+  @override
+  String get interestYoga => 'Yoga';
+
+  @override
+  String get interestRunning => 'Running';
+
+  @override
+  String get interestHiking => 'Hiking';
+
+  @override
+  String get interestCycling => 'Cycling';
+
+  @override
+  String get interestPilates => 'Pilates';
+
+  @override
+  String get interestPhotography => 'Photography';
+
+  @override
+  String get interestCooking => 'Cooking';
+
+  @override
+  String get interestDancing => 'Dancing';
+
+  @override
+  String get interestDrawing => 'Drawing';
+
+  @override
+  String get interestPottery => 'Pottery';
+
+  @override
+  String get interestBoardGames => 'Board games';
+
+  @override
+  String get interestTravel => 'Travel';
+
+  @override
+  String get interestBrunch => 'Brunch';
+
+  @override
+  String get interestVolunteering => 'Volunteering';
+
+  @override
+  String get interestLiveMusic => 'Live music';
+
+  @override
+  String get interestCamping => 'Camping';
+
+  @override
+  String get interestKayaking => 'Kayaking';
+
+  @override
+  String get interestBeachDays => 'Beach days';
+
+  @override
+  String get interestBirdWatching => 'Bird watching';
+
+  @override
+  String get interestGardening => 'Gardening';
+
+  @override
+  String get interestLanguageExchange => 'Language exchange';
+
+  @override
+  String get interestReadingCircles => 'Reading circles';
+
+  @override
+  String get interestCoding => 'Coding';
+
+  @override
+  String get interestWorkshops => 'Workshops';
+
+  @override
   String get signInTagline => 'Plan things with the people you care about.';
 
   @override

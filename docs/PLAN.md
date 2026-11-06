@@ -41,8 +41,10 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
   `Navigator.push`; migrate to routes in Phase 1 with async repositories.
 - Localization (en/fr) via Flutter gen-l10n + ARB files (done: ~185 keys in
   `lib/l10n`, `localeProvider` override, locale-aware dates, en/fr key parity
-  test). Remaining: in-app language setting UI, native French review, a check
-  that catches new hardcoded strings, localizing the interest catalog.
+  test, Settings language switcher, `test/hardcoded_strings_test.dart` guard,
+  localized interest catalog with English keys kept as stored values).
+  Remaining: native French review (Phase 5). Interest keys should become stable
+  IDs when the schema is designed (Phase 1).
 - **Exit**: CI green, app builds for both platforms under the final ID.
 
 ## Phase 1 – Domain & backend design (1 week)
@@ -112,5 +114,5 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - Solo-developer bandwidth: keep phases small and shippable.
 
 ## Next step
-Continue Phase 0: icons/splash, iOS flavors + macOS CI build, then the
-remaining localization items.
+Continue Phase 0: icons/splash, iOS flavors + macOS CI build (then the Phase 0
+exit check).

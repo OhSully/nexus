@@ -791,6 +791,93 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get interestCategoryFitness => 'Forme';
+
+  @override
+  String get interestCategoryCreative => 'Créativité';
+
+  @override
+  String get interestCategorySocial => 'Social';
+
+  @override
+  String get interestCategoryOutdoors => 'Plein air';
+
+  @override
+  String get interestCategoryLearning => 'Apprentissage';
+
+  @override
+  String get interestYoga => 'Yoga';
+
+  @override
+  String get interestRunning => 'Course à pied';
+
+  @override
+  String get interestHiking => 'Randonnée';
+
+  @override
+  String get interestCycling => 'Vélo';
+
+  @override
+  String get interestPilates => 'Pilates';
+
+  @override
+  String get interestPhotography => 'Photographie';
+
+  @override
+  String get interestCooking => 'Cuisine';
+
+  @override
+  String get interestDancing => 'Danse';
+
+  @override
+  String get interestDrawing => 'Dessin';
+
+  @override
+  String get interestPottery => 'Poterie';
+
+  @override
+  String get interestBoardGames => 'Jeux de société';
+
+  @override
+  String get interestTravel => 'Voyage';
+
+  @override
+  String get interestBrunch => 'Brunch';
+
+  @override
+  String get interestVolunteering => 'Bénévolat';
+
+  @override
+  String get interestLiveMusic => 'Musique live';
+
+  @override
+  String get interestCamping => 'Camping';
+
+  @override
+  String get interestKayaking => 'Kayak';
+
+  @override
+  String get interestBeachDays => 'Journées à la plage';
+
+  @override
+  String get interestBirdWatching => 'Observation des oiseaux';
+
+  @override
+  String get interestGardening => 'Jardinage';
+
+  @override
+  String get interestLanguageExchange => 'Échange linguistique';
+
+  @override
+  String get interestReadingCircles => 'Cercles de lecture';
+
+  @override
+  String get interestCoding => 'Programmation';
+
+  @override
+  String get interestWorkshops => 'Ateliers';
+
+  @override
   String get signInTagline =>
       'Organisez des activités avec les gens qui comptent pour vous.';
 

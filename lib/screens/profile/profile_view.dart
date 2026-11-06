@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../models/interest_catalog.dart';
 import '../../models/user_profile.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/section_header.dart';
@@ -229,7 +230,10 @@ class _InterestWrap extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(interest, style: theme.textTheme.labelLarge),
+                    Text(
+                      interestLabel(AppLocalizations.of(context), interest),
+                      style: theme.textTheme.labelLarge,
+                    ),
                     if (note.isNotEmpty) ...[
                       const SizedBox(height: 4),
                       Text(note, style: theme.textTheme.bodySmall),

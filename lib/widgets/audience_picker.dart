@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/audience.dart';
+import '../models/interest_catalog.dart';
 
 class AudiencePicker extends StatelessWidget {
   const AudiencePicker({
@@ -272,6 +273,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
     Set<String> selected, {
     String? emptyText,
     String? hint,
+    String Function(String)? labelOf,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -293,7 +295,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
               children: [
                 for (final option in options)
                   FilterChip(
-                    label: Text(option),
+                    label: Text(labelOf?.call(option) ?? option),
                     selected: selected.contains(option),
                     onSelected: (value) => setState(() {
                       if (value) {
@@ -372,6 +374,7 @@ class _AudienceSheetState extends State<_AudienceSheet> {
                           directory.interests,
                           _draft.interests,
                           hint: l10n.audienceInterestsHint,
+                          labelOf: (i) => interestLabel(l10n, i),
                         ),
                       if (_isCustom) _peopleSection(),
                     ],
