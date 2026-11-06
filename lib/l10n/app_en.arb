@@ -352,5 +352,7 @@
   "audienceReaches": "Reaches {reach, plural, =1{1 friend} other{{reach} friends}}",
   "@audienceReaches": {
     "placeholders": {"reach": {"type": "int"}}
-  }
+  },
+  "signInTagline": "Plan things with the people you care about.",
+  "signInContinue": "Continue"
 }

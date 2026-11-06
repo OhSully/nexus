@@ -789,4 +789,11 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return 'Rejoint $_temp0';
   }
+
+  @override
+  String get signInTagline =>
+      'Organisez des activités avec les gens qui comptent pour vous.';
+
+  @override
+  String get signInContinue => 'Continuer';
 }

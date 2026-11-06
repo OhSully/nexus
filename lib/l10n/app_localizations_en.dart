@@ -758,4 +758,10 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return 'Reaches $_temp0';
   }
+
+  @override
+  String get signInTagline => 'Plan things with the people you care about.';
+
+  @override
+  String get signInContinue => 'Continue';
 }

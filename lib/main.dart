@@ -7,7 +7,7 @@ import 'bootstrap.dart';
 import 'config/app_config.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/providers.dart';
-import 'screens/home_screen.dart';
+import 'router.dart';
 import 'theme/app_theme.dart';
 
 Future<void> main() async {
@@ -34,7 +34,8 @@ class _NexusMaterialApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: ref.watch(routerProvider),
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       theme: buildAppTheme(),
       darkTheme: buildAppTheme(brightness: Brightness.dark),
@@ -47,7 +48,6 @@ class _NexusMaterialApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const HomeScreen(),
     );
   }
 }

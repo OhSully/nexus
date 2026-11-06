@@ -345,5 +345,7 @@
   "audienceReaches": "Rejoint {reach, plural, one{{reach} ami} other{{reach} amis}}",
   "@audienceReaches": {
     "placeholders": {"reach": {"type": "int"}}
-  }
+  },
+  "signInTagline": "Organisez des activités avec les gens qui comptent pour vous.",
+  "signInContinue": "Continuer"
 }

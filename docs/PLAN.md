@@ -34,7 +34,9 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
   SEVERE logs go to Sentry only when `SENTRY_DSN` is set). Remaining: create
   the Sentry project/DSN, add the DSN to CI/release builds, upload symbols,
   and add a user-consent/privacy-policy mention before beta.
-- Introduce routing (e.g. go_router) with auth guard; keep Home swappable.
+- Routing (done: `go_router` in `lib/router.dart`, `authProvider` stub, auth
+  redirect guard, placeholder sign-in screen). Detail/create screens still use
+  `Navigator.push`; migrate to routes in Phase 1 with async repositories.
 - Localization (en/fr) via Flutter gen-l10n + ARB files (done: ~185 keys in
   `lib/l10n`, `localeProvider` override, locale-aware dates, en/fr key parity
   test). Remaining: in-app language setting UI, native French review, a check
@@ -108,4 +110,5 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
 - Solo-developer bandwidth: keep phases small and shippable.
 
 ## Next step
-Continue Phase 0: routing with auth guard, then native flavors, icons/splash.
+Continue Phase 0: native flavors (dev/prod), icons/splash, then the
+remaining localization items.

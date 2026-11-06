@@ -1345,6 +1345,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reaches {reach, plural, =1{1 friend} other{{reach} friends}}'**
   String audienceReaches(int reach);
+
+  /// No description provided for @signInTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan things with the people you care about.'**
+  String get signInTagline;
+
+  /// No description provided for @signInContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get signInContinue;
 }
 
 class _AppLocalizationsDelegate
