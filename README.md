@@ -9,8 +9,14 @@ The Android and iOS apps are configured for portrait orientation.
 
 ```sh
 flutter pub get
-flutter run
+flutter run --flavor dev --dart-define=APP_ENV=dev
 ```
+
+Android has `dev` (`ca.ynexus.nexus.dev`, "Nexus Dev") and `prod`
+(`ca.ynexus.nexus`, "Nexus") flavors, so both install side by side. Android
+flavors require `--flavor`. iOS flavors are not set up yet, so omit
+`--flavor` when running on iOS. Optional `--dart-define=SENTRY_DSN=...` enables
+crash reporting.
 
 Run the checks with:
 
