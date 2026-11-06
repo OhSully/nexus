@@ -27,8 +27,9 @@ rule-based audience queries and costs scale per read). Push uses FCM either way.
   splash done. Dart package renamed to `nexus`.
 - Environment config via `--dart-define` (done: `AppConfig`, `APP_ENV`,
   `SENTRY_DSN`; no secrets in git). Android flavors done (`dev` adds `.dev` app
-  ID and "Nexus Dev" label; minSdk 26 for Sentry). iOS `dev`/`prod` flavors and
-  macOS CI builds for both are configured; CI must pass to verify them.
+  ID and "Nexus Dev" label; minSdk 26 for Sentry). iOS `dev`/`prod` flavors use
+  iOS 15 (required by Sentry); macOS CI builds for both are configured and
+  must pass to verify them.
 - Lint hardening and CI (done: strict analyzer + extra lints, GitHub Actions
   runs format check, analyze, test on PRs/main); branch workflow remains.
 - Error handling/logging convention; crash reporting (Sentry, chosen) (done:

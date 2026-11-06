@@ -17,6 +17,7 @@ Android has `dev` (`ca.ynexus.nexus.dev`, "Nexus Dev") and `prod`
 and iOS use the same flavors; both require `--flavor`. Use `prod` for the
 production bundle ID and app name. Optional `--dart-define=SENTRY_DSN=...`
 enables crash reporting.
+The iOS deployment target is iOS 15, required by the current Sentry SDK.
 
 Run the checks with:
 
