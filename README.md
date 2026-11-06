@@ -25,6 +25,18 @@ flutter analyze
 flutter test
 ```
 
+## App branding
+
+The launcher icon and splash use the same Nexus N design. The square icon is
+`assets/branding/nexus_icon.png`; its transparent foreground, extracted from
+that icon, is `assets/branding/nexus_icon_foreground.png`. After updating the
+icon and its transparent foreground, regenerate the platform assets with:
+
+```sh
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
+```
+
 The app currently uses sample and in-memory data. Activities, profile edits,
 connection requests, and messages are not synchronized to a backend or saved
 between app launches.

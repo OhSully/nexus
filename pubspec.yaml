@@ -52,6 +52,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -95,3 +97,21 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/branding/nexus_icon.png
+  remove_alpha_ios: true
+  adaptive_icon_background: "#3949AB"
+  adaptive_icon_foreground: assets/branding/nexus_icon_foreground.png
+
+flutter_native_splash:
+  color: "#3949AB"
+  image: assets/branding/nexus_icon_foreground.png
+  android_gravity: center
+  ios_content_mode: center
+  fullscreen: false
+  android_12:
+    color: "#3949AB"
+    image: assets/branding/nexus_icon_foreground.png
