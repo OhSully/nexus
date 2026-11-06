@@ -90,6 +90,30 @@ void main() {
     expect(find.text('Happening regardless'), findsOneWidget);
   });
 
+  testWidgets('Items created under a fixed clock get unique IDs', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const NexusApp());
+
+    for (final title in ['First run', 'Second run']) {
+      await tester.tap(find.byIcon(Icons.add));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('New activity'));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).first, title);
+      await tester.ensureVisible(find.text('Create activity'));
+      await tester.tap(find.text('Create activity'));
+      await tester.pumpAndSettle();
+    }
+
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(Scaffold).first),
+    );
+    final ids = container.read(activitiesProvider).map((a) => a.id).toList();
+    expect(ids.toSet().length, ids.length);
+    expect(ids, containsAll(['activity-1', 'activity-2']));
+  });
+
   testWidgets('Activity title is required when creating an activity', (
     WidgetTester tester,
   ) async {

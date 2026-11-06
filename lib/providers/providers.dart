@@ -9,6 +9,7 @@ import '../models/audience.dart';
 import '../models/sample_contacts.dart';
 import '../models/user_profile.dart';
 import '../utils/clock.dart';
+import '../utils/id_generator.dart';
 
 /// The user's language override; null follows the device language.
 class LocaleNotifier extends Notifier<Locale?> {
@@ -71,6 +72,9 @@ final defaultAudienceProvider =
 
 /// The app's source of "now". Override in tests for deterministic dates.
 final clockProvider = Provider<Clock>((ref) => systemClock);
+
+/// Source of new activity and event IDs, one instance per app.
+final idGeneratorProvider = Provider<IdGenerator>((ref) => IdGenerator());
 
 final activityRepositoryProvider = Provider<ActivityRepository>(
   (ref) => InMemoryActivityRepository(clock: ref.read(clockProvider)),

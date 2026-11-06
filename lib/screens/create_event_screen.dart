@@ -99,7 +99,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     final now = ref.read(clockProvider)();
     Navigator.of(context).pop(
       ActivityItem(
-        id: 'event-${now.microsecondsSinceEpoch}',
+        id: ref.read(idGeneratorProvider).next('event'),
         title: title,
         subtitle: activitySubtitle(
           l10n,
