@@ -27,6 +27,79 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navProfile => 'Profile';
 
   @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsTooltip => 'Settings';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get settingsLanguageSystem => 'System default';
+
+  @override
+  String get settingsLanguageSystemSubtitle => 'Follow your device language';
+
+  @override
+  String get settingsAppearance => 'Appearance';
+
+  @override
+  String get settingsThemeSystem => 'System';
+
+  @override
+  String get settingsThemeLight => 'Light';
+
+  @override
+  String get settingsThemeDark => 'Dark';
+
+  @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsNotificationsNote =>
+      'Notifications aren\'t active yet. Your choices will apply once they are.';
+
+  @override
+  String get settingsNotifMessages => 'Messages';
+
+  @override
+  String get settingsNotifRequests => 'Connection requests';
+
+  @override
+  String get settingsNotifInvitations => 'Invitations';
+
+  @override
+  String get settingsNotifEventChanges => 'Event changes';
+
+  @override
+  String get settingsPrivacy => 'Privacy';
+
+  @override
+  String get settingsDefaultAudience =>
+      'Default audience for new activities and events';
+
+  @override
+  String get settingsDefaultAudienceHelp =>
+      'You can still change the audience each time you create one.';
+
+  @override
+  String get settingsAccount => 'Account';
+
+  @override
+  String get settingsExportData => 'Export my data';
+
+  @override
+  String get settingsDeleteAccount => 'Delete account';
+
+  @override
+  String get settingsUnavailableYet =>
+      'Not available yet. This will arrive with accounts.';
+
+  @override
+  String get settingsAbout => 'About Nexus';
+
+  @override
   String get commonYou => 'You';
 
   @override

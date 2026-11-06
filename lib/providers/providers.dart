@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart' show Locale;
+import 'package:flutter/material.dart' show Locale, ThemeMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/repositories.dart';
@@ -20,6 +20,53 @@ class LocaleNotifier extends Notifier<Locale?> {
 final localeProvider = NotifierProvider<LocaleNotifier, Locale?>(
   LocaleNotifier.new,
 );
+
+class ThemeModeNotifier extends Notifier<ThemeMode> {
+  @override
+  ThemeMode build() => ThemeMode.system;
+
+  void set(ThemeMode mode) => state = mode;
+}
+
+final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
+  ThemeModeNotifier.new,
+);
+
+enum NotificationKind {
+  messages,
+  connectionRequests,
+  invitations,
+  eventChanges,
+}
+
+/// Which notification kinds the user wants. Stored only; nothing is sent
+/// until push notifications exist.
+class NotificationPrefsNotifier extends Notifier<Set<NotificationKind>> {
+  @override
+  Set<NotificationKind> build() => {...NotificationKind.values};
+
+  void setEnabled(NotificationKind kind, {required bool enabled}) {
+    state = enabled ? {...state, kind} : ({...state}..remove(kind));
+  }
+}
+
+final notificationPrefsProvider =
+    NotifierProvider<NotificationPrefsNotifier, Set<NotificationKind>>(
+      NotificationPrefsNotifier.new,
+    );
+
+/// Audience pre-selected when creating a new activity or event.
+class DefaultAudienceNotifier extends Notifier<Audience> {
+  @override
+  Audience build() => Audience.friends;
+
+  void set(Audience audience) => state = audience;
+}
+
+final defaultAudienceProvider =
+    NotifierProvider<DefaultAudienceNotifier, Audience>(
+      DefaultAudienceNotifier.new,
+    );
 
 final activityRepositoryProvider = Provider<ActivityRepository>(
   (ref) => InMemoryActivityRepository(),

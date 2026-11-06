@@ -11,7 +11,11 @@ abstract final class AppColors {
   static const event = Color(0xFF7C3AED);
 }
 
-ThemeData buildAppTheme() => ThemeData(
-  colorScheme: ColorScheme.fromSeed(seedColor: AppColors.brand),
-  useMaterial3: true,
-);
+ThemeData buildAppTheme({Brightness brightness = Brightness.light}) =>
+    ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.brand,
+        brightness: brightness,
+      ),
+      useMaterial3: true,
+    );

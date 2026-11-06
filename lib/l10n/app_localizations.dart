@@ -134,6 +134,144 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get navProfile;
 
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTooltip;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsLanguageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get settingsLanguageSystem;
+
+  /// No description provided for @settingsLanguageSystemSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow your device language'**
+  String get settingsLanguageSystemSubtitle;
+
+  /// No description provided for @settingsAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearance;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settingsThemeSystem;
+
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsNotificationsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications aren\'t active yet. Your choices will apply once they are.'**
+  String get settingsNotificationsNote;
+
+  /// No description provided for @settingsNotifMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get settingsNotifMessages;
+
+  /// No description provided for @settingsNotifRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection requests'**
+  String get settingsNotifRequests;
+
+  /// No description provided for @settingsNotifInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitations'**
+  String get settingsNotifInvitations;
+
+  /// No description provided for @settingsNotifEventChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Event changes'**
+  String get settingsNotifEventChanges;
+
+  /// No description provided for @settingsPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get settingsPrivacy;
+
+  /// No description provided for @settingsDefaultAudience.
+  ///
+  /// In en, this message translates to:
+  /// **'Default audience for new activities and events'**
+  String get settingsDefaultAudience;
+
+  /// No description provided for @settingsDefaultAudienceHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'You can still change the audience each time you create one.'**
+  String get settingsDefaultAudienceHelp;
+
+  /// No description provided for @settingsAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settingsAccount;
+
+  /// No description provided for @settingsExportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my data'**
+  String get settingsExportData;
+
+  /// No description provided for @settingsDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get settingsDeleteAccount;
+
+  /// No description provided for @settingsUnavailableYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available yet. This will arrive with accounts.'**
+  String get settingsUnavailableYet;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About Nexus'**
+  String get settingsAbout;
+
   /// No description provided for @commonYou.
   ///
   /// In en, this message translates to:
