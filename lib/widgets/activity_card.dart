@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
+import '../providers/providers.dart';
 import '../utils/activity_format.dart';
 
-class ActivityCard extends StatelessWidget {
+class ActivityCard extends ConsumerWidget {
   const ActivityCard({
     super.key,
     required this.item,
@@ -17,7 +19,7 @@ class ActivityCard extends StatelessWidget {
   final bool showAttendanceStatus;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final isAttending = showAttendanceStatus && item.isGoing;
     final colorScheme = Theme.of(context).colorScheme;
@@ -64,7 +66,7 @@ class ActivityCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(itemSubtitle(l10n, item)),
+                    Text(itemSubtitle(l10n, item, ref.read(clockProvider)())),
                     const SizedBox(height: 12),
                     Text(
                       itemGuests(l10n, item),

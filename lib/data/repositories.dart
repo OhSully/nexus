@@ -1,6 +1,7 @@
 import '../models/activity_item.dart';
 import '../models/sample_contacts.dart';
 import '../models/user_profile.dart';
+import '../utils/clock.dart';
 import 'sample_data.dart';
 
 /// Storage boundary for activities and events. Swap the in-memory
@@ -29,11 +30,12 @@ abstract class ProfileRepository {
 }
 
 class InMemoryProfileRepository implements ProfileRepository {
-  InMemoryProfileRepository([
+  InMemoryProfileRepository({
     UserProfile? seed,
     Map<String, UserProfile>? others,
-  ]) : _profile = seed ?? buildSampleProfile(),
-       _others = others ?? buildSampleOtherProfiles();
+    Clock clock = systemClock,
+  }) : _profile = seed ?? buildSampleProfile(clock()),
+       _others = others ?? buildSampleOtherProfiles(clock());
 
   UserProfile _profile;
   final Map<String, UserProfile> _others;
@@ -50,8 +52,10 @@ class InMemoryProfileRepository implements ProfileRepository {
 }
 
 class InMemoryActivityRepository implements ActivityRepository {
-  InMemoryActivityRepository([List<ActivityItem>? seed])
-    : _items = seed ?? buildSampleActivities();
+  InMemoryActivityRepository({
+    List<ActivityItem>? seed,
+    Clock clock = systemClock,
+  }) : _items = seed ?? buildSampleActivities(clock());
 
   List<ActivityItem> _items;
 

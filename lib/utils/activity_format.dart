@@ -14,8 +14,8 @@ String activitySubtitle(
   AppLocalizations l10n,
   DateTime startsAt,
   String location,
+  DateTime now,
 ) {
-  final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
   final eventDay = DateTime(startsAt.year, startsAt.month, startsAt.day);
   final dayDifference = eventDay.difference(today).inDays;
@@ -42,13 +42,14 @@ String guestsLabel(
 }
 
 /// Subtitle shown for [item], localized when its start time is known.
-String itemSubtitle(AppLocalizations l10n, ActivityItem item) {
+String itemSubtitle(AppLocalizations l10n, ActivityItem item, DateTime now) {
   final startsAt = item.startsAt;
   if (startsAt == null) return item.subtitle;
   return activitySubtitle(
     l10n,
     startsAt,
     item.location.isEmpty ? l10n.commonLocationTbd : item.location,
+    now,
   );
 }
 

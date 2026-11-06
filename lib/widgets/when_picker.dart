@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
+import '../providers/providers.dart';
 
-class WhenPicker extends StatelessWidget {
+class WhenPicker extends ConsumerWidget {
   const WhenPicker({
     super.key,
     required this.date,
@@ -25,8 +27,7 @@ class WhenPicker extends StatelessWidget {
   static DateTime combine(DateTime date, TimeOfDay time) =>
       DateTime(date.year, date.month, date.day, time.hour, time.minute);
 
-  Future<void> _pickDate(BuildContext context) async {
-    final today = DateTime.now();
+  Future<void> _pickDate(BuildContext context, DateTime today) async {
     final picked = await showDatePicker(
       context: context,
       initialDate: date,
@@ -50,7 +51,7 @@ class WhenPicker extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final localizations = MaterialLocalizations.of(context);
     final l10n = AppLocalizations.of(context);
 
@@ -64,7 +65,7 @@ class WhenPicker extends StatelessWidget {
             ActionChip(
               avatar: const Icon(Icons.calendar_today_outlined, size: 18),
               label: Text(localizations.formatMediumDate(date)),
-              onPressed: () => _pickDate(context),
+              onPressed: () => _pickDate(context, ref.read(clockProvider)()),
             ),
             ActionChip(
               avatar: const Icon(Icons.schedule, size: 18),

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/activity_item.dart';
+import '../providers/providers.dart';
 import '../theme/app_theme.dart';
 import '../widgets/activity_card.dart';
 import '../widgets/plans_widgets.dart';
 import '../widgets/section_header.dart';
 
-class PlansScreen extends StatefulWidget {
+class PlansScreen extends ConsumerStatefulWidget {
   const PlansScreen({
     super.key,
     required this.plans,
@@ -18,20 +20,23 @@ class PlansScreen extends StatefulWidget {
   final ValueChanged<ActivityItem> onOpenActivity;
 
   @override
-  State<PlansScreen> createState() => _PlansScreenState();
+  ConsumerState<PlansScreen> createState() => _PlansScreenState();
 }
 
-class _PlansScreenState extends State<PlansScreen> {
-  DateTime _selectedDate = DateTime.now();
+class _PlansScreenState extends ConsumerState<PlansScreen> {
+  late DateTime _selectedDate;
   PlansFilter _selectedFilter = PlansFilter.all;
   static const int _pageOffset = 4000;
   static const int _pageCount = 8001;
 
   late final PageController _weekPageController;
 
+  DateTime get _now => ref.read(clockProvider)();
+
   @override
   void initState() {
     super.initState();
+    _selectedDate = _now;
     _weekPageController = PageController(initialPage: _pageOffset);
   }
 
@@ -51,7 +56,7 @@ class _PlansScreenState extends State<PlansScreen> {
   }
 
   DateTime _weekStartForPage(int pageIndex) {
-    final reference = _startOfWeek(DateTime.now());
+    final reference = _startOfWeek(_now);
     return reference.add(Duration(days: (pageIndex - _pageOffset) * 7));
   }
 
@@ -60,7 +65,7 @@ class _PlansScreenState extends State<PlansScreen> {
   }
 
   bool _isOngoing(ActivityItem item) {
-    final now = DateTime.now();
+    final now = _now;
     final startsAt = item.startsAt;
     final endsAt = item.endsAt ?? startsAt?.add(const Duration(hours: 2));
     if (startsAt == null) {
@@ -73,7 +78,7 @@ class _PlansScreenState extends State<PlansScreen> {
   }
 
   List<ActivityItem> _eventsForDay(DateTime day) {
-    final now = DateTime.now();
+    final now = _now;
 
     final events = widget.plans.where((plan) {
       if (plan.startsAt == null) {
@@ -116,8 +121,8 @@ class _PlansScreenState extends State<PlansScreen> {
       if (aOngoing != bOngoing) {
         return aOngoing ? -1 : 1;
       }
-      final aTime = a.startsAt ?? DateTime.now();
-      final bTime = b.startsAt ?? DateTime.now();
+      final aTime = a.startsAt ?? now;
+      final bTime = b.startsAt ?? now;
       return aTime.compareTo(bTime);
     });
 
@@ -167,10 +172,7 @@ class _PlansScreenState extends State<PlansScreen> {
 
     if (picked != null && mounted) {
       final weekOffset =
-          _startOfWeek(
-            picked,
-          ).difference(_startOfWeek(DateTime.now())).inDays ~/
-          7;
+          _startOfWeek(picked).difference(_startOfWeek(_now)).inDays ~/ 7;
       final pageIndex = _pageOffset + weekOffset;
       final targetPage = pageIndex < 0
           ? 0

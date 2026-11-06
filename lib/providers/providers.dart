@@ -8,6 +8,7 @@ import '../models/people.dart';
 import '../models/audience.dart';
 import '../models/sample_contacts.dart';
 import '../models/user_profile.dart';
+import '../utils/clock.dart';
 
 /// The user's language override; null follows the device language.
 class LocaleNotifier extends Notifier<Locale?> {
@@ -68,8 +69,11 @@ final defaultAudienceProvider =
       DefaultAudienceNotifier.new,
     );
 
+/// The app's source of "now". Override in tests for deterministic dates.
+final clockProvider = Provider<Clock>((ref) => systemClock);
+
 final activityRepositoryProvider = Provider<ActivityRepository>(
-  (ref) => InMemoryActivityRepository(),
+  (ref) => InMemoryActivityRepository(clock: ref.read(clockProvider)),
 );
 final groupRepositoryProvider = Provider<GroupRepository>(
   (ref) => InMemoryGroupRepository(),
@@ -295,7 +299,7 @@ final discoverPeopleProvider = Provider<List<DiscoverPerson>>(
 );
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
-  (ref) => InMemoryProfileRepository(),
+  (ref) => InMemoryProfileRepository(clock: ref.read(clockProvider)),
 );
 
 const maxLookingForEntries = 3;
@@ -345,7 +349,7 @@ class ProfileNotifier extends Notifier<UserProfile> {
       state.copyWith(
         lookingFor: [
           ...state.lookingFor,
-          LookingForEntry(text: '', declaredAt: DateTime.now()),
+          LookingForEntry(text: '', declaredAt: ref.read(clockProvider)()),
         ],
       ),
     );
@@ -357,7 +361,9 @@ class ProfileNotifier extends Notifier<UserProfile> {
     if (state.lookingFor.length == 1) {
       _set(
         state.copyWith(
-          lookingFor: [LookingForEntry(text: '', declaredAt: DateTime.now())],
+          lookingFor: [
+            LookingForEntry(text: '', declaredAt: ref.read(clockProvider)()),
+          ],
         ),
       );
       return;
@@ -366,7 +372,7 @@ class ProfileNotifier extends Notifier<UserProfile> {
   }
 
   void redeclareAll() {
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
     _set(
       state.copyWith(
         lookingFor: [

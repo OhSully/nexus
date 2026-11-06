@@ -43,7 +43,7 @@ class _CreateActivityScreenState extends ConsumerState<CreateActivityScreen> {
   void initState() {
     super.initState();
     _audience = ref.read(defaultAudienceProvider);
-    final now = DateTime.now();
+    final now = ref.read(clockProvider)();
     _date = DateTime(now.year, now.month, now.day);
     final startHour = (now.hour + 1).clamp(0, 23);
     _start = TimeOfDay(hour: startHour, minute: 0);
@@ -77,14 +77,16 @@ class _CreateActivityScreenState extends ConsumerState<CreateActivityScreen> {
     }
 
     final location = _locationController.text.trim();
+    final now = ref.read(clockProvider)();
     Navigator.of(context).pop(
       ActivityItem(
-        id: 'activity-${DateTime.now().microsecondsSinceEpoch}',
+        id: 'activity-${now.microsecondsSinceEpoch}',
         title: title,
         subtitle: activitySubtitle(
           l10n,
           startsAt,
           location.isEmpty ? l10n.commonLocationTbd : location,
+          now,
         ),
         guests: guestsLabel(l10n, 1, going: true),
         attendeeCount: 1,
