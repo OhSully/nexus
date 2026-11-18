@@ -6,8 +6,9 @@ import '../../providers/providers.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/audience_picker.dart';
 import '../../widgets/section_header.dart';
+import 'beacon_refresh_control.dart';
 
-/// Editable "Looking For" card for the current user.
+/// Editable beacons card for the current user.
 class LookingForEditSection extends ConsumerStatefulWidget {
   const LookingForEditSection({super.key});
 
@@ -29,6 +30,11 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
     }
     while (_controllers.length > count) {
       _controllers.removeLast().dispose();
+    }
+    for (var i = 0; i < count; i++) {
+      if (_controllers[i].text != texts[i]) {
+        _controllers[i].text = texts[i];
+      }
     }
   }
 
@@ -66,11 +72,6 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
       profile.lookingFor.map((e) => e.text).toList(),
     );
 
-    final dates = profile.lookingFor.map((entry) => entry.declaredAt);
-    final lastDeclared = dates.isEmpty
-        ? ref.read(clockProvider)()
-        : dates.reduce((a, b) => a.isAfter(b) ? a : b);
-
     return AppCard(
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -87,82 +88,70 @@ class _LookingForEditSectionState extends ConsumerState<LookingForEditSection> {
           ),
           const SizedBox(height: 6),
           ...List.generate(_controllers.length, (index) {
+            final entry = profile.lookingFor[index];
+            int currentIndex() => ref
+                .read(profileProvider)
+                .lookingFor
+                .indexWhere((item) => identical(item, entry));
             return Padding(
               padding: const EdgeInsets.only(bottom: 6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _controllers[index],
-                          maxLength: 80,
-                          maxLines: 1,
-                          minLines: 1,
-                          decoration: InputDecoration(
-                            hintText: hints[index.clamp(0, hints.length - 1)],
-                            filled: true,
-                            fillColor: theme.colorScheme.surfaceContainerHighest
-                                .withValues(alpha: 0.35),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 10,
-                            ),
-                          ),
-                          onChanged: (text) =>
-                              _notifier.setLookingForText(index, text),
+                  Expanded(
+                    child: TextField(
+                      controller: _controllers[index],
+                      maxLength: 80,
+                      maxLines: 1,
+                      minLines: 1,
+                      decoration: InputDecoration(
+                        hintText: hints[index.clamp(0, hints.length - 1)],
+                        counterText: '',
+                        filled: true,
+                        fillColor: theme.colorScheme.surfaceContainerHighest
+                            .withValues(alpha: 0.35),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: () => _remove(index),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6),
-                          child: Icon(
-                            Icons.close,
-                            size: 18,
-                            color: theme.colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.7),
-                          ),
-                        ),
-                      ),
-                    ],
+                      onChanged: (text) =>
+                          _notifier.setLookingForText(index, text),
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4, bottom: 8),
-                    child: AudiencePicker(
-                      audience: profile.lookingFor[index].audience,
-                      directory: directory,
-                      onChanged: (value) =>
-                          _notifier.setLookingForAudience(index, value),
+                  AudiencePicker(
+                    compact: true,
+                    audience: entry.audience,
+                    directory: directory,
+                    onChanged: (value) =>
+                        _notifier.setLookingForAudience(currentIndex(), value),
+                  ),
+                  BeaconRefreshControl(
+                    entry: entry,
+                    onRefresh: (duration) => _notifier.refreshBeacon(
+                      currentIndex(),
+                      duration: duration,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => _remove(index),
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Icon(
+                        Icons.close,
+                        size: 18,
+                        color: theme.colorScheme.onSurfaceVariant.withValues(
+                          alpha: 0.7,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             );
           }),
-          Row(
-            children: [
-              Icon(Icons.sync, size: 14, color: theme.colorScheme.primary),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  l10n.lookingForLastDeclared(lastDeclared),
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: _notifier.redeclareAll,
-                child: Text(l10n.lookingForRedeclare),
-              ),
-            ],
-          ),
         ],
       ),
     );

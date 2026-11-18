@@ -1,15 +1,56 @@
 import 'audience.dart';
 
+enum BeaconDuration {
+  today,
+  oneDay,
+  sevenDays,
+  thirtyDays;
+
+  DateTime expiryFrom(DateTime now) {
+    if (this == today) {
+      final local = now.toLocal();
+      return DateTime(local.year, local.month, local.day + 1);
+    }
+    return now.add(
+      Duration(
+        days: switch (this) {
+          today => 0,
+          oneDay => 1,
+          sevenDays => 7,
+          thirtyDays => 30,
+        },
+      ),
+    );
+  }
+}
+
 class LookingForEntry {
   const LookingForEntry({
     required this.text,
     required this.declaredAt,
-    this.audience = Audience.friends,
+    this.audience = Audience.empty,
+    this.duration = BeaconDuration.sevenDays,
   });
 
   final String text;
   final DateTime declaredAt;
   final Audience audience;
+  final BeaconDuration duration;
+
+  DateTime get expiresAt => duration.expiryFrom(declaredAt);
+  bool isExpired(DateTime now) => !expiresAt.isAfter(now);
+
+  LookingForEntry copyWith({
+    String? text,
+    DateTime? declaredAt,
+    Audience? audience,
+    BeaconDuration? duration,
+  }) => LookingForEntry(
+    text: text ?? this.text,
+    declaredAt: declaredAt ?? this.declaredAt,
+    audience: audience ?? this.audience,
+    duration: duration ?? this.duration,
+  );
 }
 
 class UserProfile {

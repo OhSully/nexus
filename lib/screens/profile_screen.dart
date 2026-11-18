@@ -46,6 +46,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   void _toggleAvatar() =>
       setState(() => _avatarLabel = _avatarLabel == 'A' ? 'M' : 'A');
 
+  void _addFirstBeacon() {
+    if (ref.read(profileProvider).lookingFor.isEmpty) {
+      ref.read(profileProvider.notifier).addLookingFor();
+    }
+    setState(() => _isViewingProfile = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final profile = widget.isCurrentUser
@@ -83,6 +90,36 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       displayName: widget.displayName,
                       avatarLabel: _avatarLabel,
                       isCurrentUser: widget.isCurrentUser,
+                      directory: ref.watch(audienceDirectoryProvider),
+                      onAudienceChanged: widget.isCurrentUser
+                          ? (entry, audience) => ref
+                                .read(profileProvider.notifier)
+                                .setLookingForAudience(
+                                  ref
+                                      .read(profileProvider)
+                                      .lookingFor
+                                      .indexWhere(
+                                        (item) => identical(item, entry),
+                                      ),
+                                  audience,
+                                )
+                          : null,
+                      onBeaconRefresh: widget.isCurrentUser
+                          ? (entry, duration) => ref
+                                .read(profileProvider.notifier)
+                                .refreshBeacon(
+                                  ref
+                                      .read(profileProvider)
+                                      .lookingFor
+                                      .indexWhere(
+                                        (item) => identical(item, entry),
+                                      ),
+                                  duration: duration,
+                                )
+                          : null,
+                      onAddBeacon: widget.isCurrentUser
+                          ? _addFirstBeacon
+                          : null,
                       toggle: toggle,
                     )
                   : Column(

@@ -267,7 +267,16 @@
   "profileMutualConnections": "Mutual connections",
   "profilePastEvents": "Past Events",
   "profileUpcoming": "Upcoming",
-  "profileLookingFor": "Looking For",
+  "profileLookingFor": "Beacons",
+  "profileAddBeacon": "Light a beacon",
+  "beaconRefresh": "Refresh beacon. Hold and slide to choose duration.",
+  "beaconDurationDays": "Duration (days)",
+  "beaconDurationHint": "Choose how long to keep this beacon active.",
+  "beaconUntilMidnight": "Until midnight today",
+  "beaconDurationOption": "{count, plural, =1{1 day} other{{count} days}}",
+  "@beaconDurationOption": {"placeholders": {"count": {"type": "int"}}},
+  "beaconTimeLeft": "{days} days remaining",
+  "@beaconTimeLeft": {"placeholders": {"days": {"type": "String"}}},
   "profileInterests": "Interests",
   "profileDeclared": "Declared {date}",
   "@profileDeclared": {
@@ -297,6 +306,37 @@
 
   "audienceTypePublic": "Public",
   "audienceTypeFriends": "Friends",
+  "audienceTypeConnections": "Connections",
+  "audienceTypeEvents": "Events",
+  "audienceChoosePeople": "Choose people",
+  "audienceFilters": "Filters",
+  "audienceConnectionsOnly": "Connections only",
+  "audienceAllPeople": "All people",
+  "audienceNoAccount": "No account",
+  "audienceHiddenSelections": "{count, plural, =1{1 selected person is hidden by filters} other{{count} selected people are hidden by filters}}",
+  "@audienceHiddenSelections": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "audienceFiltersHint": "People must match all selected filters",
+  "audienceActiveFilters": "{count, plural, =1{1 filter active} other{{count} filters active}} · People must match all selected filters",
+  "@audienceActiveFilters": {"placeholders": {"count": {"type": "int"}}},
+  "audienceClearFilters": "Reset filters",
+  "audienceFilterInterests": "Interests",
+  "audienceReplacePublic": "Saving replaces public visibility with the selected people.",
+  "audienceSourceHint": "Choosing a group or event adds its people. Removing it from the filter does not remove them.",
+  "audienceSearchSources": "Search filters",
+  "audienceShowAllSources": "Search all",
+  "audienceShowLess": "Show less",
+  "audienceInterestFilter": "Filter people by interest",
+  "audienceAllInterests": "All interests",
+  "audienceSelectAll": "Select all",
+  "audienceDeselectAll": "Deselect all",
+  "audienceSelectedPeople": "Selected people ({count})",
+  "@audienceSelectedPeople": {"placeholders": {"count": {"type": "int"}}},
+  "audienceRemovePerson": "Remove {person}",
+  "@audienceRemovePerson": {"placeholders": {"person": {"type": "String"}}},
   "audienceTypeGroups": "Groups",
   "audienceTypePastAttendees": "Past attendees",
   "audienceTypeInterests": "Shared interests",
@@ -324,7 +364,7 @@
       "count": {"type": "int"}
     }
   },
-  "audienceSummaryWithReach": "{summary} · {reach, plural, =1{1 friend} other{{reach} friends}}",
+  "audienceSummaryWithReach": "{summary} · {reach, plural, =0{0 people} =1{1 person} other{{reach} people}}",
   "@audienceSummaryWithReach": {
     "placeholders": {
       "summary": {"type": "String"},
@@ -347,10 +387,10 @@
   "audienceCustomHint": "People must match every filter in a set; sets are combined.",
   "audienceGroupsTitle": "Groups",
   "audienceNoGroups": "No groups yet. Create one from the People tab.",
-  "audiencePastEventsTitle": "Attendees of past events",
+  "audiencePastEventsTitle": "Past events",
   "audienceInterestsTitle": "Friends with interests",
   "audienceInterestsHint": "Friends who share any of these.",
-  "audienceReaches": "Reaches {reach, plural, =1{1 friend} other{{reach} friends}}",
+  "audienceReaches": "Reaches {reach, plural, =0{0 people} =1{1 person} other{{reach} people}}",
   "@audienceReaches": {
     "placeholders": {"reach": {"type": "int"}}
   },

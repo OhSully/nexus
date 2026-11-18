@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../models/interest_catalog.dart';
+import '../../models/audience.dart';
 import '../../models/user_profile.dart';
 import '../../widgets/app_card.dart';
+import '../../widgets/audience_picker.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/user_avatar.dart';
 import 'profile_header.dart';
+import 'beacon_refresh_control.dart';
 
-/// Read-only profile: header, "Looking For" and interests.
+/// Read-only profile: header, beacons and interests.
 class ProfileView extends StatelessWidget {
   const ProfileView({
     super.key,
@@ -16,6 +19,10 @@ class ProfileView extends StatelessWidget {
     required this.displayName,
     required this.avatarLabel,
     required this.isCurrentUser,
+    required this.directory,
+    required this.onAudienceChanged,
+    required this.onBeaconRefresh,
+    required this.onAddBeacon,
     required this.toggle,
   });
 
@@ -23,15 +30,19 @@ class ProfileView extends StatelessWidget {
   final String displayName;
   final String avatarLabel;
   final bool isCurrentUser;
+  final AudienceDirectory directory;
+  final void Function(LookingForEntry, Audience)? onAudienceChanged;
+  final void Function(LookingForEntry, BeaconDuration?)? onBeaconRefresh;
+  final VoidCallback? onAddBeacon;
   final Widget toggle;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final lookingFor = profile.lookingFor
-        .where((entry) => entry.text.trim().isNotEmpty)
-        .toList();
+    final lookingFor = profile.lookingFor.indexed.where(
+      (item) => item.$2.text.trim().isNotEmpty,
+    );
     final interests = profile.selectedInterests.toList();
 
     return Column(
@@ -104,17 +115,31 @@ class ProfileView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        if (lookingFor.isNotEmpty)
+        if (isCurrentUser || lookingFor.isNotEmpty)
           AppCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SectionHeader(l10n.profileLookingFor),
                 const SizedBox(height: 10),
-                ...lookingFor.map(
-                  (entry) =>
-                      _LookingForRow(entry: entry, showAudience: isCurrentUser),
-                ),
+                if (lookingFor.isEmpty && onAddBeacon != null)
+                  OutlinedButton.icon(
+                    key: const Key('add-first-beacon'),
+                    onPressed: onAddBeacon,
+                    icon: const Icon(Icons.add),
+                    label: Text(l10n.profileAddBeacon),
+                  ),
+                for (final (_, entry) in lookingFor)
+                  _LookingForRow(
+                    entry: entry,
+                    directory: directory,
+                    onAudienceChanged: onAudienceChanged == null
+                        ? null
+                        : (audience) => onAudienceChanged!(entry, audience),
+                    onRefresh: onBeaconRefresh == null
+                        ? null
+                        : (duration) => onBeaconRefresh!(entry, duration),
+                  ),
               ],
             ),
           ),
@@ -137,51 +162,44 @@ class ProfileView extends StatelessWidget {
 }
 
 class _LookingForRow extends StatelessWidget {
-  const _LookingForRow({required this.entry, required this.showAudience});
+  const _LookingForRow({
+    required this.entry,
+    required this.directory,
+    required this.onAudienceChanged,
+    required this.onRefresh,
+  });
 
   final LookingForEntry entry;
-  final bool showAudience;
+  final AudienceDirectory directory;
+  final ValueChanged<Audience>? onAudienceChanged;
+  final ValueChanged<BeaconDuration?>? onRefresh;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context);
-    final date = entry.declaredAt;
-    final audience = entry.audience;
-    final audienceLabel = audience.type.needsSelection
-        ? audience.summary(l10n)
-        : audience.type.label(l10n);
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(entry.text.trim(), style: theme.textTheme.bodyMedium),
-          const SizedBox(height: 2),
-          Text(
-            l10n.profileDeclared(date),
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.primary,
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  entry.text.trim(),
+                  style: theme.textTheme.bodyMedium,
+                ),
+              ),
+              if (onAudienceChanged != null)
+                AudiencePicker(
+                  compact: true,
+                  audience: entry.audience,
+                  directory: directory,
+                  onChanged: onAudienceChanged!,
+                ),
+              BeaconRefreshControl(entry: entry, onRefresh: onRefresh),
+            ],
           ),
-          if (showAudience)
-            Row(
-              children: [
-                Icon(
-                  Icons.visibility_outlined,
-                  size: 14,
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Text(
-                    l10n.activityDetailVisibleTo(audienceLabel),
-                    style: theme.textTheme.bodySmall,
-                  ),
-                ),
-              ],
-            ),
         ],
       ),
     );

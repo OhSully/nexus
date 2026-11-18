@@ -10,12 +10,14 @@ class UserAvatar extends StatelessWidget {
     this.radius = 24,
     this.backgroundColor = AppColors.brand,
     this.foregroundColor = Colors.white,
+    this.image,
   });
 
   final String label;
   final double radius;
   final Color backgroundColor;
   final Color foregroundColor;
+  final ImageProvider<Object>? image;
 
   /// Avatar tinted with the theme's primary container color.
   factory UserAvatar.tonal(
@@ -23,6 +25,7 @@ class UserAvatar extends StatelessWidget {
     Key? key,
     required String label,
     double radius = 24,
+    ImageProvider<Object>? image,
   }) {
     final scheme = Theme.of(context).colorScheme;
     return UserAvatar(
@@ -31,6 +34,7 @@ class UserAvatar extends StatelessWidget {
       radius: radius,
       backgroundColor: scheme.primaryContainer,
       foregroundColor: scheme.onPrimaryContainer,
+      image: image,
     );
   }
 
@@ -39,6 +43,7 @@ class UserAvatar extends StatelessWidget {
     return CircleAvatar(
       radius: radius,
       backgroundColor: backgroundColor,
+      foregroundImage: image,
       child: Text(
         label,
         style: TextStyle(

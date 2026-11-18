@@ -260,7 +260,16 @@
   "profileMutualConnections": "Contacts en commun",
   "profilePastEvents": "Événements passés",
   "profileUpcoming": "À venir",
-  "profileLookingFor": "Je cherche",
+  "profileLookingFor": "Balises",
+  "profileAddBeacon": "Allumer une balise",
+  "beaconRefresh": "Actualiser la balise. Maintenir et glisser pour choisir la durée.",
+  "beaconDurationDays": "Durée (jours)",
+  "beaconDurationHint": "Choisis combien de temps garder cette balise active.",
+  "beaconUntilMidnight": "Jusqu’à minuit aujourd’hui",
+  "beaconDurationOption": "{count, plural, =1{1 jour} other{{count} jours}}",
+  "@beaconDurationOption": {"placeholders": {"count": {"type": "int"}}},
+  "beaconTimeLeft": "{days} jours restants",
+  "@beaconTimeLeft": {"placeholders": {"days": {"type": "String"}}},
   "profileInterests": "Intérêts",
   "profileDeclared": "Déclaré le {date}",
   "@profileDeclared": {
@@ -290,6 +299,37 @@
 
   "audienceTypePublic": "Public",
   "audienceTypeFriends": "Amis",
+  "audienceTypeConnections": "Contacts",
+  "audienceTypeEvents": "Événements",
+  "audienceChoosePeople": "Choisir les personnes",
+  "audienceFilters": "Filtres",
+  "audienceConnectionsOnly": "Connexions seulement",
+  "audienceAllPeople": "Toutes les personnes",
+  "audienceNoAccount": "Sans compte",
+  "audienceHiddenSelections": "{count, plural, =1{1 personne sélectionnée est masquée par les filtres} other{{count} personnes sélectionnées sont masquées par les filtres}}",
+  "@audienceHiddenSelections": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "audienceFiltersHint": "Les personnes doivent correspondre à tous les filtres sélectionnés",
+  "audienceActiveFilters": "{count, plural, =1{1 filtre actif} other{{count} filtres actifs}} · Les personnes doivent correspondre à tous les filtres sélectionnés",
+  "@audienceActiveFilters": {"placeholders": {"count": {"type": "int"}}},
+  "audienceClearFilters": "Réinitialiser les filtres",
+  "audienceFilterInterests": "Intérêts",
+  "audienceReplacePublic": "En enregistrant, la visibilité publique sera remplacée par les personnes sélectionnées.",
+  "audienceSourceHint": "Choisir un groupe ou un événement ajoute ses personnes. Le retirer du filtre ne les retire pas.",
+  "audienceSearchSources": "Rechercher des filtres",
+  "audienceShowAllSources": "Tout rechercher",
+  "audienceShowLess": "Afficher moins",
+  "audienceInterestFilter": "Filtrer par intérêt",
+  "audienceAllInterests": "Tous les intérêts",
+  "audienceSelectAll": "Tout sélectionner",
+  "audienceDeselectAll": "Tout désélectionner",
+  "audienceSelectedPeople": "Personnes sélectionnées ({count})",
+  "@audienceSelectedPeople": {"placeholders": {"count": {"type": "int"}}},
+  "audienceRemovePerson": "Retirer {person}",
+  "@audienceRemovePerson": {"placeholders": {"person": {"type": "String"}}},
   "audienceTypeGroups": "Groupes",
   "audienceTypePastAttendees": "Participants passés",
   "audienceTypeInterests": "Intérêts communs",
@@ -317,7 +357,7 @@
       "count": {"type": "int"}
     }
   },
-  "audienceSummaryWithReach": "{summary} · {reach, plural, one{{reach} ami} other{{reach} amis}}",
+  "audienceSummaryWithReach": "{summary} · {reach, plural, =0{0 personnes} =1{1 personne} other{{reach} personnes}}",
   "@audienceSummaryWithReach": {
     "placeholders": {
       "summary": {"type": "String"},
@@ -340,10 +380,10 @@
   "audienceCustomHint": "Les personnes doivent correspondre à tous les filtres d’un ensemble; les ensembles sont combinés.",
   "audienceGroupsTitle": "Groupes",
   "audienceNoGroups": "Aucun groupe pour l’instant. Crées-en un depuis l’onglet Contacts.",
-  "audiencePastEventsTitle": "Participants à des événements passés",
+  "audiencePastEventsTitle": "Événements passés",
   "audienceInterestsTitle": "Amis ayant des intérêts",
   "audienceInterestsHint": "Amis qui partagent l’un de ces intérêts.",
-  "audienceReaches": "Rejoint {reach, plural, one{{reach} ami} other{{reach} amis}}",
+  "audienceReaches": "Rejoint {reach, plural, =0{0 personnes} =1{1 personne} other{{reach} personnes}}",
   "@audienceReaches": {
     "placeholders": {"reach": {"type": "int"}}
   },

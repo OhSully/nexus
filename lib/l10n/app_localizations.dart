@@ -1067,8 +1067,50 @@ abstract class AppLocalizations {
   /// No description provided for @profileLookingFor.
   ///
   /// In en, this message translates to:
-  /// **'Looking For'**
+  /// **'Beacons'**
   String get profileLookingFor;
+
+  /// No description provided for @profileAddBeacon.
+  ///
+  /// In en, this message translates to:
+  /// **'Light a beacon'**
+  String get profileAddBeacon;
+
+  /// No description provided for @beaconRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh beacon. Hold and slide to choose duration.'**
+  String get beaconRefresh;
+
+  /// No description provided for @beaconDurationDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration (days)'**
+  String get beaconDurationDays;
+
+  /// No description provided for @beaconDurationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how long to keep this beacon active.'**
+  String get beaconDurationHint;
+
+  /// No description provided for @beaconUntilMidnight.
+  ///
+  /// In en, this message translates to:
+  /// **'Until midnight today'**
+  String get beaconUntilMidnight;
+
+  /// No description provided for @beaconDurationOption.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String beaconDurationOption(int count);
+
+  /// No description provided for @beaconTimeLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days remaining'**
+  String beaconTimeLeft(String days);
 
   /// No description provided for @profileInterests.
   ///
@@ -1172,6 +1214,144 @@ abstract class AppLocalizations {
   /// **'Friends'**
   String get audienceTypeFriends;
 
+  /// No description provided for @audienceTypeConnections.
+  ///
+  /// In en, this message translates to:
+  /// **'Connections'**
+  String get audienceTypeConnections;
+
+  /// No description provided for @audienceTypeEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get audienceTypeEvents;
+
+  /// No description provided for @audienceChoosePeople.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose people'**
+  String get audienceChoosePeople;
+
+  /// No description provided for @audienceFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get audienceFilters;
+
+  /// No description provided for @audienceConnectionsOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Connections only'**
+  String get audienceConnectionsOnly;
+
+  /// No description provided for @audienceAllPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'All people'**
+  String get audienceAllPeople;
+
+  /// No description provided for @audienceNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'No account'**
+  String get audienceNoAccount;
+
+  /// No description provided for @audienceHiddenSelections.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 selected person is hidden by filters} other{{count} selected people are hidden by filters}}'**
+  String audienceHiddenSelections(int count);
+
+  /// No description provided for @audienceFiltersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'People must match all selected filters'**
+  String get audienceFiltersHint;
+
+  /// No description provided for @audienceActiveFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 filter active} other{{count} filters active}} · People must match all selected filters'**
+  String audienceActiveFilters(int count);
+
+  /// No description provided for @audienceClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset filters'**
+  String get audienceClearFilters;
+
+  /// No description provided for @audienceFilterInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'Interests'**
+  String get audienceFilterInterests;
+
+  /// No description provided for @audienceReplacePublic.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving replaces public visibility with the selected people.'**
+  String get audienceReplacePublic;
+
+  /// No description provided for @audienceSourceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choosing a group or event adds its people. Removing it from the filter does not remove them.'**
+  String get audienceSourceHint;
+
+  /// No description provided for @audienceSearchSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Search filters'**
+  String get audienceSearchSources;
+
+  /// No description provided for @audienceShowAllSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Search all'**
+  String get audienceShowAllSources;
+
+  /// No description provided for @audienceShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get audienceShowLess;
+
+  /// No description provided for @audienceInterestFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter people by interest'**
+  String get audienceInterestFilter;
+
+  /// No description provided for @audienceAllInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'All interests'**
+  String get audienceAllInterests;
+
+  /// No description provided for @audienceSelectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get audienceSelectAll;
+
+  /// No description provided for @audienceDeselectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Deselect all'**
+  String get audienceDeselectAll;
+
+  /// No description provided for @audienceSelectedPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected people ({count})'**
+  String audienceSelectedPeople(int count);
+
+  /// No description provided for @audienceRemovePerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {person}'**
+  String audienceRemovePerson(String person);
+
   /// No description provided for @audienceTypeGroups.
   ///
   /// In en, this message translates to:
@@ -1247,7 +1427,7 @@ abstract class AppLocalizations {
   /// No description provided for @audienceSummaryWithReach.
   ///
   /// In en, this message translates to:
-  /// **'{summary} · {reach, plural, =1{1 friend} other{{reach} friends}}'**
+  /// **'{summary} · {reach, plural, =0{0 people} =1{1 person} other{{reach} people}}'**
   String audienceSummaryWithReach(String summary, int reach);
 
   /// No description provided for @audiencePickerTitle.
@@ -1331,7 +1511,7 @@ abstract class AppLocalizations {
   /// No description provided for @audiencePastEventsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Attendees of past events'**
+  /// **'Past events'**
   String get audiencePastEventsTitle;
 
   /// No description provided for @audienceInterestsTitle.
@@ -1349,7 +1529,7 @@ abstract class AppLocalizations {
   /// No description provided for @audienceReaches.
   ///
   /// In en, this message translates to:
-  /// **'Reaches {reach, plural, =1{1 friend} other{{reach} friends}}'**
+  /// **'Reaches {reach, plural, =0{0 people} =1{1 person} other{{reach} people}}'**
   String audienceReaches(int reach);
 
   /// No description provided for @interestCategoryFitness.

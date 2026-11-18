@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
-import '../models/audience.dart';
 import '../providers/providers.dart';
 
 /// App settings. Values live in providers and are not persisted yet.
@@ -23,7 +22,6 @@ class SettingsScreen extends ConsumerWidget {
     final notifier = ref.read(localeProvider.notifier);
     final themeMode = ref.watch(themeModeProvider);
     final enabledNotifs = ref.watch(notificationPrefsProvider);
-    final defaultAudience = ref.watch(defaultAudienceProvider);
 
     void showUnavailable() {
       ScaffoldMessenger.of(
@@ -97,36 +95,6 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(),
           _SectionTitle(l10n.settingsPrivacy),
           _Hint(l10n.settingsCrashReportingNote),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(l10n.settingsDefaultAudience),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SegmentedButton<AudienceType>(
-              key: const ValueKey('default-audience'),
-              segments: [
-                ButtonSegment(
-                  value: AudienceType.friends,
-                  label: Text(AudienceType.friends.label(l10n)),
-                ),
-                ButtonSegment(
-                  value: AudienceType.public,
-                  label: Text(AudienceType.public.label(l10n)),
-                ),
-              ],
-              selected: {defaultAudience.type},
-              onSelectionChanged: (s) => ref
-                  .read(defaultAudienceProvider.notifier)
-                  .set(
-                    s.first == AudienceType.public
-                        ? Audience.public
-                        : Audience.friends,
-                  ),
-            ),
-          ),
-          _Hint(l10n.settingsDefaultAudienceHelp),
           const Divider(),
           _SectionTitle(l10n.settingsAccount),
           ListTile(
