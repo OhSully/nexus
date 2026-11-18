@@ -62,13 +62,20 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 - Edit/cancel notifies attendees.
 
 ### 5.3 Audience & visibility (prototype exists)
-- Audience types: Public, Friends, Groups, Past attendees, Friends with
-  interests, Custom (rules: categories intersected, choices unioned, explicit
-  people included). Resolve inclusion/exclusion precedence before implementing
-  the full audience model.
-- Applies to activities/events and to profile "looking for" entries.
-- Access follows current audience membership. The server must enforce who can
-  see/join; clients never receive hidden items.
+- New activities, events and beacons begin with no recipients. Groups, past
+  events and interests filter a common list of people; filters intersect and do
+  not change the selection. Select all and deselect all apply only to the
+  filtered list. Connections-only is enabled whenever the picker opens and can
+  be turned off to include other attendees. Hidden selections are retained and
+  counted. Saving with no recipients is allowed.
+- The prototype shows person cards with available avatar data and a fallback for
+  explicitly identified non-account attendees. Profile flair, account linking,
+  and delivery/access for non-account attendees are future work; names in the
+  in-memory audience do not grant actual access.
+- The recipient list is a snapshot: later group membership, attendance or
+  interest changes do not automatically change access. The server must enforce
+  access and clients must never receive hidden items. Existing prototype sample
+  content may still use the old public/friends labels.
 
 ### 5.4 People & groups (prototype exists)
 - Connections (request/accept/remove), updates feed, discovering people,
@@ -85,8 +92,15 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
   after beta.
 
 ### 5.6 Profile (prototype exists)
-- Bio, interests (catalog + custom, with notes), "looking for" entries with
+- Bio, interests (catalog + custom, with notes), beacons with
   audience, avatar. Visibility enforced per viewer.
+- The owner's profile retains a beacons section when none are active, with an
+  action to create one.
+- Each beacon expires and is automatically deleted. Its default duration is
+  seven days; refreshing resets the expiry from now using the selected
+  duration. Hold the refresh icon and slide to end of the current local day,
+  1, 7 or 30 days; releasing over an option immediately refreshes the beacon.
+  Releasing elsewhere cancels the selection.
 
 ### 5.7 Discover & plans (prototype exists)
 - Discover: browse relevant public/visible activities (search, filters,
@@ -206,8 +220,7 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 6. Who translates/reviews French copy (Canadian French, not machine-only)?
 7. Initial alpha/beta cohort caps and backend usage/cost alert thresholds.
 8. Supported jurisdictions and implementation of the age-of-majority gate.
-9. Custom audience inclusion/exclusion precedence, shared-space blocking, and
-   linked-event capacity and RSVP edge cases.
+9. Shared-space blocking and linked-event capacity and RSVP edge cases.
 10. Free SMTP provider, beta backup/restore and recovery expectations, and
     the path to broader iOS testing when funding is available.
 
@@ -228,9 +241,11 @@ sample data behind repository interfaces (`lib/data/repositories.dart`).
 | 2026-11-06 | Rollout: optional invite-only alpha before an invite-only private beta; expand in capped cohorts. |
 | 2026-11-06 | Pre-alpha: real backend email/password test accounts, profiles and a shared activity on one device, using synthetic data. |
 | 2026-11-06 | Beta signup: server-enforced approved-email allowlist. |
-| 2026-11-06 | Audience membership is dynamic; blocking hides users mutually and prevents direct contact. |
+| 2026-11-06 | Audience membership is dynamic (superseded below); blocking hides users mutually and prevents direct contact. |
 | 2026-11-06 | Linked-event enrollment is chosen by the activity host; require event capacity for linked activity RSVPs and preserve independent event RSVPs on unlink. |
 | 2026-11-06 | Adults only, based on the user's jurisdiction's age of majority; supersedes the earlier 16+ decision. |
 | 2026-11-06 | Defer end-to-end chat encryption until after beta. Anonymization target applies to crash diagnostics, not operational user data. |
 | 2026-11-06 | Zero total spending for pre-alpha and beta; Android direct-install and limited personal-device iOS testing replace paid store beta distribution for now. |
 | 2026-11-06 | Defer Sentry project setup until before beta; Canadian-hosted crash reporting is a future goal. |
+| 2026-11-17 | Sharing uses explicitly selected people, initially none. Groups and events help select people but do not grant access dynamically. |
+| 2026-11-17 | Rename "looking for" entries to beacons. Audience filters intersect and do not select people automatically. |

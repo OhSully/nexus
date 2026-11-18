@@ -97,7 +97,7 @@ on the same device; it is not a local identity simulation.
      session behavior. Record device/platform, build, steps, and results.
 
 Pre-alpha does not require social sign-in, general self-service registration,
-full custom audiences, RSVP, chat, notifications, Sentry, or store
+the full person-based sharing model, RSVP, chat, notifications, Sentry, or store
 distribution. Do not expose unfinished screens as working features or invite
 external users with real data before the relevant beta gates.
 
@@ -115,10 +115,10 @@ external users with real data before the relevant beta gates.
 - Replace the former 16+ target with an adults-only age-of-majority gate for
   the user's jurisdiction. Define supported jurisdictions, self-declaration,
   data retention, and legal review before enabling real signups.
-- Define dynamic audiences, explicit inclusion/exclusion precedence, and
-  mutual blocks across discovery, shared spaces, direct contact, and
-  notifications. Specify revocation and cached data behavior.
-- Implement profile, interests, and looking-for entries with stable IDs,
+- Implement person-based sharing with stable user IDs and server-enforced
+  recipient snapshots. Define mutual blocks across discovery, shared spaces,
+  direct contact, and notifications; specify revocation and cached data behavior.
+- Implement profile, interests, and beacons with stable IDs,
   proper viewer-specific access, and persisted settings.
 - Separate UI-only model fields from persisted data, replace prototype
   visibility strings with the agreed audience model, and migrate sample
@@ -188,7 +188,7 @@ external users with real data before the relevant beta gates.
 
 ## Risks and open decisions
 
-- Privacy rules, linked enrollment, and shared-space blocking need precise
+- Privacy enforcement, linked enrollment, and shared-space blocking need precise
   edge-case decisions before their respective implementations.
 - Resolve linked-event enrollment with existing attendees beyond capacity,
   independent RSVPs, activity departures, event changes, concurrency, and

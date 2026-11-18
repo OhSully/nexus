@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' show Locale, ThemeMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,7 +62,7 @@ final notificationPrefsProvider =
 /// Audience pre-selected when creating a new activity or event.
 class DefaultAudienceNotifier extends Notifier<Audience> {
   @override
-  Audience build() => Audience.friends;
+  Audience build() => Audience.empty;
 
   void set(Audience audience) => state = audience;
 }
@@ -257,8 +259,29 @@ final groupsProvider =
 
 /// Derived from groups, so audience pickers always see current groups.
 final audienceDirectoryProvider = Provider<AudienceDirectory>(
-  (ref) => AudienceDirectory(groups: ref.watch(groupsProvider)),
+  (ref) => AudienceDirectory(
+    groups: ref.watch(groupsProvider),
+    personDetails: sampleAudiencePersonDetails,
+  ),
 );
+
+class AudienceGroupUsageNotifier extends Notifier<Map<String, int>> {
+  @override
+  Map<String, int> build() => {};
+
+  void record(Iterable<String> groups) {
+    final next = {...state};
+    for (final group in groups) {
+      next[group] = (next[group] ?? 0) + 1;
+    }
+    state = next;
+  }
+}
+
+final audienceGroupUsageProvider =
+    NotifierProvider<AudienceGroupUsageNotifier, Map<String, int>>(
+      AudienceGroupUsageNotifier.new,
+    );
 
 class ChatsNotifier extends Notifier<List<ChatSummary>> {
   @override
@@ -309,12 +332,47 @@ final profileRepositoryProvider = Provider<ProfileRepository>(
 const maxLookingForEntries = 3;
 
 class ProfileNotifier extends Notifier<UserProfile> {
+  Timer? _expiryTimer;
+
   @override
-  UserProfile build() => ref.read(profileRepositoryProvider).load();
+  UserProfile build() {
+    ref.onDispose(() => _expiryTimer?.cancel());
+    final loaded = ref.read(profileRepositoryProvider).load();
+    final now = ref.read(clockProvider)();
+    final active = loaded.lookingFor.where((e) => !e.isExpired(now)).toList();
+    final profile = loaded.copyWith(lookingFor: active);
+    if (active.length != loaded.lookingFor.length) {
+      ref.read(profileRepositoryProvider).save(profile);
+    }
+    _scheduleExpiry(profile);
+    return profile;
+  }
+
+  void _scheduleExpiry(UserProfile profile) {
+    _expiryTimer?.cancel();
+    if (profile.lookingFor.isEmpty) return;
+    final now = ref.read(clockProvider)();
+    final next = profile.lookingFor
+        .map((entry) => entry.expiresAt)
+        .reduce((a, b) => a.isBefore(b) ? a : b);
+    final delay = next.difference(now);
+    _expiryTimer = Timer(delay.isNegative ? Duration.zero : delay, () {
+      final currentTime = ref.read(clockProvider)();
+      final active = state.lookingFor
+          .where((entry) => !entry.isExpired(currentTime))
+          .toList();
+      if (active.length != state.lookingFor.length) {
+        _set(state.copyWith(lookingFor: active));
+      } else {
+        _scheduleExpiry(state);
+      }
+    });
+  }
 
   void _set(UserProfile profile) {
     state = profile;
     ref.read(profileRepositoryProvider).save(profile);
+    _scheduleExpiry(profile);
   }
 
   void setBio(String bio) => _set(state.copyWith(bio: bio));
@@ -329,23 +387,11 @@ class ProfileNotifier extends Notifier<UserProfile> {
     _set(state.copyWith(lookingFor: next));
   }
 
-  void setLookingForText(int index, String text) => _updateEntry(
-    index,
-    (e) => LookingForEntry(
-      text: text,
-      declaredAt: e.declaredAt,
-      audience: e.audience,
-    ),
-  );
+  void setLookingForText(int index, String text) =>
+      _updateEntry(index, (e) => e.copyWith(text: text));
 
-  void setLookingForAudience(int index, Audience audience) => _updateEntry(
-    index,
-    (e) => LookingForEntry(
-      text: e.text,
-      declaredAt: e.declaredAt,
-      audience: audience,
-    ),
-  );
+  void setLookingForAudience(int index, Audience audience) =>
+      _updateEntry(index, (e) => e.copyWith(audience: audience));
 
   void addLookingFor() {
     if (state.lookingFor.length >= maxLookingForEntries) return;
@@ -375,21 +421,13 @@ class ProfileNotifier extends Notifier<UserProfile> {
     _set(state.copyWith(lookingFor: [...state.lookingFor]..removeAt(index)));
   }
 
-  void redeclareAll() {
-    final now = ref.read(clockProvider)();
-    _set(
-      state.copyWith(
-        lookingFor: [
-          for (final e in state.lookingFor)
-            LookingForEntry(
-              text: e.text,
-              declaredAt: now,
-              audience: e.audience,
-            ),
-        ],
-      ),
-    );
-  }
+  void refreshBeacon(int index, {BeaconDuration? duration}) => _updateEntry(
+    index,
+    (entry) => entry.copyWith(
+      declaredAt: ref.read(clockProvider)(),
+      duration: duration,
+    ),
+  );
 
   void toggleInterest(String interest, {required bool isPredefined}) {
     final name = interest.trim();
@@ -423,15 +461,32 @@ final profileProvider = NotifierProvider<ProfileNotifier, UserProfile>(
   ProfileNotifier.new,
 );
 
-/// Another person's profile with only the "Looking For" items the current
-/// user is allowed to see.
+/// Another person's profile with only active beacons the current user can see.
 final otherProfileProvider = Provider.family<UserProfile, String>((ref, name) {
   final profile = ref.watch(profileRepositoryProvider).loadFor(name);
   final directory = ref.watch(audienceDirectoryProvider);
+  final now = ref.watch(beaconClockProvider);
   return profile.copyWith(
     lookingFor: [
       for (final entry in profile.lookingFor)
-        if (entry.audience.isVisibleTo(currentUserName, directory)) entry,
+        if (!entry.isExpired(now) &&
+            entry.audience.isVisibleTo(currentUserName, directory))
+          entry,
     ],
   );
 });
+
+class BeaconClockNotifier extends Notifier<DateTime> {
+  @override
+  DateTime build() {
+    final timer = Timer.periodic(const Duration(minutes: 1), (_) {
+      state = ref.read(clockProvider)();
+    });
+    ref.onDispose(timer.cancel);
+    return ref.read(clockProvider)();
+  }
+}
+
+final beaconClockProvider = NotifierProvider<BeaconClockNotifier, DateTime>(
+  BeaconClockNotifier.new,
+);

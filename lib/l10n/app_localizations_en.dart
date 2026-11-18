@@ -573,7 +573,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileUpcoming => 'Upcoming';
 
   @override
-  String get profileLookingFor => 'Looking For';
+  String get profileLookingFor => 'Beacons';
+
+  @override
+  String get profileAddBeacon => 'Light a beacon';
+
+  @override
+  String get beaconRefresh =>
+      'Refresh beacon. Hold and slide to choose duration.';
+
+  @override
+  String get beaconDurationDays => 'Duration (days)';
+
+  @override
+  String get beaconDurationHint =>
+      'Choose how long to keep this beacon active.';
+
+  @override
+  String get beaconUntilMidnight => 'Until midnight today';
+
+  @override
+  String beaconDurationOption(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String beaconTimeLeft(String days) {
+    return '$days days remaining';
+  }
 
   @override
   String get profileInterests => 'Interests';
@@ -644,6 +677,97 @@ class AppLocalizationsEn extends AppLocalizations {
   String get audienceTypeFriends => 'Friends';
 
   @override
+  String get audienceTypeConnections => 'Connections';
+
+  @override
+  String get audienceTypeEvents => 'Events';
+
+  @override
+  String get audienceChoosePeople => 'Choose people';
+
+  @override
+  String get audienceFilters => 'Filters';
+
+  @override
+  String get audienceConnectionsOnly => 'Connections only';
+
+  @override
+  String get audienceAllPeople => 'All people';
+
+  @override
+  String get audienceNoAccount => 'No account';
+
+  @override
+  String audienceHiddenSelections(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count selected people are hidden by filters',
+      one: '1 selected person is hidden by filters',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get audienceFiltersHint => 'People must match all selected filters';
+
+  @override
+  String audienceActiveFilters(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count filters active',
+      one: '1 filter active',
+    );
+    return '$_temp0 · People must match all selected filters';
+  }
+
+  @override
+  String get audienceClearFilters => 'Reset filters';
+
+  @override
+  String get audienceFilterInterests => 'Interests';
+
+  @override
+  String get audienceReplacePublic =>
+      'Saving replaces public visibility with the selected people.';
+
+  @override
+  String get audienceSourceHint =>
+      'Choosing a group or event adds its people. Removing it from the filter does not remove them.';
+
+  @override
+  String get audienceSearchSources => 'Search filters';
+
+  @override
+  String get audienceShowAllSources => 'Search all';
+
+  @override
+  String get audienceShowLess => 'Show less';
+
+  @override
+  String get audienceInterestFilter => 'Filter people by interest';
+
+  @override
+  String get audienceAllInterests => 'All interests';
+
+  @override
+  String get audienceSelectAll => 'Select all';
+
+  @override
+  String get audienceDeselectAll => 'Deselect all';
+
+  @override
+  String audienceSelectedPeople(int count) {
+    return 'Selected people ($count)';
+  }
+
+  @override
+  String audienceRemovePerson(String person) {
+    return 'Remove $person';
+  }
+
+  @override
   String get audienceTypeGroups => 'Groups';
 
   @override
@@ -692,8 +816,9 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       reach,
       locale: localeName,
-      other: '$reach friends',
-      one: '1 friend',
+      other: '$reach people',
+      one: '1 person',
+      zero: '0 people',
     );
     return '$summary · $_temp0';
   }
@@ -744,7 +869,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'No groups yet. Create one from the People tab.';
 
   @override
-  String get audiencePastEventsTitle => 'Attendees of past events';
+  String get audiencePastEventsTitle => 'Past events';
 
   @override
   String get audienceInterestsTitle => 'Friends with interests';
@@ -757,8 +882,9 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       reach,
       locale: localeName,
-      other: '$reach friends',
-      one: '1 friend',
+      other: '$reach people',
+      one: '1 person',
+      zero: '0 people',
     );
     return 'Reaches $_temp0';
   }

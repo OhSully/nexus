@@ -7,6 +7,19 @@ import 'package:nexus/models/audience.dart';
 import 'package:nexus/providers/providers.dart';
 
 void main() {
+  test(
+    'sample audience directory includes non-connection attendee details',
+    () {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      final directory = container.read(audienceDirectoryProvider);
+      expect(directory.pastEventAttendees['City Run'], contains('Alex Morgan'));
+      expect(directory.friends, isNot(contains('Alex Morgan')));
+      expect(directory.personDetails['Alex Morgan']!.hasAccount, isFalse);
+      expect(directory.personDetails['Taylor Chen']!.hasAccount, isTrue);
+    },
+  );
+
   test('audience visibility checks the viewer against the audience', () {
     const directory = AudienceDirectory(
       groups: {
@@ -16,9 +29,17 @@ void main() {
     expect(Audience.public.isVisibleTo('Anyone', directory), isTrue);
     expect(Audience.friends.isVisibleTo('Maya Patel', directory), isTrue);
     expect(Audience.friends.isVisibleTo('Stranger', directory), isFalse);
-    const crew = Audience(AudienceType.groups, groups: ['Crew']);
+    const crew = Audience(AudienceType.connections, people: ['Maya Patel']);
     expect(crew.isVisibleTo('Maya Patel', directory), isTrue);
     expect(crew.isVisibleTo('Jordan Lee', directory), isFalse);
+    const changedDirectory = AudienceDirectory(
+      groups: {
+        'Crew': ['Jordan Lee'],
+      },
+    );
+    expect(crew.isVisibleTo('Maya Patel', changedDirectory), isTrue);
+    expect(crew.isVisibleTo('Jordan Lee', changedDirectory), isFalse);
+    expect(Audience.empty.resolve(directory), isEmpty);
   });
 
   test('another profile only lists looking-for items the viewer can see', () {
@@ -41,10 +62,13 @@ void main() {
     notifier.addLookingFor();
     expect(container.read(profileProvider).lookingFor.length, 3);
 
-    notifier.setLookingForAudience(0, Audience.public);
+    notifier.setLookingForAudience(
+      0,
+      const Audience(AudienceType.events, people: ['Maya Patel']),
+    );
     expect(
       container.read(profileProvider).lookingFor.first.audience.type,
-      AudienceType.public,
+      AudienceType.events,
     );
 
     notifier.toggleInterest('Surfing', isPredefined: false);

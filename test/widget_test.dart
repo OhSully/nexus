@@ -741,7 +741,7 @@ void main() {
     await tester.tap(find.byIcon(Icons.edit_outlined));
     await tester.pumpAndSettle();
 
-    expect(find.text('Looking For'), findsOneWidget);
+    expect(find.text('Beacons'), findsOneWidget);
     expect(find.text('Add more'), findsOneWidget);
 
     await tester.tap(find.text('Add more'));
@@ -789,7 +789,7 @@ void main() {
       expect(find.text('Connections'), findsOneWidget);
       expect(find.text('Past Events'), findsOneWidget);
       expect(find.text('Upcoming'), findsOneWidget);
-      expect(find.text('Looking For'), findsAtLeastNWidgets(1));
+      expect(find.text('Beacons'), findsAtLeastNWidgets(1));
       expect(
         find.textContaining('Coffee and a walk after work'),
         findsOneWidget,
@@ -798,8 +798,8 @@ void main() {
       await tester.tap(find.byIcon(Icons.edit_outlined));
       await tester.pumpAndSettle();
 
-      expect(find.text('Looking For'), findsOneWidget);
-      expect(find.text('Redeclare'), findsAtLeastNWidgets(1));
+      expect(find.text('Beacons'), findsOneWidget);
+      expect(find.byKey(const Key('refresh-beacon')), findsNWidgets(2));
     },
   );
 
@@ -810,12 +810,41 @@ void main() {
     await tester.tap(find.text('Profile'));
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('Visible to:'), findsNWidgets(2));
+    final viewPickers = find.byKey(const Key('open-audience-picker'));
+    expect(viewPickers, findsNWidgets(2));
+    expect(
+      tester.getCenter(viewPickers.first).dy,
+      closeTo(
+        tester.getCenter(find.text('Coffee and a walk after work')).dy,
+        1,
+      ),
+    );
 
     await tester.tap(find.byIcon(Icons.edit_outlined));
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Public').first);
-    await tester.tap(find.text('Public').first);
+    await tester.ensureVisible(
+      find.byKey(const Key('open-audience-picker')).first,
+    );
+    final editPicker = find.byKey(const Key('open-audience-picker')).first;
+    final beaconField = find.widgetWithText(
+      TextField,
+      'Coffee and a walk after work',
+    );
+    expect(
+      tester.getCenter(editPicker).dy,
+      closeTo(tester.getCenter(beaconField).dy, 1),
+    );
+    expect(
+      tester.widget<IconButton>(editPicker).tooltip,
+      contains('Who can see this'),
+    );
+    await tester.tap(find.byKey(const Key('open-audience-picker')).first);
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(const ValueKey('audience-person-Sofia Nguyen')),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Done'));
     await tester.pumpAndSettle();
 
     final container = ProviderScope.containerOf(
@@ -823,9 +852,58 @@ void main() {
     );
     expect(
       container.read(profileProvider).lookingFor.first.audience.type,
-      AudienceType.public,
+      AudienceType.connections,
     );
   });
+
+  testWidgets(
+    'Beacon audience can be edited in profile view on a narrow phone',
+    (WidgetTester tester) async {
+      await tester.binding.setSurfaceSize(const Size(320, 700));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(const NexusApp());
+      await tester.tap(find.text('Profile'));
+      await tester.pumpAndSettle();
+
+      final picker = find.byKey(const Key('open-audience-picker')).first;
+      await tester.ensureVisible(picker);
+      await tester.tap(picker);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('audience-select-all')));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(
+        find.byKey(const ValueKey('audience-person-Sofia Nguyen')),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(
+        find.byKey(const ValueKey('audience-person-Sofia Nguyen')),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Done'));
+      await tester.pumpAndSettle();
+
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(Scaffold).first),
+      );
+      expect(container.read(profileProvider).lookingFor.first.audience.people, [
+        'Sofia Nguyen',
+      ]);
+      expect(
+        tester.widget<IconButton>(picker).tooltip,
+        contains('Sofia Nguyen'),
+      );
+
+      await tester.ensureVisible(find.byIcon(Icons.edit_outlined));
+      await tester.tap(find.byIcon(Icons.edit_outlined));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      final beaconField = find.widgetWithText(
+        TextField,
+        'Coffee and a walk after work',
+      );
+      expect(beaconField, findsOneWidget);
+    },
+  );
 
   testWidgets('Another person profile hides looking-for items not shared', (
     WidgetTester tester,
@@ -895,8 +973,8 @@ void main() {
     await tester.tap(find.byIcon(Icons.edit_outlined));
     await tester.pumpAndSettle();
 
-    expect(find.text('Looking For'), findsOneWidget);
-    expect(find.text('Redeclare'), findsAtLeastNWidgets(1));
+    expect(find.text('Beacons'), findsOneWidget);
+    expect(find.byKey(const Key('refresh-beacon')), findsAtLeastNWidgets(1));
 
     await tester.enterText(
       find.byType(TextField).at(1),
@@ -1035,58 +1113,7 @@ void main() {
     expect(find.text('Invite sent'), findsOneWidget);
   });
 
-  testWidgets('Custom audience intersects filters, ORs sets, and excludes', (
-    WidgetTester tester,
-  ) async {
-    await tester.binding.setSurfaceSize(const Size(800, 1400));
-    addTearDown(() => tester.binding.setSurfaceSize(null));
-    await tester.pumpWidget(const NexusApp());
-
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('New event'));
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Custom'));
-    await tester.tap(find.text('Custom'));
-    await tester.pumpAndSettle();
-
-    String reach() =>
-        tester.widget<Text>(find.byKey(const Key('audience-reach'))).data!;
-
-    await tester.ensureVisible(find.widgetWithText(FilterChip, 'Weekend crew'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilterChip, 'Weekend crew'));
-    await tester.pumpAndSettle();
-    expect(reach(), 'Reaches 2 friends');
-
-    await tester.ensureVisible(find.widgetWithText(FilterChip, 'Photography'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilterChip, 'Photography'));
-    await tester.pumpAndSettle();
-    expect(reach(), 'Reaches 1 friend');
-
-    await tester.ensureVisible(find.byKey(const Key('add-audience-set')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('add-audience-set')));
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(find.widgetWithText(FilterChip, 'Maya Patel'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilterChip, 'Maya Patel'));
-    await tester.pumpAndSettle();
-    expect(reach(), 'Reaches 2 friends');
-
-    await tester.ensureVisible(find.widgetWithText(ChoiceChip, 'Set 1'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(ChoiceChip, 'Set 1'));
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(find.widgetWithText(FilterChip, 'Sofia Nguyen'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(FilterChip, 'Sofia Nguyen'));
-    await tester.pumpAndSettle();
-    expect(reach(), 'Reaches 1 friend');
-  });
-
-  testWidgets('Audience sheet requires a selection and shows the audience', (
+  testWidgets('Audience permits an empty selection and shows selected people', (
     WidgetTester tester,
   ) async {
     await tester.binding.setSurfaceSize(const Size(800, 1400));
@@ -1099,17 +1126,20 @@ void main() {
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField).first, 'Secret gig');
 
-    await tester.ensureVisible(find.text('Custom'));
-    await tester.tap(find.text('Custom'));
+    await tester.ensureVisible(find.byKey(const Key('open-audience-picker')));
+    await tester.tap(find.byKey(const Key('open-audience-picker')));
     await tester.pumpAndSettle();
     expect(
       tester
           .widget<FilledButton>(find.widgetWithText(FilledButton, 'Done'))
           .onPressed,
-      isNull,
+      isNotNull,
     );
+    expect(find.text('Reaches 0 people'), findsOneWidget);
 
-    await tester.tap(find.widgetWithText(FilterChip, 'Weekend crew'));
+    await tester.tap(
+      find.byKey(const ValueKey('audience-person-Sofia Nguyen')),
+    );
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('audience-reach')), findsOneWidget);
     await tester.tap(find.text('Done'));
@@ -1121,6 +1151,6 @@ void main() {
     await tester.tap(find.text('Secret gig'));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('detail-audience')), findsOneWidget);
-    expect(find.textContaining('Weekend crew'), findsWidgets);
+    expect(find.textContaining('Sofia Nguyen'), findsWidgets);
   });
 }

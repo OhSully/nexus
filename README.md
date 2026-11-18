@@ -60,6 +60,14 @@ flutter analyze
 flutter test
 ```
 
+## Coding-agent web guidance
+
+The repository includes Google's [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance)
+skill in `.agents/skills/modern-web-guidance`. Use it for direct HTML, CSS, or
+JavaScript work in `web/` or explicitly requested web-target work; it does not
+apply to Flutter/Dart UI or Android/iOS changes. Update the installed skill
+from its upstream source with `npx modern-web-guidance@latest update`.
+
 ## App branding
 
 The launcher icon and splash use the same Nexus N design. The square icon is
@@ -74,4 +82,11 @@ dart run flutter_native_splash:create
 
 The app currently uses sample and in-memory data. Activities, profile edits,
 connection requests, and messages are not synchronized to a backend or saved
-between app launches.
+between app launches. Audience selection is also a prototype: it starts empty,
+selects individual people using group, sample past-event and interest filters,
+and does not enforce privacy on a server. Group usage rankings are in-memory;
+sample past events are listed in fixture order rather than from real attendance.
+Beacons default to seven days; tapping refresh resets a beacon's expiry, while
+holding refresh lets you choose the end of the local day, 1, 7 or 30 days.
+Expired beacons are removed from the in-memory profile; backend persistence and
+server-side expiry are not implemented.

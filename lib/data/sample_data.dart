@@ -155,10 +155,8 @@ Map<String, UserProfile> buildSampleOtherProfiles(DateTime now) {
           text: 'Surprise party helpers',
           declaredAt: now.subtract(const Duration(days: 2)),
           audience: const Audience(
-            AudienceType.custom,
-            rules: [
-              AudienceRule(people: ['Sofia Nguyen']),
-            ],
+            AudienceType.connections,
+            people: ['Sofia Nguyen'],
           ),
         ),
       ],

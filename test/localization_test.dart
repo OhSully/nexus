@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nexus/main.dart';
-import 'package:nexus/models/audience.dart';
 import 'package:nexus/providers/providers.dart';
 
 Set<String> _keys(String path) {
@@ -61,9 +60,7 @@ void main() {
     expect(find.text('Profile'), findsWidgets);
   });
 
-  testWidgets('Settings theme, notifications and default audience apply', (
-    tester,
-  ) async {
+  testWidgets('Settings theme and notifications apply', (tester) async {
     await tester.pumpWidget(const NexusApp());
     await tester.pumpAndSettle();
     await tester.tap(find.text('Profile'));
@@ -91,15 +88,6 @@ void main() {
       container.read(notificationPrefsProvider),
       isNot(contains(NotificationKind.messages)),
     );
-
-    final publicOption = find.descendant(
-      of: find.byKey(const ValueKey('default-audience')),
-      matching: find.text('Public'),
-    );
-    await tester.ensureVisible(publicOption);
-    await tester.tap(publicOption);
-    await tester.pumpAndSettle();
-    expect(container.read(defaultAudienceProvider), Audience.public);
 
     final exportData = find.byKey(const ValueKey('export-data'));
     await tester.ensureVisible(exportData);
